@@ -1,1 +1,1 @@
-const Organization = require("../models/organization");
+const Organization = require('../models/organization');
