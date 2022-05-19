@@ -18,6 +18,9 @@ module.exports = {
       linkedinUrl: Sequelize.STRING,
       image: Sequelize.STRING,
       description: Sequelize.STRING,
+      deletedAt: {
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
