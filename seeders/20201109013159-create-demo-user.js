@@ -9,7 +9,7 @@ module.exports = {
       // Important: Password not encrypted yet! 
       password: '1234',
       roleId: 1,
-      photo: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
+      image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
       createdAt: new Date,
       updatedAt: new Date
     }], {});
