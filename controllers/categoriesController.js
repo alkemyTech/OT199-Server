@@ -1,17 +1,20 @@
-const db = require('../models')
-
+const {Categorie} = require('../models')
 
 class Categories{
-  getAllCategories( req, res ){
-    db.Categorie.findAll()
+  static getAllCategories( req, res ){
+
+    Categorie.findAll()
       .then(data =>{
         res.send(data)
       })
       .catch(error => res.send(error))
     
   }
+  
+  
 }
 
-let CategoriesController = new Categories
 
-module.exports = CategoriesController
+
+// module.exports =  Categories
+module.exports =  Categories
