@@ -1,23 +1,17 @@
 const db = require('../models')
 
-let controller = {
-  index: (req, res) => {
-    db.categories.findAll()
-      .then(data => {
-        res.status(200).json({
-          meta: {
-            response: true
-          },
-          data
-        })
+
+class Categories{
+  getAllCategories( req, res ){
+    db.Categorie.findAll()
+      .then(data =>{
+        res.send(data)
       })
-      .catch(error => res.status(500).json({
-        meta: {
-          response: false
-        },
-        error
-      }))
+      .catch(error => res.send(error))
+    
   }
 }
 
-module.exports = controller
+let CategoriesController = new Categories
+
+module.exports = CategoriesController
