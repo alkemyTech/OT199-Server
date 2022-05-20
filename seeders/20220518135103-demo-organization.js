@@ -6,12 +6,10 @@ module.exports = {
       "Organizations",
       [
         {
-          name: "Ong-example",
-          image:
-            "https://www.computerstechdesign.com/images/diseno-web-ong-barato.png",
-          address: "example address 111",
-          email: "ong@example.com",
-          welcomeText: "Example welcome text",
+          name: "Somos Mas",
+          image: "https://i.ibb.co/dgchjd3/LOGO-SOMOS-MAS.png",
+          email: "somosfundacionmas@gmail.com",
+          welcomeText: "Bienvenidos a Somos Más",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
