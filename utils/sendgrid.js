@@ -1,23 +1,15 @@
 require ('dotenv').config();
+//requerimos dotev.config para configurar nuestras variables de entorno y llamamos a la funcion config
+
 const sgMail = require('sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_APIKEY);
+//extraemos el paquete sendgrid/mail en la variable sgMail
 
-const sendMail = async(msg) => {
-    try{
-        await sgMail.send(msg);
-        console.log("Mesaje enviado satisfactoriamente!");
-    } catch (error){
-        console.log(error);
+/* sgMail.setApiKey(process.env.SENDGRID_APIKEY); */
 
-        if (error.response){
-            console.error(error.response.body);
-        }
-    }
+//Con la variable sgMail vamos a tomar la apikey que seteamos en el arcivo .env y se la damos a sendgrid con la function setApiKey
+
+class SendGrid {
+
+   static sendEmailBySendgrid(){ return sgMail.setApiKey(process.env.SENDGRID_APIKEY);
+   }
 };
-
-sendMail({
-    to: "abc@gmail.com",
-    from: "abc@gmail.com",
-    subject:"Esta ONG te saluda atentamente!!" ,
-    text: "Lorem impsum..." ,
-});
