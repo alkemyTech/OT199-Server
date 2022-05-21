@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { StatusCodes } = require('http-status-codes');
+const httpStatus = require('../helpers/httpStatus')
 
 class UserController {
 
@@ -12,12 +12,12 @@ class UserController {
         if (userFound) {
             const matchPassword = bcrypt.compareSync(password, userFound.password);
             if (matchPassword) {
-                res.status(StatusCodes.OK).send(userFound);
+                res.status(httpStatus[200]).send(userFound);
             } else {
-                res.status(StatusCodes.BAD_REQUEST).json({ msg: 'Invalid Password' });
+                res.status(httpStatus[400]).json({ msg: 'Invalid Password' });
             }
         } else {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
+            res.status(httpStatus[500]).json({ msg: 'Something went wrong' });
         }
     }
 }
