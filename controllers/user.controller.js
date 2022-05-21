@@ -16,7 +16,7 @@ class UserController {
         try {
             await user.save();
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 msg: error
             });
         };
