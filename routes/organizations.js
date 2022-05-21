@@ -1,12 +1,11 @@
 // express
 const express = require('express');
 const router = express.Router();
-
 // controller
-const organizationController = require('../controllers/organizations');
+const organizationController = require('../controllers/organization.controller');
 
 // GET public organization data
-router.get('/public',  organizationController.getPublic);
+router.get('/public',  organizationController.getPublicData);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

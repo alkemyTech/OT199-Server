@@ -10,9 +10,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const organizationsRouter = require('./routes/organizations');
 
-console.log(JSON.stringify( usersRouter));
-console.log(JSON.stringify( organizationsRouter));
-
 const app = express();
 app.use(cors())
 
