@@ -13,11 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Organization.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
-      },
+      
       name: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -12,11 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Member.init({
-    id:{
-      type:DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-    },
+    
     name: {
       type:DataTypes.STRING,
       allowNull: false,
