@@ -1,20 +1,26 @@
 const {Categorie} = require('../models')
 
 class Categories{
-  static getAllCategories( req, res ){
+  static async getAllCategories( req, res ){
 
-    Categorie.findAll()
-      .then(data =>{
-        res.send(data)
-      })
-      .catch(error => res.send(error))
-    
-  }
+    try {
+      let resolve = await Categorie.findAll();
+      res.status(200).json({
+        meta : {
+          resposne : true
+        },
+        data : resolve
+      });
+    } catch (error) {
+      res.status(500).json({
+        meta : {
+          resposne : false
+        },
+        error
+      });
+    }
+  };
   
-  
-}
+};
 
-
-
-// module.exports =  Categories
 module.exports =  Categories
