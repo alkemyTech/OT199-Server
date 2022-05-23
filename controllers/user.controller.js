@@ -7,16 +7,17 @@ class UserController {
         const {
             body: { email, password },
         } = req;
-        const userFound = await User.findOne({ where: { email } });
-
-        if (userFound) {
-            const matchPassword = bcrypt.compareSync(password, userFound.password);
-            if (matchPassword) {
-                res.status(StatusCodes.OK).send(userFound);
-            } else {
-                res.status(StatusCodes.BAD_REQUEST).json({ msg: 'Invalid Password' });
+        try {
+            const userFound = await User.findOne({ where: { email } });
+            if (userFound) {
+                const matchPassword = bcrypt.compareSync(password, userFound.password);
+                if (matchPassword) {
+                    res.status(StatusCodes.OK).send(userFound);
+                } else {
+                    res.status(StatusCodes.BAD_REQUEST).json({ msg: 'Invalid Password' });
+                }
             }
-        } else {
+        } catch (error) {
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
         }
     }
