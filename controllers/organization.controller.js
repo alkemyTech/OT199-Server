@@ -1,15 +1,19 @@
 const {
   Organization
 } = require('../models');
+const generalOrganization = require('../helper/general');
 
 class OrganizationController {
 
   static async getPublicData(req, res) {
 
-    const wherename = process.env.ORGANIZATION_NAME;
+    const wherename = generalOrganization.NAME;
 
     try {
-      Organization.findAll({
+      Organization.findOne({
+          where: {
+            name: wherename
+          },
           attributes: ['name', 'image', 'phone', 'address'],
         })
         .then(data => {
