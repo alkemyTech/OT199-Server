@@ -30,7 +30,6 @@ class OrganizationController {
   static async getData() {
 
     const wherename = generalOrganization.NAME;
-    console.log(`ongname: ${wherename}`);
 
     try {
       const data = Organization.findOne({
@@ -41,7 +40,6 @@ class OrganizationController {
       return data;
 
     } catch (error) {
-      console.log(error);
       return null;
     }
   }
