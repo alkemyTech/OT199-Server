@@ -16,10 +16,7 @@
     "express": "~4.16.1",
     "express-validator": "^6.14.0",
     "http-errors": "~1.6.3",
-<<<<<<< HEAD
-=======
     "jsonwebtoken": "^8.5.1",
->>>>>>> development
     "morgan": "~1.9.1",
     "mysql2": "^2.2.3",
     "sequelize": "^6.3.5"
