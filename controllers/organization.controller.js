@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const {
     Organization
 } = require('../models');
@@ -49,5 +50,12 @@ class OrganizationController {
         }
     }
 }
+=======
+const Organization = require('../models/organization');
+
+class OrganizationController {
+
+} 
+>>>>>>> development
 
 module.exports = OrganizationController;
