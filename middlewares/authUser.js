@@ -14,3 +14,5 @@ function AuthUser (req, res, next) {
 
     }
 }
+
+module.exports = AuthUser;
