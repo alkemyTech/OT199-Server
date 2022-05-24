@@ -23,9 +23,25 @@ class OrganizationController {
         .send('Internal server error');
     }
     res
-    .status(200)
-    .send(data);
+      .status(200)
+      .send(data);
+  }
+
+  static async getData() {
+
+    const wherename = orgConstant.getOrganizationName();
+
+    try {
+      const data = Organization.findOne({
+        where: {
+          name: wherename
+        }
+      });
+      return data;
+
+    } catch (error) {
+      return null;
+    }
   }
 }
-
 module.exports = OrganizationController;
