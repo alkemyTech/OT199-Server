@@ -18,8 +18,10 @@ class UserController {
                 if (matchPassword) {
                     res.status(httpStatus.OK).send(userFound);
                 } else {
-                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'Invalid Password' });
+                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' });
                 }
+            } else {
+                res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
             }
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
