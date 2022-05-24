@@ -5,7 +5,7 @@ const sendgrid = require('../utils/sendgrid');
 
 class WelcomeMailService {
 
-    async sendMail(data, addressTo, addressFrom) {
+    static async sendMail(data, addressTo, addressFrom) {
 
         // ruta template
         const str = read(join(__dirname, '../views/welcomeEmail.ejs'), 'utf8');

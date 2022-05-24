@@ -29,7 +29,7 @@ class OrganizationController {
 
   static async getData() {
 
-    const wherename = generalOrganization.NAME;
+    const wherename = orgConstant.getOrganizationName();
 
     try {
       const data = Organization.findOne({

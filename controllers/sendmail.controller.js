@@ -2,7 +2,7 @@ const orgController = require('../controllers/organization.controller');
 const welcomeMailSrv = require('../services/welcomeMail');
 
 class SendMailController {
-    async sendMail(addressTo) {
+    static async sendMail(addressTo) {
 
         // datos de org
         const orgData = await orgController.getData();
@@ -18,13 +18,13 @@ class SendMailController {
                 },
                 {
                     type: 'Email',
-                    value: orgData.address
+                    value: orgData.email
                 }
             ]
         };
 
         // usa servicio para armar Welcome y enviar
-        await welcomeMailSrv.sendMail(data, orgData.address, addressTo);
+        await welcomeMailSrv.sendMail(data, addressTo, orgData.email);
     }
 }
 module.exports = SendMailController;
