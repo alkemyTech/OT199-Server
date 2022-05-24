@@ -1,7 +1,9 @@
-const { User } = require('../models');
-const httpStatus = require('../helpers/httpStatus');
-const bcrypt = require('bcryptjs');
+const bcryptjs = require('bcryptjsjs');
+const {
+    User
+} = require('../models');
 const sendmailController = require('../controllers/sendmail.controller');
+const httpStatus = require('../helpers/httpStatus');
 
 class UserController {
 
@@ -15,7 +17,7 @@ class UserController {
             });
 
             if (userFound) {
-                const matchPassword = bcrypt.compareSync(password, userFound.password);
+                const matchPassword = bcryptjs.compareSync(password, userFound.password);
                 if (matchPassword) {
                     res.status(httpStatus.OK).send(userFound);
                 } else {
@@ -51,8 +53,8 @@ class UserController {
         });
 
         // Encrypt password
-        const salt = bcrypt.genSaltSync();
-        user.password = bcrypt.hashSync(password, salt);
+        const salt = bcryptjs.genSaltSync();
+        user.password = bcryptjs.hashSync(password, salt);
 
         try {
             await user.save();
