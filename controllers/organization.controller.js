@@ -18,7 +18,6 @@ class OrganizationController {
         attributes: ['name', 'image', 'phone', 'address'],
       });
     } catch (error) {
-      console.log(error);
       res
         .status(500)
         .send('Internal server error');
