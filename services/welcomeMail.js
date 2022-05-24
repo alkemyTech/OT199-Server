@@ -12,7 +12,7 @@ class WelcomeMailService {
 
         // body para el mail
         const body = ejs.compile(str)(data);
-        const subject = `Welcome to ${data.name}`;
+        const subject = `Welcome to ${data.ongName}`;
 
         // envía mail
         await sendgrid.sendMail(addressTo, addressFrom, subject, body);
