@@ -3,6 +3,7 @@ const {
     User
 } = require('../models');
 const sendmailController = require('../controllers/sendmail.controller');
+const httpStatus = require('../helpers/httpStatus');
 
 class UserController {
 
@@ -33,7 +34,7 @@ class UserController {
         try {
             await user.save();
         } catch (error) {
-            return res.status(500).json({
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: error
             });
         };
@@ -41,11 +42,36 @@ class UserController {
         // envia mail
         await sendmailController.sendMail(email);
 
-        res.status(200).json({
+        res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
             user
         });
     };
+
+    static async logIn(req, res) {
+        const {
+            body: { email, password },
+        } = req;
+        try {
+            const userFound = await User.findOne({
+                where: { email }
+            });
+
+            if (userFound) {
+                const matchPassword = bcryptjs.compareSync(password, userFound.password);
+                if (matchPassword) {
+                    res.status(httpStatus.OK).send(userFound);
+                } else {
+                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' });
+                }
+            } else {
+                res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
+            }
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
+        }
+    }
+
 };
 
 module.exports = UserController;
