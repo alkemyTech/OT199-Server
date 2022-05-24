@@ -1,33 +1,31 @@
 const {
   Organization
 } = require('../models');
-const generalOrganization = require('../helper/general');
+const orgConstant = require('../constants/organization.constant');
 
 class OrganizationController {
 
   static async getPublicData(req, res) {
 
-    const wherename = generalOrganization.NAME;
+    const wherename = orgConstant.getOrganizationName();
+    let data = null;
 
     try {
-      Organization.findOne({
-          where: {
-            name: wherename
-          },
-          attributes: ['name', 'image', 'phone', 'address'],
-        })
-        .then(data => {
-          res
-            .status(200)
-            .send(data);
-        });
-
+      data = await Organization.findOne({
+        where: {
+          name: wherename
+        },
+        attributes: ['name', 'image', 'phone', 'address'],
+      });
     } catch (error) {
       console.log(error);
       res
         .status(500)
         .send('Internal server error');
     }
+    res
+    .status(200)
+    .send(data);
   }
 }
 
