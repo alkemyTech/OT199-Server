@@ -3,12 +3,43 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Members', [{
-      name: 'Demo-member',
-      facebookUrl: 'www.facebook.com/demo.member',
-      instagramUrl: 'www.instagram.com/demo_member',
-      linkedinUrl: 'www.linkedin.com/in/demo-member',
-      image: 'https://previews.123rf.com/images/lightfieldstudios/lightfieldstudios1708/lightfieldstudios170801600/83495240-hombre-sonriente-mirando-a-c%C3%A1mara-aislada-en-blanco.jpg?fj=1',
-      description: 'Demo member to test database',
+      name: 'Maria Irola',
+      description: 'Fundadora',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Marita Gomez',
+      description: 'Fundadora',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Miriam Rodriguez',
+      description: 'Colaborador',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Cecilia Mendez',
+      description: 'Colaborador',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Mario Fuentes',
+      description: 'Colaborador',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Rodrigo Fuente',
+      description: 'Colaborador',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Maria Garcia',
+      description: 'Colaborador',
+      createdAt: new Date,
+      updatedAt: new Date
+    },{
+      name: 'Marco Fernandez',
+      description: 'Colaborador',
       createdAt: new Date,
       updatedAt: new Date
     }], {});
