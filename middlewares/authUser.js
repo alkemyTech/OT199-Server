@@ -1,6 +1,8 @@
-
+/**
+ * Middleware para corroborar que el token pertenezca a un user
+ */
 function AuthUser (req, res, next) {
-    // comprobar si existe el token
+   
 
     if (!req.headers.authorization) {
         res.status(403).json({ msg: "Acceso no autorizado" });
