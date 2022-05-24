@@ -2,7 +2,6 @@ const {Categorie} = require('../models')
 
 class Categories{
   static async getAllCategories( req, res ){
-
     try {
       let resolve = await Categorie.findAll();
       res.status(200).json({
