@@ -1,5 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const { User } = require('../models');
+const httpStatus = require('../helpers/httpStatus');
 
 class UserController {
 
@@ -16,12 +17,12 @@ class UserController {
     try {
       await user.save();
     } catch (error) {
-      return res.status(500).json({
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
           msg: error
       });
     };
 
-    res.status(200).json({
+    res.status(httpStatus.OK).json({
       msg: 'Registration has been successful',
       user
     });

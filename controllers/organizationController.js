@@ -1,5 +1,6 @@
 const { Organization } = require('../models');
 const orgConstant = require('../constants/organization.constant');
+const httpStatus = require('../helpers/httpStatus');
 
 class OrganizationController {
 
@@ -17,11 +18,11 @@ class OrganizationController {
       });
     } catch (error) {
       res
-        .status(500)
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
         .send('Internal server error');
     }
     res
-    .status(200)
+    .status(httpStatus.OK)
     .send(data);
   }
 }
