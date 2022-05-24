@@ -1,5 +1,6 @@
 const { User } = require('../models');
-const httpStatus = require('../helpers/httpStatus')
+const httpStatus = require('../helpers/httpStatus');
+const bcrypt = require('bcryptjs');
 
 class UserController {
 
@@ -7,19 +8,22 @@ class UserController {
         const {
             body: { email, password },
         } = req;
-        const userFound = await User.findOne({ where: { email } });
+        try {
+            const userFound = await User.findOne({
+                where: { email }
+            });
 
-        if (userFound) {
-            const matchPassword = bcrypt.compareSync(password, userFound.password);
-            if (matchPassword) {
-                res.status(httpStatus[200]).send(userFound);
-            } else {
-                res.status(httpStatus[400]).json({ msg: 'Invalid Password' });
+            if (userFound) {
+                const matchPassword = bcrypt.compareSync(password, userFound.password);
+                if (matchPassword) {
+                    res.status(httpStatus.OK).send(userFound);
+                } else {
+                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'Invalid Password' });
+                }
             }
-        } else {
-            res.status(httpStatus[500]).json({ msg: 'Something went wrong' });
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
         }
     }
 }
-
-exports.module = UserController;
+module.exports = UserController;

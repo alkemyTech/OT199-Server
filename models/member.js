@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Member.init({
-    id:{
-      type:DataTypes.INTEGER,
+    id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
+      primaryKey: true
     },
     name: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     facebookUrl: DataTypes.STRING,

@@ -5,10 +5,10 @@ function validateFields(req, res, next) {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(httpStatus[400]).json({ errors: errors.array() })
+        return res.status(httpStatus.BAD_REQUEST).json({ errors: errors.array() })
     } else {
         next()
     }
 }
 
-exports.module = validateFields;
+module.exports = validateFields;
