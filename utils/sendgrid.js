@@ -5,7 +5,7 @@
  * @param{string} msg Aqui seteamos el email que queremos enviar
  */
 require('dotenv').config();
-const sgMail = require('sendgrid/mail');
+const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 //
 async function sendMail(to, from, subject, body) {
@@ -22,4 +22,4 @@ async function sendMail(to, from, subject, body) {
     }
 };
 
-module.exports = sendMail;
+module.exports = {sendMail};
