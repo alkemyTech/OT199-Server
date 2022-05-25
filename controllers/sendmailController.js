@@ -1,4 +1,4 @@
-const orgController = require('../controllers/organization.controller');
+const orgController = require('./organization.controller');
 const welcomeMailSrv = require('../services/welcomeMail');
 
 class SendMailController {

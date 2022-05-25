@@ -2,7 +2,7 @@ const bcryptjs = require('bcryptjs');
 const {
     User
 } = require('../models');
-const sendmailController = require('../controllers/sendmail.controller');
+const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
 
 class UserController {
