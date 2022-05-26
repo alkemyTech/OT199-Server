@@ -15,7 +15,7 @@ class WelcomeMailService {
         const subject = `Welcome to ${data.ongName}`;
 
         // envía mail
-        await sendgrid.sendMail(addressTo, addressFrom, subject, body);
+        await sendgrid(addressTo, addressFrom, subject, body);
     }
 }
 module.exports = WelcomeMailService;
