@@ -12,4 +12,11 @@ router.post('/register', [
     Validator.validateFields
 ], UserController.register);
 
+
+router.post('/login', [
+    check('email', 'Email is not valid').not().isEmpty().isEmail(),
+    check('password', 'Password is not valid').not().isEmpty().isString(),
+    Validator.validateFields
+], UserController.logIn)
+
 module.exports = router;
