@@ -1,13 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var { check } = require('express-validator');
-const Validator = require('../helpers/validator');
-const UserController = require('../controllers/user.controller')
+const express = require('express');
+const router = express.Router();
+const { check } = require('express-validator');
+const validateFields = require('../helpers/validateFields');
+const UserController = require('../controllers/user.controller');
+const CheckRoleId = require('../middlewares/checkRole');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
-})
+router.get('/', CheckRoleId.isAdmin, UserController.getAll);
 
 
 
