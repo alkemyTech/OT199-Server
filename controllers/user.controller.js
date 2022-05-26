@@ -1,9 +1,6 @@
 const { User } = require("../models");
 const { StatusCodes } = require("http-status-codes");
 const bcryptjs = require('bcryptjs');
-const {
-    User
-} = require('../models');
 const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
 

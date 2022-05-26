@@ -22,11 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     image: DataTypes.STRING,
-<<<<<<< HEAD
     content: DataTypes.TEXT('long')
-=======
-    content: DataTypes.TEXT
->>>>>>> 2ffecef7042717d7c9381d8e30373b5cb639a140
   }, {
     sequelize,
     modelName: 'Testimonials',

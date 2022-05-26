@@ -13,16 +13,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Organization.init(
     {
-<<<<<<< HEAD
-      
-=======
       id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
->>>>>>> 2ffecef7042717d7c9381d8e30373b5cb639a140
       name: {
         type: DataTypes.STRING,
         allowNull: false,
