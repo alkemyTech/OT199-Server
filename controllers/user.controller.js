@@ -50,11 +50,16 @@ class UserController {
 
     static async logIn(req, res) {
         const {
-            body: { email, password },
+            body: {
+                email,
+                password
+            },
         } = req;
         try {
             const userFound = await User.findOne({
-                where: { email }
+                where: {
+                    email
+                }
             });
 
             if (userFound) {
@@ -62,16 +67,34 @@ class UserController {
                 if (matchPassword) {
                     res.status(httpStatus.OK).send(userFound);
                 } else {
-                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' });
+                    res.status(httpStatus.BAD_REQUEST).json({
+                        msg: 'User or Password Incorrect'
+                    });
                 }
             } else {
-                res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
+                res.status(httpStatus.BAD_REQUEST).json({
+                    msg: 'User or Password Incorrect'
+                })
             }
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: 'Something went wrong'
+            });
         }
     }
 
+    static async getAll(req, res) {
+
+        let userList;
+        try {
+            userList = await User.findAll();
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: 'Something went wrong'
+            });
+        }
+        res.status(httpStatus.OK).send(userList);
+    }
 };
 
 module.exports = UserController;
