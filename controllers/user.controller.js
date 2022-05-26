@@ -4,6 +4,7 @@ const {
 } = require('../models');
 const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
+const generateToken = require('../helpers/generateToken')
 
 class UserController {
 
@@ -60,12 +61,11 @@ class UserController {
             if (userFound) {
                 const matchPassword = bcryptjs.compareSync(password, userFound.password);
                 if (matchPassword) {
-                    res.status(httpStatus.OK).send(userFound);
+                    res.status(httpStatus.OK).json({ token: generateToken.tokenSign(userFound) });
+
                 } else {
-                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' });
+                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
                 }
-            } else {
-                res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
             }
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
