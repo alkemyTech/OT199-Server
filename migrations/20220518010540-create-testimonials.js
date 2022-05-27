@@ -17,11 +17,7 @@ module.exports = {
         allowNull: true,
       },
       content: {
-<<<<<<< HEAD
         type: Sequelize.TEXT('long'),
-=======
-        type: Sequelize.TEXT,
->>>>>>> 2ffecef7042717d7c9381d8e30373b5cb639a140
         allowNull: true,
       },
       deletedAt: {

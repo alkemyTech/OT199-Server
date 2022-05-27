@@ -10,13 +10,13 @@ class UserController {
       const { id } = req.params;
       const deleteUser = await User.destroy({ where: { id: +id } });
       if (deleteUser) {
-        res.status(httpStatus.OK).send({ msg: `${deleteUser} was deleted` });
-      } else {
-        res.status(httpStatus.BAD_REQUEST).json({ msg: "Cannot delete user" });
-      }
+        return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
+      } 
+        return res.status(httpStatus.BAD_REQUEST).json({ msg: "Cannot delete user" });
+      
     } catch (error) {
       res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .status(httpStatus.INTERNAL_SERVER_ERROR) 
         .json({ msg: "Something went wrong" });
     }
   }
