@@ -9,7 +9,6 @@ const CheckRoleId = require('../middlewares/checkRole');
 router.get('/', CheckRoleId.isAdmin, UserController.getAll);
 
 
-<<<<<<< HEAD
 // Delete user for ID
 router.delete('/users/:id', UserController.deleteUser)
 
@@ -18,7 +17,5 @@ router.post('/auth/login', [
     check('password', 'Password is not valid').not().isEmpty().isString(),
     validateFields
 ], UserController.logIn)
-=======
->>>>>>> bf69180396469c636cd554c2cd52fdf3a38c7fa5
 
 module.exports = router;
