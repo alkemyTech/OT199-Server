@@ -4,6 +4,7 @@ const {
 } = require('../models');
 const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
+const generateToken = require('../helpers/generateToken')
 
 class UserController {
 
@@ -50,28 +51,52 @@ class UserController {
 
     static async logIn(req, res) {
         const {
-            body: { email, password },
+            body: {
+                email,
+                password
+            },
         } = req;
         try {
             const userFound = await User.findOne({
-                where: { email }
+                where: {
+                    email
+                }
             });
 
             if (userFound) {
                 const matchPassword = bcryptjs.compareSync(password, userFound.password);
                 if (matchPassword) {
-                    res.status(httpStatus.OK).send(userFound);
+                    res.status(httpStatus.OK).json({ token: generateToken.tokenSign(userFound) });
+
                 } else {
-                    res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' });
+                    res.status(httpStatus.BAD_REQUEST).json({
+                        msg: 'User or Password Incorrect'
+                    });
                 }
             } else {
-                res.status(httpStatus.BAD_REQUEST).json({ msg: 'User or Password Incorrect' })
+                res.status(httpStatus.BAD_REQUEST).json({
+                    msg: 'User or Password Incorrect'
+                })
             }
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: 'Something went wrong'
+            });
         }
     }
 
+    static async getAll(req, res) {
+
+        let userList;
+        try {
+            userList = await User.findAll();
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: 'Something went wrong'
+            });
+        }
+        res.status(httpStatus.OK).send(userList);
+    }
 };
 
 module.exports = UserController;
