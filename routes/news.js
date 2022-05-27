@@ -9,6 +9,7 @@ router.post('/', [
     check('image', 'Image is required').not().isEmpty(),
     check('content', 'Content is required').not().isEmpty(),
     check('categoryId', 'CategoryId is required').not().isEmpty(),
+    check('categoryId').custom(Validator.validateCategoryId),
     Validator.validateFields
 ], NewsController.createNews);
 

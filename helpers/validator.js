@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
-const httpStatus = require('./httpStatus')
+const httpStatus = require('./httpStatus');
+const { Category } = require('../models');
 
 class Validator {
 
@@ -12,6 +13,15 @@ class Validator {
         };
 
         next();
+    };
+
+    static validateCategoryId(id) {
+        
+        const category = await Category.findOne( { where: { id } });
+    
+        if (!category) {
+            throw new Error(`CategoryId is not valid`);
+        };
     };
 }
 
