@@ -3,8 +3,10 @@ const router = express.Router();
 const { check } = require('express-validator');
 const NewsController = require('../controllers/newsController');
 const Validator = require('../helpers/validator');
+const CheckRole = require('../middlewares/checkRole');
 
 router.post('/', [
+    CheckRole.isAdmin,
     check('name', 'Name is required').not().isEmpty(),
     check('image', 'Image is required').not().isEmpty(),
     check('content', 'Content is required').not().isEmpty(),
