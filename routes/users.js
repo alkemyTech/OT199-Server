@@ -23,6 +23,6 @@ router.patch('/:id', [
     check('password', 'Password must contain at least 8 characters, inlcuding uppercase, lowercase and numbers').isStrongPassword({
         minSymbols: 0
     }), Validator.validateFields
-], UserController.updateDataUser);
+], CheckRoleId.isUserLoggedIn, UserController.updateDataUser);
 
 module.exports = router;
