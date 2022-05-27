@@ -1,6 +1,7 @@
+const jwt = require('jsonwebtoken');
+const rolesUser = require('../constants/rolesUser');
+const httpStatus = require('../helpers/httpStatus');
 require('dotenv').config()
-const jwt = require('jsonwebtoken')
-const rolesUser = require('../constants/rolesUser')
 
 
 class CheckRoleId {
@@ -8,7 +9,7 @@ class CheckRoleId {
     const accessToken = req.headers['authorization'] || req.query.token || req.params.token
     jwt.verify(accessToken, process.env.JWT_SECRET, (error, user) => {
       if (error) {
-        res.status(400).json({
+        res.status(httpStatus.BAD_REQUEST).json({
           meta: {
             response: false
           },
@@ -17,7 +18,7 @@ class CheckRoleId {
       }
 
       if (user.role !== rolesUser.Roles.adminId) {
-        res.status(401).json({
+        res.status(httpStatus.UNAUTHORIZED).json({
           meta: {
             response: false,
           },

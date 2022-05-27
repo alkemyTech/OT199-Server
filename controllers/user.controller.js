@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const bcryptjs = require('bcryptjs');
 const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
+const generateToken = require('../helpers/generateToken')
 
 class UserController {
   static async deleteUser(req, res) {
@@ -85,7 +86,19 @@ static async logIn(req, res) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong' });
     }
 }
-}
 
+    static async getAll(req, res) {
+
+        let userList;
+        try {
+            userList = await User.findAll();
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: 'Something went wrong'
+            });
+        }
+        res.status(httpStatus.OK).send(userList);
+    }
+};
 
 module.exports = UserController;
