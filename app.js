@@ -11,6 +11,7 @@ const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const organizationsRouter = require('./routes/organizations');
 const categoriesRouter = require('./routes/categories');
+const activitiesRouter = require('./routes/activities');
 
 const app = express();
 app.use(cors())
@@ -30,15 +31,16 @@ app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/organizations', organizationsRouter);
 app.use('/categories', categoriesRouter);
+app.use('/activities', activitiesRouter);
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
