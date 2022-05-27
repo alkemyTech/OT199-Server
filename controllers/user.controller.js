@@ -1,5 +1,4 @@
 const { User } = require("../models");
-const { StatusCodes } = require("http-status-codes");
 const bcryptjs = require('bcryptjs');
 const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
@@ -11,13 +10,13 @@ class UserController {
       const { id } = req.params;
       const deleteUser = await User.destroy({ where: { id: +id } });
       if (deleteUser) {
-        res.status(StatusCodes.OK).send({ msg: `${deleteUser} was deleted` });
+        res.status(httpStatus.OK).send({ msg: `${deleteUser} was deleted` });
       } else {
-        res.status(StatusCodes.BAD_REQUEST).json({ msg: "Cannot delete user" });
+        res.status(httpStatus.BAD_REQUEST).json({ msg: "Cannot delete user" });
       }
     } catch (error) {
       res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ msg: "Something went wrong" });
     }
   }
