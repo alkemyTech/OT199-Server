@@ -5,13 +5,14 @@
  */
 
 const { verifyToken } = require("../helpers/generateToken");
+const httpStatus = require("../helpers/httpStatus");
 
 async function AuthUser(req, res, next) {
 
     try {
 
         if (!req.headers.authorization) {
-            res.status(403).json({ msg: "Acceso no autorizado" });
+            res.status(httpStatus.FORBIDDEN).json({ msg: "Acceso no autorizado" });
             return;
 
         }
@@ -24,7 +25,7 @@ async function AuthUser(req, res, next) {
             next();
         }
         else{
-            res.status(403).json({ msg: "Acceso no autorizado" });
+            res.status(httpStatus.FORBIDDEN).json({ msg: "Acceso no autorizado" });
         }
 
 
