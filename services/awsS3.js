@@ -5,11 +5,13 @@ require('dotenv').config()
 class s3Service {
 
     /* @constructor */
+    /*
+        * Objeto que establece la conexión a AWS S3 utilizando credenciales, 
+        *  que estas mismas estan seteadas en el archivo .env
+    */
     constructor() {
         this.storage = new S3({
-            /*
-            * Objeto que establece la conexcion a AWS S3 utilizando credenciales
-            */
+            
             accessKeyId: process.env.AWS_ACCESS_KEY,
             secretAccessKey: process.env.AWS_SECRET_KEY
         })
