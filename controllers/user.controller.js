@@ -111,44 +111,32 @@ class UserController {
             image,
         } = req.body;
 
-        let userFound;
+        // Encrypt password
+        const salt = bcryptjs.genSaltSync();
+        newPassword = bcryptjs.hashSync(password, salt);
+
         try {
-            // recupera en DB por PK
-            userFound = await User.findByPk(id);
+            const user = await User.update({
+                firstName,
+                lastName,
+                email,
+                password: newPassword,
+                image,
+            }, {
+                where: {
+                    id
+                }
+            });
+
+            res.status(httpStatus.OK).json({
+                msg: 'Update has been successful',
+                user
+            });
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: 'Something went wrong'
             });
-        }
-        if (!userFound) {
-            res.status(httpStatus.NOT_FOUND).json({
-                msg: 'Something went wrong'
-            });
-        } else {
-            // Encrypt password
-            const salt = bcryptjs.genSaltSync();
-            userFound.password = bcryptjs.hashSync(password, salt);
-
-            // update User
-            userFound.firstName = firstName;
-            userFound.lastName = lastName;
-            userFound.email = email;
-            userFound.image = image;
-
-            try {
-                await userFound.save();
-
-                res.status(httpStatus.OK).json({
-                    msg: 'Update has been successful',
-                    userFound
-                });
-            } catch (error) {
-                res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                    msg: 'Something went wrong'
-                });
-            };
-
-        }
+        };
     }
 };
 
