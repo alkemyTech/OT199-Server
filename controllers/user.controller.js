@@ -103,39 +103,34 @@ class UserController {
     static async updateDataUser(req, res) {
 
         const id = req.params.id;
+        const fieldUpdate = req.body;
         const {
-            firstName,
-            lastName,
-            email,
-            password,
-            image,
-        } = req.body;
+            password
+        } = fieldUpdate;
 
-        // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        newPassword = bcryptjs.hashSync(password, salt);
-
+        if (password) {
+            // Encrypt password
+            const salt = bcryptjs.genSaltSync();
+            const newPassword = bcryptjs.hashSync(password, salt);
+            fieldUpdate.password = newPassword;
+        }
         try {
-            const user = await User.update({
-                firstName,
-                lastName,
-                email,
-                password: newPassword,
-                image,
-            }, {
+            await User.update(fieldUpdate, {
                 where: {
                     id
                 }
             });
-
-            res.status(httpStatus.OK).json({
-                msg: 'Update has been successful',
-                user
-            });
+            res
+                .status(httpStatus.OK)
+                .json({
+                    msg: 'Update has been successful'
+                });
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
-            });
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({
+                    msg: 'Something went wrong'
+                });
         };
     }
 };
