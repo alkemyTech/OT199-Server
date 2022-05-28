@@ -2,23 +2,28 @@ const S3 = require('aws-sdk/clients/s3')
 require('dotenv').config()
 
 
-class s3Service{
-    constructor (){
+class s3Service {
+
+    /* @constructor */
+    constructor() {
         this.storage = new S3({
-            accessKeyId : process.env.AWS_ACCESS_KEY,
-            secretAccessKey :process.env.AWS_SECRET_KEY
+            /*
+            * Objeto que establece la conexcion a AWS S3 utilizando credenciales
+            */
+            accessKeyId: process.env.AWS_ACCESS_KEY,
+            secretAccessKey: process.env.AWS_SECRET_KEY
         })
     }
 
     // Metodo de prueba para corroborar la conexión, 
-    getObjectsAll = (bucketName = process.env.AWS_BUCKET)=>{
+    getObjectsAll = (bucketName = process.env.AWS_BUCKET) => {
         const params = {
             Bucket: bucketName
         }
         return this.storage.listObjects(params).promise()
     }
 
-    
+
 
 
 }
