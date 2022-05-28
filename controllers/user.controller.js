@@ -32,6 +32,9 @@ class UserController {
         const salt = bcryptjs.genSaltSync();
         user.password = bcryptjs.hashSync(password, salt);
 
+        //Access_token
+        const token = generateToken.tokenSign(user);
+
         try {
             await user.save();
         } catch (error) {
@@ -45,6 +48,7 @@ class UserController {
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
+            token: token,
             user
         });
     };
