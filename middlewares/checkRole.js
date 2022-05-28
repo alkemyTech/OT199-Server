@@ -1,10 +1,4 @@
 const jwt = require('jsonwebtoken');
-const {
-  NUMERIC
-} = require('sequelize');
-const {
-  NUMBER
-} = require('sequelize');
 const rolesUser = require('../constants/rolesUser');
 const httpStatus = require('../helpers/httpStatus');
 require('dotenv').config()
