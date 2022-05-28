@@ -16,13 +16,13 @@ router.get('/', CheckRoleId.isAdmin, UserController.getAll);
  * @param {string} email - User email
  * @param {string} password - User password
  */
-router.patch('/:id', [
+router.patch('/:id', CheckRoleId.isUserLoggedIn, [
     check('firstName', 'First name is required').not().isEmpty(),
     check('lastName', 'Last name is required').not().isEmpty(),
     check('email', 'Email is not valid').isEmail(),
     check('password', 'Password must contain at least 8 characters, inlcuding uppercase, lowercase and numbers').isStrongPassword({
         minSymbols: 0
     }), Validator.validateFields
-], CheckRoleId.isUserLoggedIn, UserController.updateDataUser);
+], UserController.updateDataUser);
 
 module.exports = router;
