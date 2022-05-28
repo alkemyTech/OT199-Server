@@ -1,25 +1,22 @@
-const {Categorie} = require('../models')
+const httpStatus = require('../helpers/httpStatus');
+const { Categorie } = require('../models');
 
-class Categories{
-  static async getAllCategories( req, res ){
+class CategorieController {
+  static async getAllCategories(req, res) {
+    let categories = [];
+    
     try {
-      let resolve = await Categorie.findAll();
-      res.status(200).json({
-        meta : {
-          resposne : true
-        },
-        data : resolve
-      });
+      categories = await Categorie.findAll({ attributes: ['name'] });
     } catch (error) {
-      res.status(500).json({
-        meta : {
-          resposne : false
-        },
-        error
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: error
       });
-    }
+    };
+
+    res.status(httpStatus.OK).json({
+      categories
+    });
   };
-  
 };
 
-module.exports =  Categories
+module.exports =  CategorieController;
