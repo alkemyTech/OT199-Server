@@ -9,7 +9,7 @@ class NewsController {
         const { name, image, content, categoryId } = req.body;
 
         try {
-            news = await News.create({ name, image, content, categoryId });
+            news = await News.create({ name, image, content, categoryId, type: 'news' });
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: error
