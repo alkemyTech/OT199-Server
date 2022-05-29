@@ -1,17 +1,21 @@
-const { Categorie } = require('../models')
-const httpStatus = require('../helpers/httpStatus')
-class Categories {
+const httpStatus = require('../helpers/httpStatus');
+const { Categorie } = require('../models');
+
+class CategorieController {
   static async getAllCategories(req, res) {
+    let categories = [];
+    
     try {
-      let resolve = await Categorie.findAll();
-      res.status(httpStatus.OK).json({
-        data: resolve
-      });
+      categories = await Categorie.findAll({ attributes: ['name'] });
     } catch (error) {
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        error
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: error
       });
-    }
+    };
+
+    res.status(httpStatus.OK).json({
+      categories
+    });
   };
 
   static async updateCategories(req, res) {
