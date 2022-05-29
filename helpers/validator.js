@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const httpStatus = require('./httpStatus');
-const { Category } = require('../models');
+const { Categorie } = require('../models');
 
 class Validator {
 
@@ -15,9 +15,9 @@ class Validator {
         next();
     };
 
-    static validateCategoryId(id) {
+    static async validateCategoryId(id) {
         
-        const category = await Category.findOne( { where: { id } });
+        const category = await Categorie.findByPk(id);
     
         if (!category) {
             throw new Error(`CategoryId is not valid`);
