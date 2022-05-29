@@ -10,7 +10,7 @@ const { check } = require('express-validator');
 
 router.get('/', CheckRoleId.isAdmin, Categories.getAllCategories);
 
-router.post('/create',[
+router.post('/create',CheckRoleId.isAdmin,[
     check('name', 'Name is requried').not().isEmpty(),
     Validator.validateFields
 ], Categories.createCategories)
