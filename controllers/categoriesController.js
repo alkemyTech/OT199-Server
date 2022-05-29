@@ -41,4 +41,4 @@ class CategorieController {
 
 };
 
-module.exports = Categories
+module.exports = CategorieController
