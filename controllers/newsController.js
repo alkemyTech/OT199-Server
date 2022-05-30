@@ -14,13 +14,6 @@ class NewsController {
         .send(error);
       return;
     }
-
-    if(!detail){
-      res
-        .status(httpStatus.NOT_FOUND)
-        .send("New not found");
-      return;
-    }
     
     if(!detail){
       res
