@@ -8,35 +8,32 @@ class ActivityController {
 
             res
                 .status(httpStatus.OK)
-                .json([
-                    getAllAct.name,
-                    getAllAct.content,
-                    getAllAct.image,
-                ]);
+                .json(
+                    getAllAct
+                );
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
         }
     }
 
     static async getOneActivity(req, res) {
-        const { name } = req.body;
+        const { name } = req.query;
 
         try {
-            const getOneAct = await Activity.findOne({ where: { name } });
+            const getOneAct = await Activity.findOne({
+                where: { name },
+                attributes: ['name', 'content', 'image', 'deletedAt'],
+            });
 
-            res.status(httpStatus.OK).json([
-                getOneAct.name,
-                getOneAct.content,
-                getOneAct.image,
-                getOneAct.deletedAt,
-            ]);
+            res.status(httpStatus.OK).json(
+                getOneAct);
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
         }
     }
 
     static async deleteActivities(req, res) {
-        const { name } = req.body;
+        const { name } = req.query;
 
         try {
             const delAct = await Activity.destroy({ where: { name } });
