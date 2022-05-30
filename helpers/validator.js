@@ -14,15 +14,6 @@ class Validator {
 
         next();
     };
-
-    static async validateCategoryId(id) {
-        
-        const category = await Categorie.findByPk(id);
-    
-        if (!category) {
-            throw new Error(`CategoryId is not valid`);
-        };
-    };
 }
 
 module.exports = Validator;
