@@ -1,17 +1,11 @@
-const express = require('express');
-const router = express.Router();
+let express = require('express');
 const Categories = require('../controllers/categoriesController');
 const CheckRoleId = require('../middlewares/checkRole');
-const Validator = require('../helpers/validator');
-const { check } = require('express-validator');
-
-
+let router = express.Router();
 
 
 router.get('/', CheckRoleId.isAdmin, Categories.getAllCategories);
 router.put('/:id', CheckRoleId.isAdmin, Categories.updateCategories);
-
-
 
 
 module.exports = router;
