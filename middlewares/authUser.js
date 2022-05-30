@@ -38,4 +38,4 @@ async function AuthUser(req, res, next) {
     }
 }
 
-module.exports = { AuthUser };
+module.exports =  AuthUser ;
