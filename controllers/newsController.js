@@ -4,27 +4,27 @@ const httpStatus = require('../helpers/httpStatus');
 class NewsController {
   static async getDetail(req, res){
     const { id } = req.params;
-    let detail = null;
+    let detail = undefined;
 
     try {
       detail = await News.findByPk(id);
     } catch (error){
       res  
         .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .send(error);
+        .send({msg: "Error", error});
       return;
     }
     
     if(!detail){
       res
         .status(httpStatus.NOT_FOUND)
-        .send("New not found");
+        .send({msg: "New not found"});
       return;
     }
 
     res
       .status(httpStatus.OK)
-      .send(detail);
+      .send({msg: "New found succesfully", detail});
   }
 }
 
