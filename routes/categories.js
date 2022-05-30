@@ -10,7 +10,9 @@ const { check } = require('express-validator');
 
 
 router.get('/', CheckRoleId.isAdmin, Categories.getAllCategories);
+router.get('/:id', CheckRoleId.isAdmin, Categories.getCategory);
 router.put('/:id', CheckRoleId.isAdmin, Categories.updateCategories);
+router.delete('/:id', CheckRoleId.isAdmin, Categories.deleteCategorie);
 
 
 router.post('/create',CheckRoleId.isAdmin,[
