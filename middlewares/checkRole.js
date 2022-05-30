@@ -13,9 +13,6 @@ class CheckRoleId {
       res
         .status(httpStatus.BAD_REQUEST)
         .json({
-          meta: {
-            response: false
-          },
           msg: 'Access denied, token expire or incorrect',
         });
     } else {
@@ -23,9 +20,6 @@ class CheckRoleId {
         res
           .status(httpStatus.UNAUTHORIZED)
           .json({
-            meta: {
-              response: false,
-            },
             msg: 'Access denied, you do not have authorization to enter',
           });
       } else {
@@ -45,18 +39,12 @@ class CheckRoleId {
       res
         .status(httpStatus.BAD_REQUEST)
         .json({
-          meta: {
-            response: false
-          },
           msg: 'Access denied, token expire or incorrect',
         });
     } else {
       if (user.id !== id) {
         res.status(httpStatus.UNAUTHORIZED)
           .json({
-            meta: {
-              response: false,
-            },
             msg: 'Access denied, you do not have authorization to enter',
           });
       } else {
