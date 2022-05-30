@@ -18,6 +18,29 @@ class CategorieController {
     });
   };
 
+  static async getCategory(req, res) {
+    const { id } = req.params;
+    let category = {};
+
+    try {
+      category = await Categorie.findByPk(id);
+    } catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: error
+      });
+    };
+
+    if (!category) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'Category was not found'
+      });
+    };
+
+    res.status(httpStatus.OK).json({
+      category
+    });
+  };
+
   static async updateCategories(req, res) {
     let idParams = req.params.id
 
