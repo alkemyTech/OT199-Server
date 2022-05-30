@@ -2,9 +2,9 @@ const { Activity } = require('../models');
 const httpStatus = require('../helpers/httpStatus')
 class ActivityController {
     static async createActivity(req, res){
-        let { name, content } = req.body
+        let { name, content, image } = req.body
         try {
-            let resolve = await Activity.create({ name, content, image : "prueba"})
+            let resolve = await Activity.create({ name, content, image })
             res.status(httpStatus.CREATED).json({
                 msg : "successful creation",
                 resolve
