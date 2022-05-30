@@ -43,5 +43,9 @@ class OrganizationController {
       return null;
     }
   }
+
+  static async updatePublicData(req, res) {
+  
+  }
 }
 module.exports = OrganizationController;
