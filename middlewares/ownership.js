@@ -13,14 +13,11 @@ class Ownership {
 
         if (!userId === req.user.Id) {
             res.status(httpStatus.FORBIDDEN).json({ msg: 'Forbidden access' });
-        } else {
+        } else if (userId === req.user.Id) {
+            next()
+        } else if (CheckRoleId.isAdmin) {
             next()
         }
-
-        if (CheckRoleId.isAdmin) {
-            next()
-        }
-
     }
 };
 
