@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Categories = require('../controllers/categoriesController');
 const CheckRoleId = require('../middlewares/checkRole');
-let {AuthUser} = require("../middlewares/authUser")
 const Validator = require('../helpers/validator');
 const { check } = require('express-validator');
 
