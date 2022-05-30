@@ -17,8 +17,8 @@ class NewsController {
         };
 
         res.status(httpStatus.OK).json({
-            msg: '',
-            data: news
+            msg: 'News was created succesfully',
+            news
         });
     };
 };
