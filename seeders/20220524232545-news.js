@@ -9,6 +9,7 @@ module.exports = {
       image:"/fgwegerg" ,
       content:"Lorem ismy" ,
       categoryId: 1,
+      type: 'news',
     }], {});
 
   },
