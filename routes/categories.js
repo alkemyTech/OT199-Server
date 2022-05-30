@@ -5,6 +5,7 @@ let router = express.Router();
 
 
 router.get('/', CheckRoleId.isAdmin, Categories.getAllCategories);
+router.get('/:id', CheckRoleId.isAdmin, Categories.getCategory);
 router.put('/:id', CheckRoleId.isAdmin, Categories.updateCategories);
 
 
