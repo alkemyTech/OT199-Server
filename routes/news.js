@@ -5,6 +5,10 @@ const NewsController = require('../controllers/newsController');
 const Validator = require('../helpers/validator');
 const CheckRole = require('../middlewares/checkRole');
 
+// GET news details 
+router.get('/:id',CheckRole.isAdmin, NewsController.getDetail);
+
+// POST create news
 router.post('/', [
     CheckRole.isAdmin,
     check('name', 'Name is required').not().isEmpty(),
