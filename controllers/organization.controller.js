@@ -45,7 +45,14 @@ class OrganizationController {
   }
 
   static async updatePublicData(req, res) {
-  
+  let idParam = req.params.id
+
+  try{
+
+  }
+  catch{
+
+  }
   }
 }
 module.exports = OrganizationController;

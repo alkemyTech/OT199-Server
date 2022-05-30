@@ -8,6 +8,6 @@ const organizationController = require('../controllers/organization.controller')
 router.get('/public',  organizationController.getPublicData);
 
 //UPDATE public organization data
-router.post('/public/update', organizationController.updatePublicData)
+router.post('/public/:id', organizationController.updatePublicData)
 
 module.exports = router;
