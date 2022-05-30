@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const rolesUser = require('../constants/rolesUser');
 const httpStatus = require('../helpers/httpStatus');
-require('dotenv').config()
-
+const generaToken = require('../helpers/generateToken');
+require('dotenv').config();
 
 class CheckRoleId {
   static async isAdmin(req, res, next) {
@@ -39,7 +39,7 @@ class CheckRoleId {
     const id = Number.parseInt(req.params.id);
 
     const user = await getDataBearer(req.headers.authorization);
-console.log(user);
+    console.log(user);
 
     if (!user) {
       res
@@ -68,13 +68,7 @@ console.log(user);
 async function getDataBearer(bearer) {
   const accessToken = (bearer !== undefined ? bearer : '').replace('Bearer ', '');
 
-  try {
-    // valida token y deja en user si tuvo exito
-    const data = await jwt.verify(accessToken, process.env.JWT_SECRET);
-    return data;
-  } catch (error) {
-    return null;
-  }
+  const data = generaToken.verifyToken(accessToken);
 }
 
 module.exports = CheckRoleId
