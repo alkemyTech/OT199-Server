@@ -25,9 +25,16 @@ class s3Service {
         return this.storage.listObjects(params).promise()
     }
 
-
-
-
+    updateFile = (fileName, title) =>{
+        const fileContent = fs.readFileSync(fileName);
+        const params = {
+            Bucket: process.env.AWS_BUCKET,
+            Key: title, // File name you want to save as in S3
+            Body: fileContent
+        };
+    
+        return this.storage.upload(params).promise();
+    }
 }
 
 /* Al requerir el servicio dentro del archivo que lo utilizara, 
