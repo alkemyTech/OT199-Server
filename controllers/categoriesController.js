@@ -39,6 +39,30 @@ class CategorieController {
     }
   }
 
+  static async deleteCategorie(req, res){
+    let idParams = req.params.id;
+    try {
+      let resolve = await Categorie.destroy({ where : { id : idParams }});
+      if (resolve) {
+        return res.status(httpStatus.OK).json({
+          msg: "successful removal"
+        });
+      } 
+      res.status(httpStatus.NOT_FOUND).json({
+        msg: "the record to delete was not found"
+      });
+      
+        
+      
+      
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: error
+      });
+    }
+    
+  }
+
 };
 
 module.exports = CategorieController
