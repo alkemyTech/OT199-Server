@@ -2,21 +2,24 @@ const jwt = require('jsonwebtoken');
 const httpStatus = require('../helpers/httpStatus');
 const User = require('../models/user');
 const CheckRoleId = require('./checkRole');
+const rolesUser = require('../constants/rolesUser');
 
 
 class Ownership {
 
-    static classified(req, res, next) {
+    static async classified(req, res, next) {
+        const { headers } = req;
+        if (!headers['users-token']) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
+        }
         const resolveToken = jwt.decode(token, { complete: true })
 
-        const userId = resolveToken.payload.userId;
+        const userRoleId = resolveToken.payload.roleId;
 
-        if (!userId === req.user.Id) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'Forbidden access' });
-        } else if (userId === req.user.Id) {
+        if (userRoleId === 1) {
             next()
-        } else if (CheckRoleId.isAdmin) {
-            next()
+        } else {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'You don\'t have access in this site' })
         }
     }
 };
