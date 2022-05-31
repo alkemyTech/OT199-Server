@@ -16,7 +16,7 @@ class CheckRoleId {
         });
       };
 
-      if (user.role !== rolesUser.Roles.adminId) {
+      if (user.role !== rolesUser.Roles.Admin) {
         res.status(httpStatus.UNAUTHORIZED).json({
           meta: {
             response: false,

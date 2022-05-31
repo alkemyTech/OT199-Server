@@ -29,8 +29,8 @@ class UserController {
         });
 
         // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        user.password = bcryptjs.hashSync(password, salt);
+        const salt = bcryptjs.genSaltSync(10);
+        const hashPass = bcryptjs.hashSync(user.password, salt);
 
         try {
             await user.save();
