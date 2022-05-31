@@ -8,9 +8,6 @@ const CheckRoleId = require('../middlewares/checkRole');
 /* GET users listing. */
 router.get('/', CheckRoleId.isAdmin, UserController.getAll);
 
-
-// Delete user for ID
-router.delete('/:id',CheckRoleId.isUserLoggedIn ,UserController.deleteUser)
 /**
  * PATCH Update user
  * @param {number} id - The id of user
