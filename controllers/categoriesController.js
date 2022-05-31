@@ -86,6 +86,30 @@ class CategorieController {
     
   }
 
+  static async createCategories(req, res) {
+    try {
+      const { name, image, description } = req.body;
+
+        await Categorie.create({
+        name,
+        image,
+        description
+
+      })
+    }
+    catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: error
+      });
+    };
+
+    res.status(httpStatus.OK).json({
+      msg: 'Creation has been successful',
+      
+      
+  });
+  }
+
 };
 
 module.exports = CategorieController

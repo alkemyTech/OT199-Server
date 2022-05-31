@@ -6,8 +6,20 @@ const {
 const Validator = require('../helpers/validator');
 
 const newsController = require('../controllers/newsController');
-const CheckRoleId = require('../middlewares/checkRole');
+const CheckRole = require('../middlewares/checkRole');
 
+// GET news details 
+router.get('/:id',CheckRole.isAdmin, NewsController.getDetail);
+
+// POST create news
+router.post('/', [
+    CheckRole.isAdmin,
+    check('name', 'Name is required').not().isEmpty(),
+    check('image', 'Image is required').not().isEmpty(),
+    check('content', 'Content is required').not().isEmpty(),
+    check('categoryId', 'CategoryId is required').not().isEmpty(),
+    Validator.validateFields
+], NewsController.createNews);
 
 /**
  * PATCH Update user
@@ -20,7 +32,7 @@ const CheckRoleId = require('../middlewares/checkRole');
  * @returns { "id": number, "name": string, "image": string, "content": string, "categoryId": number, "categories": {"id": number, "name": string, "description": string, "image": string} }
  */
 
-router.put('/:id', CheckRoleId.isAdmin, [
+router.put('/:id', CheckRole.isAdmin, [
         check('name', 'Name is required').optional().not().isEmpty(),
         check('content', 'Content is required').optional().not().isEmpty(),
         check('image', 'Image is required').optional().not().isEmpty(),

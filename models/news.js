@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     content: DataTypes.TEXT,
     categoryId: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
