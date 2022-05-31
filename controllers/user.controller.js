@@ -8,6 +8,23 @@ const generateToken = require('../helpers/generateToken')
 
 class UserController {
 
+    static async deleteUser(req, res) {
+        try {
+          const { id } = req.params;
+          const deleteUser = await User.destroy({ where: { id: +id } });
+          if (deleteUser) {
+            return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
+          }
+          return res
+            .status(httpStatus.BAD_REQUEST)
+            .json({ msg: "Cannot delete user" });
+        } catch (error) {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ msg: "Something went wrong" });
+        }
+      }
+
     static async register(req, res) {
 
         const {
@@ -32,6 +49,9 @@ class UserController {
         const salt = bcryptjs.genSaltSync();
         user.password = bcryptjs.hashSync(password, salt);
 
+        //Access_token
+        const token = generateToken.tokenSign(user);
+
         try {
             await user.save();
         } catch (error) {
@@ -45,6 +65,7 @@ class UserController {
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
+            token: token,
             user
         });
     };
@@ -66,7 +87,9 @@ class UserController {
             if (userFound) {
                 const matchPassword = bcryptjs.compareSync(password, userFound.password);
                 if (matchPassword) {
-                    res.status(httpStatus.OK).json({ token: generateToken.tokenSign(userFound) });
+                    res.status(httpStatus.OK).json({
+                        token: generateToken.tokenSign(userFound)
+                    });
 
                 } else {
                     res.status(httpStatus.BAD_REQUEST).json({
@@ -96,6 +119,40 @@ class UserController {
             });
         }
         res.status(httpStatus.OK).send(userList);
+    }
+
+    static async updateDataUser(req, res) {
+
+        const id = req.params.id;
+        const fieldUpdate = req.body;
+        const {
+            password
+        } = fieldUpdate;
+
+        if (password) {
+            // Encrypt password
+            const salt = bcryptjs.genSaltSync();
+            const newPassword = bcryptjs.hashSync(password, salt);
+            fieldUpdate.password = newPassword;
+        }
+        try {
+            await User.update(fieldUpdate, {
+                where: {
+                    id
+                }
+            });
+            res
+                .status(httpStatus.OK)
+                .json({
+                    msg: 'Update has been successful'
+                });
+        } catch (error) {
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({
+                    msg: 'Something went wrong'
+                });
+        };
     }
 };
 
