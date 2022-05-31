@@ -4,7 +4,7 @@ const router = express.Router();
 //middleware
 const CheckRoleId = require('../middlewares/checkRole');
 // controller
-const organizationController = require('../controllers/organization.controller');
+const organizationController = require('../controllers/organizationController');
 
 // GET public organization data
 router.get('/public',  organizationController.getPublicData);
