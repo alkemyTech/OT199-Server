@@ -18,4 +18,7 @@ router.post('/', [
     Validator.validateFields
 ], NewsController.createNews);
 
+/* elimina una news. */
+router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
+
 module.exports = router;
