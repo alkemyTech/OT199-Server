@@ -44,14 +44,17 @@ class UserController {
     // Encrypt password
     const salt = bcryptjs.genSaltSync();
     user.password = bcryptjs.hashSync(password, salt);
+        //Access_token
+        const token = generateToken.tokenSign(user);
 
-    try {
-      await user.save();
-    } catch (error) {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: error,
-      });
-    }
+        try {
+            await user.save();
+        } catch (error) {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: error
+            });
+        };
+
 
     // envia mail
     await sendmailController.sendMail(email);
@@ -108,6 +111,40 @@ class UserController {
     }
     res.status(httpStatus.OK).send(userList);
   }
-}
+
+    static async updateDataUser(req, res) {
+
+        const id = req.params.id;
+        const fieldUpdate = req.body;
+        const {
+            password
+        } = fieldUpdate;
+
+        if (password) {
+            // Encrypt password
+            const salt = bcryptjs.genSaltSync();
+            const newPassword = bcryptjs.hashSync(password, salt);
+            fieldUpdate.password = newPassword;
+        }
+        try {
+            await User.update(fieldUpdate, {
+                where: {
+                    id
+                }
+            });
+            res
+                .status(httpStatus.OK)
+                .json({
+                    msg: 'Update has been successful'
+                });
+        } catch (error) {
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({
+                    msg: 'Something went wrong'
+                });
+        };
+    }
+};
 
 module.exports = UserController;
