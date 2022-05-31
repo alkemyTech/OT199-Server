@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     image: DataTypes.STRING,
-    content: DataTypes.TEXT('long')
+    content: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'Testimonials',
