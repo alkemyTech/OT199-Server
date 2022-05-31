@@ -154,6 +154,26 @@ class UserController {
                 });
         };
     }
+    static async getProfile(req, res) {
+      const { authorization } = req.headers;
+      if (!authorization) return res.status(httpStatus.UNAUTHORIZED).json({ msg: "UNAUTHORIZED" });
+  
+      try {
+        const token = authorization.split(" ").pop();
+        const tokenData = await generateToken.verifyToken(token);
+        if (tokenData === null)
+          return res
+            .status(httpStatus.NOT_ACCEPTABLE)
+            .json({ msg: "NOT_ACCEPTABLE" });
+        const { id } = tokenData;
+        const userProfile = await User.findByPk(+id);
+        res.status(httpStatus.OK).json(userProfile);
+      } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          msg: "Something went wrong",
+        });
+      }
+    }
 };
 
 module.exports = UserController;
