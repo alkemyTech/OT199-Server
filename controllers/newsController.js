@@ -5,7 +5,6 @@ const {
 } = require('../models');
 
 class NewsController {
-
     static async updateNews(req, res) {
 
         const id = req.params.id;
