@@ -17,10 +17,10 @@ const CheckRoleId = require('../middlewares/checkRole');
  * @param {string} image - News image
  * @returns {number} status - Http Status Code
  * @returns {string} msg - Message response
- * @returns {object} data - Object news updated
+ * @returns { "id": number, "name": string, "image": string, "content": string, "categoryId": number, "categories": {"id": number, "name": string, "description": string, "image": string} }
  */
-//  CheckRoleId.isAdmin,
-router.put('/:id',  [
+
+router.put('/:id', CheckRoleId.isAdmin, [
         check('name', 'Name is required').optional().not().isEmpty(),
         check('content', 'Content is required').optional().not().isEmpty(),
         check('image', 'Image is required').optional().not().isEmpty(),
