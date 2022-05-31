@@ -26,6 +26,9 @@ module.exports = {
           key:'id'
         }
       },
+      type: {
+        type: Sequelize.STRING
+      },
       deletedAt: {
         type: Sequelize.DATE
       },
