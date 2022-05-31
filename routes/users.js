@@ -29,5 +29,4 @@ router.patch('/:id', CheckRoleId.isUserLoggedIn, [
     }), Validator.validateFields
 ], UserController.updateDataUser);
 
-
 module.exports = router;
