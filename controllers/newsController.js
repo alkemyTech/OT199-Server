@@ -1,7 +1,5 @@
+const { News } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
-const {
-    News
-} = require('../models');
 
 class NewsController {
     static async createNews(req, res) {
