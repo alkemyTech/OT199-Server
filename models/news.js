@@ -1,4 +1,3 @@
-const Categorie = require('./categorie');
 'use strict';
 const {
   Model
@@ -12,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      News.belongsTo(models.Categories, {as:'Categories'});
+      News.belongsTo(models.Categories, {
+        as: 'categories',
+        foreignKey: {
+          name: 'categoryId'
+        }
+      });
     }
   }
   News.init({

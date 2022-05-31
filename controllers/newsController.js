@@ -1,7 +1,6 @@
 const httpStatus = require('../helpers/httpStatus');
 const {
-    News,
-    Categorie
+    News
 } = require('../models');
 
 class NewsController {
@@ -69,7 +68,7 @@ class NewsController {
                 detail
             });
     }
-    
+
     static async updateNews(req, res) {
 
         const id = req.params.id;
@@ -85,13 +84,14 @@ class NewsController {
                 where: {
                     id
                 },
-                include: Categorie
+                include: 'categories'
             });
         } catch (error) {
             return res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
                     msg: 'Something went wrong',
+                    error,
                 });
         };
 
