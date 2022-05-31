@@ -4,8 +4,7 @@ const {
     check
 } = require('express-validator');
 const Validator = require('../helpers/validator');
-
-const newsController = require('../controllers/newsController');
+const NewsController = require('../controllers/newsController');
 const CheckRole = require('../middlewares/checkRole');
 
 // GET news details 
@@ -37,8 +36,7 @@ router.put('/:id', CheckRole.isAdmin, [
         check('content', 'Content is required').optional().not().isEmpty(),
         check('image', 'Image is required').optional().not().isEmpty(),
         Validator.validateFields
-    ],
-    newsController.updateNews);
+    ], NewsController.updateNews);
 
 module.exports = router;
 
