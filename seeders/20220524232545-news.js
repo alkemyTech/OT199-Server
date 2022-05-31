@@ -9,12 +9,7 @@ module.exports = {
       image:"/fgwegerg" ,
       content:"Lorem ismy" ,
       categoryId: 1,
-<<<<<<< HEAD
-      createdAt: new Date,
-      updatedAt: new Date,
-=======
       type: 'news',
->>>>>>> development
     }], {});
 
   },

@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
-const NewsController = require('../controllers/newsController');
+const {
+    check
+} = require('express-validator');
 const Validator = require('../helpers/validator');
+const NewsController = require('../controllers/newsController');
 const CheckRole = require('../middlewares/checkRole');
 
 // GET news details 
@@ -18,7 +20,27 @@ router.post('/', [
     Validator.validateFields
 ], NewsController.createNews);
 
+<<<<<<< HEAD
 /* elimina una news. */
 router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
+=======
+/**
+ * PATCH Update user
+ * @param {number} id - The id of news
+ * @param {string} name - News name
+ * @param {string} content - News content
+ * @param {string} image - News image
+ * @returns {number} status - Http Status Code
+ * @returns {string} msg - Message response
+ * @returns { "id": number, "name": string, "image": string, "content": string, "categoryId": number, "categories": {"id": number, "name": string, "description": string, "image": string} }
+ */
+
+router.put('/:id', CheckRole.isAdmin, [
+        check('name', 'Name is required').optional().not().isEmpty(),
+        check('content', 'Content is required').optional().not().isEmpty(),
+        check('image', 'Image is required').optional().not().isEmpty(),
+        Validator.validateFields
+    ], NewsController.updateNews);
+>>>>>>> 0462b4f8269175eab52386c2889996b9562bf8ad
 
 module.exports = router;
