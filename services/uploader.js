@@ -1,5 +1,4 @@
 const awsS3 = require('./awsS3');
-const {validateImage} = require('image-validator');
 
 class Uploader{
   static async imgUploadAWS(file,title){
