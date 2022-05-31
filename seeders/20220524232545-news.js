@@ -9,8 +9,7 @@ module.exports = {
       image:"/fgwegerg" ,
       content:"Lorem ismy" ,
       categoryId: 1,
-      createdAt: new Date,
-      updatedAt: new Date,
+      type: 'news',
     }], {});
 
   },
