@@ -39,4 +39,3 @@ router.put('/:id', CheckRole.isAdmin, [
     ], NewsController.updateNews);
 
 module.exports = router;
-
