@@ -37,5 +37,6 @@ router.put('/:id', CheckRole.isAdmin, [
         check('image', 'Image is required').optional().not().isEmpty(),
         Validator.validateFields
     ], NewsController.updateNews);
-
+/* elimina una news. */
+router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
 module.exports = router;
