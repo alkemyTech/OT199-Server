@@ -20,10 +20,6 @@ router.post('/', [
     Validator.validateFields
 ], NewsController.createNews);
 
-<<<<<<< HEAD
-/* elimina una news. */
-router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
-=======
 /**
  * PATCH Update user
  * @param {number} id - The id of news
@@ -41,6 +37,5 @@ router.put('/:id', CheckRole.isAdmin, [
         check('image', 'Image is required').optional().not().isEmpty(),
         Validator.validateFields
     ], NewsController.updateNews);
->>>>>>> 0462b4f8269175eab52386c2889996b9562bf8ad
 
 module.exports = router;
