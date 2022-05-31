@@ -1,12 +1,12 @@
 const httpStatus = require('../helpers/httpStatus');
-const { Categorie } = require('../models');
+const { Categories } = require('../models');
 
 class CategorieController {
   static async getAllCategories(req, res) {
     let categories = [];
     
     try {
-      categories = await Categorie.findAll({ attributes: ['name'] });
+      categories = await Categories.findAll({ attributes: ['name'] });
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: error
@@ -23,7 +23,7 @@ class CategorieController {
     let category = {};
 
     try {
-      category = await Categorie.findByPk(id);
+      category = await Categories.findByPk(id);
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: error
@@ -45,7 +45,7 @@ class CategorieController {
     let idParams = req.params.id
 
     try {
-        let resolve = await Categorie.update({ ...req.body }, { where: { id: idParams } });
+        let resolve = await Categories.update({ ...req.body }, { where: { id: idParams } });
         if (resolve.includes(1)) {
           res.status(httpStatus.OK).json({
             msg: "Successful registry update"
@@ -65,7 +65,7 @@ class CategorieController {
   static async deleteCategorie(req, res){
     let idParams = req.params.id;
     try {
-      let resolve = await Categorie.destroy({ where : { id : idParams }});
+      let resolve = await Categories.destroy({ where : { id : idParams }});
       if (resolve) {
         return res.status(httpStatus.OK).json({
           msg: "successful removal"
@@ -90,7 +90,7 @@ class CategorieController {
     try {
       const { name, image, description } = req.body;
 
-        await Categorie.create({
+        await Categories.create({
         name,
         image,
         description
