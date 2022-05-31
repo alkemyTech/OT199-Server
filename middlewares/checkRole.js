@@ -56,6 +56,8 @@ async function getDataBearer(bearer) {
   const accessToken = (bearer !== undefined ? bearer : '').replace('Bearer ', '');
 
   const data = generaToken.verifyToken(accessToken);
+
+  return data
 }
 
 module.exports = CheckRoleId
