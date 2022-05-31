@@ -10,7 +10,7 @@ router.get('/', CheckRoleId.isAdmin, UserController.getAll);
 
 
 // Delete user for ID
-router.delete('/users/:id', UserController.deleteUser)
+router.delete('/users/:id',CheckRoleId.isUserLoggedIn ,UserController.deleteUser)
 /**
  * PATCH Update user
  * @param {number} id - The id of user

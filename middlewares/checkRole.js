@@ -33,7 +33,6 @@ class CheckRoleId {
     const id = Number.parseInt(req.params.id);
 
     const user = await getDataBearer(req.headers.authorization);
-    console.log(user);
 
     if (!user) {
       res
