@@ -3,21 +3,10 @@ const {validateImage} = require('image-validator');
 
 class Uploader{
   static async imgUploadAWS(file,title){
-    const fileValidation = await validateImage(file);
-    if(!fileValidation){
-      return(false);
-    }
-    
-    const S3 = new awsS3;
-    const uploadFile = undefined;
-   
-    try {
-      uploadFile = S3.updateFile(file, title);
-    } catch (error){
-      return (false);
-    }
+    const S3 = new awsS3();
+    const uploadFile = await S3.updateFile(file,title);
 
-    return uploadFile.Location; 
+    return (uploadFile.Location); 
   }
 }
 
