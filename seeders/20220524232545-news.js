@@ -6,9 +6,12 @@ module.exports = {
 
     await queryInterface.bulkInsert('News', [{
       name: 'John Doe',
-      image:"/fgwegerg" ,
-      content:"Lorem ismy" ,
+      image: "/fgwegerg",
+      content: "Lorem ismy",
       categoryId: 1,
+      createdAt: new Date,
+      updatedAt: new Date,
+      type: 'news',
     }], {});
 
   },

@@ -1,33 +1,63 @@
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
-const rolesUser = require('../constants/rolesUser')
-
+const jwt = require('jsonwebtoken');
+const rolesUser = require('../constants/rolesUser');
+const httpStatus = require('../helpers/httpStatus');
+const generaToken = require('../helpers/generateToken');
+require('dotenv').config();
 
 class CheckRoleId {
-  static isAdmin(req, res) {
-    const accessToken = req.headers['authorization'] || req.query.token || req.params.token
-    jwt.verify(accessToken, process.env.JWT_SECRET, (error, user) => {
-      if (error) {
-        res.status(400).json({
-          meta: {
-            response: false
-          },
+  static async isAdmin(req, res, next) {
+
+    const user = await getDataBearer(req.headers.authorization);
+
+    if (!user) {
+      res
+        .status(httpStatus.BAD_REQUEST)
+        .json({
           msg: 'Access denied, token expire or incorrect',
-        })
+        });
+    } else {
+      if (user.role !== rolesUser.Roles.Admin) {
+        res
+          .status(httpStatus.UNAUTHORIZED)
+          .json({
+            msg: 'Access denied, you do not have authorization to enter',
+          });
+      } else {
+        next();
       }
-
-      if (user.role !== rolesUser.Roles.adminId) {
-        res.status(401).json({
-          meta: {
-            response: false,
-          },
-          msg: 'Access denied, you do not have authorization to enter',
-        })
-      }
-    })
-    next()
-
+    }
   }
+
+  static async isUserLoggedIn(req, res, next) {
+
+    const id = Number.parseInt(req.params.id);
+
+    const user = await getDataBearer(req.headers.authorization);
+
+    if (!user) {
+      res
+        .status(httpStatus.BAD_REQUEST)
+        .json({
+          msg: 'Access denied, token expire or incorrect',
+        });
+    } else {
+      if (user.id !== id) {
+        res.status(httpStatus.UNAUTHORIZED)
+          .json({
+            msg: 'Access denied, you do not have authorization to enter',
+          });
+      } else {
+        next();
+      }
+    }
+  }
+}
+async function getDataBearer(bearer) {
+  const accessToken = (bearer !== undefined ? bearer : '').replace('Bearer ', '');
+
+  const data = generaToken.verifyToken(accessToken);
+
+  return data
 }
 
 module.exports = CheckRoleId
