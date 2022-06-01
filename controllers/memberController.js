@@ -1,4 +1,4 @@
-const Member = require('../models/member');
+const { Member } = require('../models');
 
 class MemberController {
 

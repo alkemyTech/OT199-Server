@@ -1,9 +1,7 @@
+const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
-const {
-    User
-} = require('../models');
-const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
+const sendmailController = require('./sendmailController');
 const generateToken = require('../helpers/generateToken')
 
 class UserController {

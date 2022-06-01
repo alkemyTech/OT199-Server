@@ -1,5 +1,5 @@
-const httpStatus = require('../helpers/httpStatus');
 const { Categories } = require('../models');
+const httpStatus = require('../helpers/httpStatus');
 
 class CategorieController {
   static async getAllCategories(req, res) {
