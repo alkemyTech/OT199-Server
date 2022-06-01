@@ -23,5 +23,8 @@ module.exports = {
       createdAt: new Date,
       updatedAt: new Date
     }])
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete('Activities', null, {});
   }
 }
