@@ -8,6 +8,23 @@ const generateToken = require('../helpers/generateToken')
 
 class UserController {
 
+    static async deleteUser(req, res) {
+        try {
+          const { id } = req.params;
+          const deleteUser = await User.destroy({ where: { id: +id } });
+          if (deleteUser) {
+            return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
+          }
+          return res
+            .status(httpStatus.BAD_REQUEST)
+            .json({ msg: "Cannot delete user" });
+        } catch (error) {
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ msg: "Something went wrong" });
+        }
+      }
+
     static async register(req, res) {
 
         const {

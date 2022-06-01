@@ -33,7 +33,6 @@ class CheckRoleId {
     const id = Number.parseInt(req.params.id);
 
     const user = await getDataBearer(req.headers.authorization);
-    console.log(user);
 
     if (!user) {
       res
@@ -57,6 +56,8 @@ async function getDataBearer(bearer) {
   const accessToken = (bearer !== undefined ? bearer : '').replace('Bearer ', '');
 
   const data = generaToken.verifyToken(accessToken);
+
+  return data
 }
 
 module.exports = CheckRoleId

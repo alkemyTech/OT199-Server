@@ -1,115 +1,115 @@
 const jwt = require('jsonwebtoken');
 const httpStatus = require('../helpers/httpStatus');
 const rolesUser = require('../constants/rolesUser');
+const { CheckRoleId } = require('./checkRole')
 
 
 class Ownership {
 
-    static myOwnOwner(req, res, next) {
-        const { headers } = req;
+    static async ownershipGetMethod(req, res, next) {
 
-        if (!headers['users-token']) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
+        const data = req.headers.authorization;
+
+        if (!data) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
-        const resolveToken = jwt.decode(headers['users-token'], { complete: true });
-
-        const userId = resolveToken.id;
-
-        try {
-            const findUserId = await User.findByPk(userId);
-            if (!findUserId) {
-                res.status(httpStatus.NOT_FOUND).json({ msg: 'Error in the DB' });
-            } else {
-                next();
-            }
-        } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json(error.array);
-        }
-
-
-    }
-
-    static ownershipGetMethod(req, res, next) {
-        const { headers } = req;
-
-        if (!headers['users-token']) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
-        }
-        const resolveToken = jwt.decode(headers['users-token'], { complete: true })
+        const resolveToken = jwt.decode(data, { complete: true })
 
         const userRoleId = resolveToken.roleId;
 
-        if (userRoleId === 1) {
+        function getPermissions(userRoleId) {
+
+            return rolesUser.RolesPermissions_POST.includes(userRoleId)
+        }
+
+        if (getPermissions === true) {
             next()
         } else {
-            res.status(httpStatus.UNAUTHORIZED).json({ msg: 'You don\'t have access in this site' })
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
     }
 
     static ownershipPostMethod(req, res, next) {
 
-        if (!headers['users-token']) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
+        const data = req.headers.authorization.split(" ").pop();
+        if (!data) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
-        const resolveToken = jwt.decode(headers['users-token'], { complete: true })
-
-        const userRoleId = resolveToken.roleId;
+        const resolveToken = jwt.decode(data, { complete: true });
+        const userRoleId = resolveToken.payload.role;
 
         function getPermissions(userRoleId) {
             return rolesUser.RolesPermissions_POST.includes(userRoleId)
         }
 
-        if (userRoleId === 1) {
+        if (getPermissions === true) {
             next()
-        } else if (getPermissions == false) {
-            res.status(httpStatus.UNAUTHORIZED).json({ msg: 'You don\'t have access in this site' })
-        } else if (getPermissions == true) {
-            next()
+        } else {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
     }
 
 
-    static ownershipUpdateMethod(req, res, next) {
+    static ownershipPutMethod(req, res, next) {
 
-        if (!headers['users-token']) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
+
+        const data = req.headers.authorization.split(" ").pop();
+        if (!data) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
-        const resolveToken = jwt.decode(headers['users-token'], { complete: true })
-
-        const userRoleId = resolveToken.roleId;
+        const resolveToken = jwt.decode(data, { complete: true });
+        const userRoleId = resolveToken.payload.role;
 
         function getPermissions(userRoleId) {
-            return rolesUser.RolesPermissions_UPDATE.includes(userRoleId)
+            return rolesUser.RolesPermissions_PUT.includes(userRoleId)
         }
 
-        if (userRoleId === 1) {
+        if (getPermissions) {
             next()
-        } else if (getPermissions == false) {
-            res.status(httpStatus.UNAUTHORIZED).json({ msg: 'You don\'t have access in this site' })
-        } else if (getPermissions == true) {
+        } else {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
+        }
+    }
+
+    static ownershipPatchMethod(req, res, next) {
+
+
+        const data = req.headers.authorization.split(" ").pop();
+        if (!data) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
+        }
+        const resolveToken = jwt.decode(data, { complete: true });
+        const userRoleId = resolveToken.payload.role;
+
+        function getPermissions(userRoleId) {
+            return rolesUser.RolesPermissions_PATCH.includes(userRoleId)
+        }
+
+        if (getPermissions) {
             next()
+        } else {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
     }
 
     static ownershipDeleteMethod(req, res, next) {
 
-        if (!headers['users-token']) {
-            res.status(httpStatus.FORBIDDEN).json({ msg: 'You must be logged in' })
-        }
-        const resolveToken = jwt.decode(headers['users-token'], { complete: true })
 
-        const userRoleId = resolveToken.roleId;
+        const data = req.headers.authorization.split(" ").pop();
+        if (!data) {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
+        }
+        const resolveToken = jwt.decode(data, { complete: true });
+        const userRoleId = resolveToken.payload.role;
 
         function getPermissions(userRoleId) {
             return rolesUser.RolesPermissions_DELETE.includes(userRoleId)
         }
 
-        if (userRoleId === 1) {
+        if (getPermissions) {
             next()
-        } else if (getPermissions == false) {
-            res.status(httpStatus.UNAUTHORIZED).json({ msg: 'You don\'t have access in this site' })
-        } else if (getPermissions == true) {
-            next()
+        } else {
+            res.status(httpStatus.FORBIDDEN).json({ msg: 'Access denied, you do not have authorization to enter' })
         }
     }
 };
