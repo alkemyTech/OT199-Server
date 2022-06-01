@@ -21,7 +21,7 @@ class UserController {
             .status(httpStatus.INTERNAL_SERVER_ERROR)
             .json({ msg: 'Something went wrong, the server was unable to complete your request' });
         }
-      }
+    }
 
     static async register(req, res) {
 
@@ -44,8 +44,8 @@ class UserController {
         });
 
         // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        user.password = bcryptjs.hashSync(password, salt);
+        const salt = bcryptjs.genSaltSync(10);
+        bcryptjs.hashSync(user.password, salt);
 
         //Access_token
         const token = generateToken.tokenSign(user);
