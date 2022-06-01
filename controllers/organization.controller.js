@@ -43,5 +43,30 @@ class OrganizationController {
       return null;
     }
   }
+
+  static async updatePublicData(req, res) {
+    let idParam = req.params.id
+
+    try {
+      let resolve = await Organization.update({ ...req.body }, { where: { id: idParam } });
+      if (resolve.includes(1)) {
+        res.status(httpStatus.OK).json({
+          msg: "Successful registry update"
+        })
+
+      } else {
+        res.status(httpStatus.NOT_FOUND).json({
+          msg: "A record with the set parameter was not found"
+        })
+      }
+
+    }
+    catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        error
+      })
+
+    }
+  }
 }
 module.exports = OrganizationController;

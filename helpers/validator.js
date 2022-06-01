@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
-const httpStatus = require('./httpStatus')
+const httpStatus = require('./httpStatus');
+const { Categorie } = require('../models');
 
 class Validator {
 
