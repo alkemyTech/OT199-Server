@@ -51,9 +51,9 @@ class ActivityController {
         try {
             activity = await Activity.findByPk(id);
         } catch (error) {
-            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
-            });
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
         };
 
         if (!activity) {
@@ -69,9 +69,9 @@ class ActivityController {
         try {
             await activity.save();
         } catch (error) {
-            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
-            });
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
         };
 
         res.status(httpStatus.OK).json({
@@ -80,18 +80,65 @@ class ActivityController {
         });
     };
 
-    static async createActivity(req, res){
+    static async createActivity(req, res) {
         let { name, content, image } = req.body
         try {
             let resolve = await Activity.create({ name, content, image })
             res.status(httpStatus.CREATED).json({
-                msg : "successful creation",
+                msg: "successful creation",
                 resolve
             })
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg : error
-            })
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
+        }
+    }
+
+    static async getActivities(req, res) {
+        try {
+            const getAllAct = await Activity.findAll({
+                attributes: ['name', 'content', 'image', 'deletedAt']
+            });
+            res.status(httpStatus.OK).json(getAllAct);
+        } catch (error) {
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
+        }
+    }
+
+    static async getOneActivity(req, res) {
+        const { name } = req.params;
+
+        try {
+            const getOneAct = await Activity.findOne({
+                where: { name },
+                attributes: ['name', 'content', 'image', 'deletedAt'],
+            });
+
+            res.status(httpStatus.OK).json(
+                getOneAct);
+        } catch (error) {
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
+        }
+    }
+
+
+    static async deleteActivities(req, res) {
+        const { name } = req.query;
+
+        try {
+            const delAct = await Activity.destroy({ where: { name } });
+
+            res.status(httpStatus.OK).json({ msg: `The ${delAct.name} was deleted` });
+
+        } catch (error) {
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .send('Internal server error');
         }
     }
 };

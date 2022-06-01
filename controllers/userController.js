@@ -8,20 +8,20 @@ class UserController {
 
     static async deleteUser(req, res) {
         try {
-          const { id } = req.params;
-          const deleteUser = await User.destroy({ where: { id: +id } });
-          if (deleteUser) {
-            return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
-          }
-          return res
-            .status(httpStatus.BAD_REQUEST)
-            .json({ msg: "Cannot delete user" });
+            const { id } = req.params;
+            const deleteUser = await User.destroy({ where: { id: +id } });
+            if (deleteUser) {
+                return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
+            }
+            return res
+                .status(httpStatus.BAD_REQUEST)
+                .json({ msg: "Cannot delete user" });
         } catch (error) {
-          res
-            .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ msg: "Something went wrong" });
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({ msg: "Something went wrong" });
         }
-      }
+    }
 
     static async register(req, res) {
 
@@ -44,8 +44,8 @@ class UserController {
         });
 
         // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        user.password = bcryptjs.hashSync(password, salt);
+        const salt = bcryptjs.genSaltSync(10);
+        bcryptjs.hashSync(user.password, salt);
 
         //Access_token
         const token = generateToken.tokenSign(user);
