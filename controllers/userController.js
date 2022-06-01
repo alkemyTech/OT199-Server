@@ -15,11 +15,11 @@ class UserController {
           }
           return res
             .status(httpStatus.BAD_REQUEST)
-            .json({ msg: "Cannot delete user" });
+            .json({ msg: 'Cannot delete user' });
         } catch (error) {
           res
             .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ msg: "Something went wrong" });
+            .json({ msg: 'Something went wrong, the server was unable to complete your request' });
         }
       }
 
@@ -54,7 +54,7 @@ class UserController {
             await user.save();
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         };
 
@@ -63,7 +63,7 @@ class UserController {
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
-            token: token,
+            token,
             user
         });
     };
@@ -101,7 +101,7 @@ class UserController {
             }
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         }
     }
@@ -113,7 +113,7 @@ class UserController {
             userList = await User.findAll();
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         }
         res.status(httpStatus.OK).send(userList);
@@ -148,7 +148,7 @@ class UserController {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong'
+                    msg: 'Something went wrong, the server was unable to complete your request'
                 });
         };
     }

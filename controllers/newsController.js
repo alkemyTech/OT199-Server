@@ -22,7 +22,7 @@ class NewsController {
             });
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         };
 
@@ -44,8 +44,7 @@ class NewsController {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .send({
-                    msg: "Error",
-                    error
+                    msg: 'Something went wrong, the server was unable to complete your request'
                 });
             return;
         }
@@ -54,7 +53,7 @@ class NewsController {
             res
                 .status(httpStatus.NOT_FOUND)
                 .send({
-                    msg: "New not found"
+                    msg: 'New not found'
                 });
             return;
         }
@@ -62,7 +61,7 @@ class NewsController {
         res
             .status(httpStatus.OK)
             .send({
-                msg: "New found succesfully",
+                msg: 'New found succesfully',
                 detail
             });
     }
@@ -88,8 +87,7 @@ class NewsController {
             return res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong',
-                    error,
+                    msg: 'Something went wrong, the server was unable to complete your request'
                 });
         };
 
@@ -115,7 +113,7 @@ class NewsController {
             return res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong',
+                    msg: 'Something went wrong, the server was unable to complete your request',
                 });
         };
 

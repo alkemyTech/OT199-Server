@@ -9,7 +9,7 @@ class CategorieController {
       categories = await Categories.findAll({ attributes: ['name'] });
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: error
+        msg: 'Something went wrong, the server was unable to complete your request'
       });
     };
 
@@ -26,7 +26,7 @@ class CategorieController {
       category = await Categories.findByPk(id);
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: error
+        msg: 'Something went wrong, the server was unable to complete your request'
       });
     };
 
@@ -48,16 +48,16 @@ class CategorieController {
         let resolve = await Categories.update({ ...req.body }, { where: { id: idParams } });
         if (resolve.includes(1)) {
           res.status(httpStatus.OK).json({
-            msg: "Successful registry update"
+            msg: 'Successful registry update'
           })
         } else{
           res.status(httpStatus.NOT_FOUND).json({
-            msg: "A record with the set parameter was not found"
+            msg: 'A record with the set parameter was not found'
           })
         }
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        error
+        msg: 'Something went wrong, the server was unable to complete your request'
       })
     }
   }
@@ -68,11 +68,11 @@ class CategorieController {
       let resolve = await Categories.destroy({ where : { id : idParams }});
       if (resolve) {
         return res.status(httpStatus.OK).json({
-          msg: "successful removal"
+          msg: 'successful removal'
         });
       } 
       res.status(httpStatus.NOT_FOUND).json({
-        msg: "the record to delete was not found"
+        msg: 'the record to delete was not found'
       });
       
         
@@ -80,7 +80,7 @@ class CategorieController {
       
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: error
+        msg: 'Something went wrong, the server was unable to complete your request'
       });
     }
     
@@ -99,15 +99,13 @@ class CategorieController {
     }
     catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: error
+        msg: 'Something went wrong, the server was unable to complete your request'
       });
     };
 
     res.status(httpStatus.OK).json({
-      msg: 'Creation has been successful',
-      
-      
-  });
+      msg: 'Creation has been successful'
+    });
   }
 
 };

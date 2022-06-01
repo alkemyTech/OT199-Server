@@ -8,7 +8,7 @@ class ActivityController {
             const getAllAct = await Activity.findAll();
             res.status(httpStatus.OK).json(getAllAct);
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
         }
     }
 
@@ -24,7 +24,7 @@ class ActivityController {
             res.status(httpStatus.OK).json(
                 getOneAct);
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
         }
     }
 
@@ -38,7 +38,7 @@ class ActivityController {
             res.status(httpStatus.OK).json({ msg: `The ${delAct.name} was deleted` });
 
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: error.array });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
         }
     }
 
@@ -52,7 +52,7 @@ class ActivityController {
             activity = await Activity.findByPk(id);
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         };
 
@@ -70,7 +70,7 @@ class ActivityController {
             await activity.save();
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: 'Something went wrong, the server was unable to complete your request'
             });
         };
 
@@ -90,7 +90,7 @@ class ActivityController {
             })
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg : error
+                msg : 'Something went wrong, the server was unable to complete your request'
             })
         }
     }
