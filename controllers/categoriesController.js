@@ -1,5 +1,6 @@
 const { Categories } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
+const httpResponses = require('../constants/httpResponses');
 
 class CategorieController {
   static async getAllCategories(req, res) {
@@ -9,7 +10,7 @@ class CategorieController {
       categories = await Categories.findAll({ attributes: ['name'] });
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
 
@@ -26,7 +27,7 @@ class CategorieController {
       category = await Categories.findByPk(id);
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
 
@@ -57,7 +58,7 @@ class CategorieController {
         }
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       })
     }
   }
@@ -80,7 +81,7 @@ class CategorieController {
       
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     }
     
@@ -99,7 +100,7 @@ class CategorieController {
     }
     catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
 

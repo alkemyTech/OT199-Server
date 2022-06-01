@@ -1,3 +1,4 @@
+const httpResponses = require("../constants/httpResponses");
 const httpStatus = require("../helpers/httpStatus");
 const { Activity } = require("../models");
 
@@ -8,7 +9,7 @@ class ActivityController {
             const getAllAct = await Activity.findAll();
             res.status(httpStatus.OK).json(getAllAct);
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
     }
 
@@ -24,7 +25,7 @@ class ActivityController {
             res.status(httpStatus.OK).json(
                 getOneAct);
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
     }
 
@@ -38,7 +39,7 @@ class ActivityController {
             res.status(httpStatus.OK).json({ msg: `The ${delAct.name} was deleted` });
 
         } catch (error) {
-            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: 'Something went wrong, the server was unable to complete your request' });
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
     }
 
@@ -52,7 +53,7 @@ class ActivityController {
             activity = await Activity.findByPk(id);
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong, the server was unable to complete your request'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
@@ -70,7 +71,7 @@ class ActivityController {
             await activity.save();
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong, the server was unable to complete your request'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
@@ -91,7 +92,9 @@ class ActivityController {
         } catch (error) {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .send('Internal server error');
+                .json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
         }
     }
 
@@ -104,7 +107,9 @@ class ActivityController {
         } catch (error) {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .send('Internal server error');
+                .json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
         }
     }
 
@@ -122,7 +127,9 @@ class ActivityController {
         } catch (error) {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .send('Internal server error');
+                .json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
         }
     }
 
@@ -138,7 +145,9 @@ class ActivityController {
         } catch (error) {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .send('Internal server error');
+                .json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
         }
     }
 };

@@ -1,6 +1,7 @@
 const { Organization } = require('../models');
 const orgConstant = require('../constants/organizationConstant');
 const httpStatus = require('../helpers/httpStatus');
+const httpResponses = require('../constants/httpResponses');
 
 class OrganizationController {
 
@@ -20,7 +21,7 @@ class OrganizationController {
       res
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({
-          msg: 'Something went wrong, the server was unable to complete your request'
+          msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
         });
     }
     res
@@ -64,7 +65,7 @@ class OrganizationController {
     }
     catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: 'Something went wrong, the server was unable to complete your request'
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       })
 
     }
