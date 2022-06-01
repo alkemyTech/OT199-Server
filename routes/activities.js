@@ -20,7 +20,7 @@ router.delete('/:name', CheckRoleId.isAdmin, [
 module.exports = router;
 const Validator = require('../helpers/validator');
 const CheckRoleId = require('../middlewares/checkRole');
-const ActivityController = require('../controllers/activity.controller');
+const ActivityController = require('../controllers/activityController');
 
 router.put('/:id', [
     CheckRoleId.isAdmin,
