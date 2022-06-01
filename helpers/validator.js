@@ -4,16 +4,16 @@ const { Categorie } = require('../models');
 
 class Validator {
 
-    static validateFields(req, res, next) {
+  static validateFields(req, res, next) {
 
-        const errors = validationResult(req);
+    const errors = validationResult(req);
 
-        if (!errors.isEmpty()) {
-            return res.status(httpStatus.BAD_REQUEST).json(errors);
-        };
-
-        next();
+    if (!errors.isEmpty()) {
+      return res.status(httpStatus.BAD_REQUEST).json(errors);
     };
+
+    next();
+  };
 }
 
 module.exports = Validator;
