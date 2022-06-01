@@ -1,4 +1,4 @@
-const Roles = require('../models/role');
+const { Role } = require('../models');
 
 class RoleController {
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
-const UserController = require('../controllers/user.controller');
+const UserController = require('../controllers/userController');
 const CheckRoleId = require('../middlewares/checkRole');
 
 /* GET users listing. */
