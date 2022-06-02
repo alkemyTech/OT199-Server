@@ -10,7 +10,7 @@ class MemberController {
     const { id } = req.params;
 
     try {
-      memberDeleted = await Member.destroy({ where: { id }});
+      memberDeleted = await Member.destroy({ where: { id } });
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -27,6 +27,35 @@ class MemberController {
       msg: 'Member was deleted successfully',
     });
   };
-} 
+
+  static async createMember(req, res) {
+    const {
+      name,
+      email,
+      facebookUrl = null,
+      instagramUrl = null,
+      linkedinUrl = null,
+      image = null,
+      description = null
+    } = req.body;
+
+    const contact = Member.build({
+      name,
+      email,
+      facebookUrl,
+      instagramUrl,
+      linkedinUrl,
+      image,
+      description
+    })
+
+    try {
+      await contact.save()
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
+    }
+    res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
+  }
+}
 
 module.exports = MemberController;
