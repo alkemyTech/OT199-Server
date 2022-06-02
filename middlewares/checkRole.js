@@ -16,7 +16,7 @@ class CheckRoleId {
           msg: 'Access denied, token expire or incorrect',
         });
     } else {
-      if (user.role !== rolesUser.Roles.adminId) {
+      if (user.role !== rolesUser.Roles.Admin) {
         res
           .status(httpStatus.UNAUTHORIZED)
           .json({
