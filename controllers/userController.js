@@ -169,7 +169,7 @@ class UserController {
         res.status(httpStatus.OK).json(userProfile);
       } catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-          msg: "Something went wrong",
+            msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
         });
       }
     }
