@@ -17,7 +17,7 @@ class NewsController {
         } catch (error) {
             res
             .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ msg: "Something went wrong" });
+            .json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
       }
     static async createNews(req, res) {
