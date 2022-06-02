@@ -1,10 +1,9 @@
+const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
-const {
-    User
-} = require('../models');
-const sendmailController = require('./sendmailController');
 const httpStatus = require('../helpers/httpStatus');
-const generateToken = require('../helpers/generateToken')
+const sendmailController = require('./sendmailController');
+const generateToken = require('../helpers/generateToken');
+const httpResponses = require('../constants/httpResponses');
 
 class UserController {
 
@@ -17,13 +16,13 @@ class UserController {
           }
           return res
             .status(httpStatus.BAD_REQUEST)
-            .json({ msg: "Cannot delete user" });
+            .json({ msg: 'Cannot delete user' });
         } catch (error) {
           res
             .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ msg: "Something went wrong" });
+            .json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
-      }
+    }
 
     static async register(req, res) {
 
@@ -46,8 +45,8 @@ class UserController {
         });
 
         // Encrypt password
-        const salt = bcryptjs.genSaltSync();
-        user.password = bcryptjs.hashSync(password, salt);
+        const salt = bcryptjs.genSaltSync(10);
+        bcryptjs.hashSync(user.password, salt);
 
         //Access_token
         const token = generateToken.tokenSign(user);
@@ -56,7 +55,7 @@ class UserController {
             await user.save();
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
@@ -65,7 +64,7 @@ class UserController {
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
-            token: token,
+            token,
             user
         });
     };
@@ -103,7 +102,7 @@ class UserController {
             }
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         }
     }
@@ -115,7 +114,7 @@ class UserController {
             userList = await User.findAll();
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         }
         res.status(httpStatus.OK).send(userList);
@@ -150,7 +149,7 @@ class UserController {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong'
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
                 });
         };
     }
