@@ -1,5 +1,6 @@
 const { News } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
+const httpResponses = require('../constants/httpResponses');
 
 class NewsController {
     static async createNews(req, res) {
@@ -22,7 +23,7 @@ class NewsController {
             });
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
@@ -44,8 +45,7 @@ class NewsController {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .send({
-                    msg: "Error",
-                    error
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
                 });
             return;
         }
@@ -54,7 +54,7 @@ class NewsController {
             res
                 .status(httpStatus.NOT_FOUND)
                 .send({
-                    msg: "New not found"
+                    msg: 'New not found'
                 });
             return;
         }
@@ -62,7 +62,7 @@ class NewsController {
         res
             .status(httpStatus.OK)
             .send({
-                msg: "New found succesfully",
+                msg: 'New found succesfully',
                 detail
             });
     }
@@ -88,8 +88,7 @@ class NewsController {
             return res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong',
-                    error,
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
                 });
         };
 
@@ -115,7 +114,7 @@ class NewsController {
             return res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong',
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR,
                 });
         };
 

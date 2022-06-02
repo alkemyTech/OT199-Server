@@ -2,24 +2,25 @@ const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
 const httpStatus = require('../helpers/httpStatus');
 const sendmailController = require('./sendmailController');
-const generateToken = require('../helpers/generateToken')
+const generateToken = require('../helpers/generateToken');
+const httpResponses = require('../constants/httpResponses');
 
 class UserController {
 
     static async deleteUser(req, res) {
         try {
-            const { id } = req.params;
-            const deleteUser = await User.destroy({ where: { id: +id } });
-            if (deleteUser) {
-                return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
-            }
-            return res
-                .status(httpStatus.BAD_REQUEST)
-                .json({ msg: "Cannot delete user" });
+          const { id } = req.params;
+          const deleteUser = await User.destroy({ where: { id: +id } });
+          if (deleteUser) {
+            return res.status(httpStatus.OK).send({ msg: `the User was deleted` });
+          }
+          return res
+            .status(httpStatus.BAD_REQUEST)
+            .json({ msg: 'Cannot delete user' });
         } catch (error) {
-            res
-                .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .json({ msg: "Something went wrong" });
+          res
+            .status(httpStatus.INTERNAL_SERVER_ERROR)
+            .json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
     }
 
@@ -54,7 +55,7 @@ class UserController {
             await user.save();
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: error
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
@@ -63,7 +64,7 @@ class UserController {
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
-            token: token,
+            token,
             user
         });
     };
@@ -101,7 +102,7 @@ class UserController {
             }
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         }
     }
@@ -113,7 +114,7 @@ class UserController {
             userList = await User.findAll();
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-                msg: 'Something went wrong'
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         }
         res.status(httpStatus.OK).send(userList);
@@ -148,7 +149,7 @@ class UserController {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
                 .json({
-                    msg: 'Something went wrong'
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
                 });
         };
     }

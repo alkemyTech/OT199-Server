@@ -1,6 +1,7 @@
 const { Organization } = require('../models');
 const orgConstant = require('../constants/organizationConstant');
 const httpStatus = require('../helpers/httpStatus');
+const httpResponses = require('../constants/httpResponses');
 
 class OrganizationController {
 
@@ -19,11 +20,13 @@ class OrganizationController {
     } catch (error) {
       res
         .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .send('Internal server error');
+        .json({
+          msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        });
     }
     res
       .status(httpStatus.OK)
-      .send(data);
+      .json({data});
   }
 
   static async getData() {
@@ -50,19 +53,19 @@ class OrganizationController {
       let resolve = await Organization.update({ ...req.body }, { where: { id: idParam } });
       if (resolve.includes(1)) {
         res.status(httpStatus.OK).json({
-          msg: "Successful registry update"
+          msg: 'Successful registry update'
         })
 
       } else {
         res.status(httpStatus.NOT_FOUND).json({
-          msg: "A record with the set parameter was not found"
+          msg: 'A record with the set parameter was not found'
         })
       }
 
     }
     catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        error
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       })
 
     }

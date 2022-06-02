@@ -22,10 +22,8 @@ module.exports = {
       image: 'https://drive.google.com/file/d/1EfWmYnA2R49ZW8anbMT9Hg2J02pVT5D9/view',
       createdAt: new Date,
       updatedAt: new Date
-    }
-    ], {});
+    }])
   },
-
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Activities', null, {});
   }
