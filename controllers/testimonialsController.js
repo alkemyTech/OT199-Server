@@ -1,10 +1,13 @@
-const Testimonial = require('../models/testimonials');
+const Testimonials = require('../models/testimonials');
+const httpStatus = require('../helpers/httpStatus');
+const httpResponses = require('../constants/httpResponses');
 
 class TestimonialsController {
     static async getTestimonials(req, res) {
-        let testimonials = {};
+        let testimonials = [];
         try {
-            testimonials = Testimonial.findAll();
+            let test = await Testimonials.findAll();
+            testimonials.push(test);
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -17,7 +20,7 @@ class TestimonialsController {
         const { id } = req.params;
         let oneTestimonial = {};
         try {
-            oneTestimonial = Testimonial.findByPk(id)
+            oneTestimonial = await Testimonials.findByPk(id)
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR

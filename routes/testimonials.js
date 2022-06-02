@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const CheckRole = require('../middlewares/checkRole');
+const owner = require('../middlewares/ownership');
 const TestimonialsController = require('../controllers/testimonialsController');
 
 
-router.get('/all', CheckRole.isAdmin, TestimonialsController.getTestimonials);
+router.get('/all', owner.ownershipGetMethod, TestimonialsController.getTestimonials);
 
-router.get('/:name', CheckRole.isAdmin, TestimonialsController.getOneTestimonial);
+router.get('/:id', owner.ownershipGetMethod, TestimonialsController.getOneTestimonial);
 
 module.exports = router;
