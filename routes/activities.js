@@ -28,12 +28,12 @@ router.put('/:id', [
     check('image', 'Image is required').not().isEmpty(),
     check('content', 'Content is required').not().isEmpty(),
     Validator.validateFields
-], CheckRoleId.isAdmin, ActivityController.updateActivity);
+], ActivityController.updateActivity);
 
 router.delete('/:name', CheckRoleId.isAdmin, [
     check('name', 'Must be indicated the activity name').notEmpty().isString(),
     Validator.validateFields
-], CheckRoleId.isAdmin, ActivityController.deleteActivities);
+], ActivityController.deleteActivities);
 
 
 module.exports = router;
