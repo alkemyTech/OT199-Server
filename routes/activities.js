@@ -4,9 +4,8 @@ const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
 const CheckRoleId = require('../middlewares/checkRole');
 const ActivityController = require('../controllers/activityController');
-const owner = require('../middlewares/ownership');
 
-router.get('/all', owner.ownershipPostMethod, ActivityController.getActivities);
+router.get('/all', ActivityController.getActivities);
 
 router.get('/:name', CheckRoleId.isAdmin, [
     check('name', 'Must be indicated the activity name').notEmpty().isString(),
@@ -34,7 +33,7 @@ router.put('/:id', [
 router.delete('/:name', CheckRoleId.isAdmin, [
     check('name', 'Must be indicated the activity name').notEmpty().isString(),
     Validator.validateFields
-], owner.ownershipDeleteMethod, ActivityController.deleteActivities);
+], CheckRoleId.isAdmin, ActivityController.deleteActivities);
 
 
 module.exports = router;
