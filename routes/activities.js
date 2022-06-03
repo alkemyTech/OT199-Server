@@ -4,9 +4,8 @@ const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
 const CheckRoleId = require('../middlewares/checkRole');
 const ActivityController = require('../controllers/activityController');
-const owner = require('../middlewares/ownership');
 
-router.get('/all', owner.ownershipPostMethod, ActivityController.getActivities);
+router.get('/all', ActivityController.getActivities);
 
 router.get('/:name', CheckRoleId.isAdmin, [
     check('name', 'Must be indicated the activity name').notEmpty().isString(),
