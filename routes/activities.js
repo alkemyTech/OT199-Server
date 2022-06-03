@@ -20,7 +20,7 @@ router.post('/', [
     check('content')
         .notEmpty()
         .withMessage('The content field must not be empty')
-], Validator.validateFields, owner.ownershipPostMethod, ActivityController.createActivity)
+], Validator.validateFields, CheckRoleId.isAdmin, ActivityController.createActivity)
 
 router.put('/:id', [
     CheckRoleId.isAdmin,
@@ -28,12 +28,12 @@ router.put('/:id', [
     check('image', 'Image is required').not().isEmpty(),
     check('content', 'Content is required').not().isEmpty(),
     Validator.validateFields
-], owner.ownershipPutMethod, ActivityController.updateActivity);
+], ActivityController.updateActivity);
 
 router.delete('/:name', CheckRoleId.isAdmin, [
     check('name', 'Must be indicated the activity name').notEmpty().isString(),
     Validator.validateFields
-], owner.ownershipDeleteMethod, ActivityController.deleteActivities);
+], ActivityController.deleteActivities);
 
 
 module.exports = router;
