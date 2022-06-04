@@ -18,7 +18,8 @@ class OrganizationController {
         attributes: ['name', 'image', 'phone', 'address'],
         include: {
           model: Slide,
-          attributes: ['text', 'imageUrl', 'order']
+          attributes: ['text', 'imageUrl', 'order'],
+          order: ['order', 'ASC']
         }
       });
     } catch (error) {
