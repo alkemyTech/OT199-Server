@@ -19,8 +19,8 @@ class OrganizationController {
         include: {
           model: Slide,
           attributes: ['text', 'imageUrl', 'order'],
-          order: ['order', 'ASC']
-        }
+        },
+        order: [[Slide, 'order', 'ASC']]
       });
     } catch (error) {
       res
