@@ -19,4 +19,5 @@ router.post('/login', [
     Validator.validateFields
 ], UserController.logIn)
 
+router.get('/me',UserController.getProfile)
 module.exports = router;
