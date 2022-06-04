@@ -6,7 +6,9 @@ class ActivityController {
 
     static async getActivities(req, res) {
         try {
-            const getAllAct = await Activity.findAll();
+            const getAllAct = await Activity.findAll({
+                attributes: ['name', 'content', 'image', 'deletedAt'],
+            });
             res.status(httpStatus.OK).json(getAllAct);
         } catch (error) {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
@@ -89,59 +91,6 @@ class ActivityController {
                 msg: "successful creation",
                 resolve
             })
-        } catch (error) {
-            res
-                .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .json({
-                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
-                });
-        }
-    }
-
-    static async getActivities(req, res) {
-        try {
-            const getAllAct = await Activity.findAll({
-                attributes: ['name', 'content', 'image', 'deletedAt']
-            });
-            res.status(httpStatus.OK).json(getAllAct);
-        } catch (error) {
-            res
-                .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .json({
-                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
-                });
-        }
-    }
-
-    static async getOneActivity(req, res) {
-        const { name } = req.params;
-
-        try {
-            const getOneAct = await Activity.findOne({
-                where: { name },
-                attributes: ['name', 'content', 'image', 'deletedAt'],
-            });
-
-            res.status(httpStatus.OK).json(
-                getOneAct);
-        } catch (error) {
-            res
-                .status(httpStatus.INTERNAL_SERVER_ERROR)
-                .json({
-                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
-                });
-        }
-    }
-
-
-    static async deleteActivities(req, res) {
-        const { name } = req.query;
-
-        try {
-            const delAct = await Activity.destroy({ where: { name } });
-
-            res.status(httpStatus.OK).json({ msg: `The ${delAct.name} was deleted` });
-
         } catch (error) {
             res
                 .status(httpStatus.INTERNAL_SERVER_ERROR)
