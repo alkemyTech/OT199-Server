@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const TestimonialsController = require('../controllers/testimonialsController');
-const CheckRole = require('../middlewares/checkRole');
+const CheckRoleId = require('../middlewares/checkRole');
 
-router.delete('/:id',CheckRole.isAdmin, TestimonialsController.deleteTestimonial);
+router.get('/all', CheckRoleId.isAdmin, TestimonialsController.getTestimonials);
+router.get('/:id', CheckRoleId.isAdmin, TestimonialsController.getOneTestimonial);
+router.delete('/:id',CheckRoleId.isAdmin, TestimonialsController.deleteTestimonial);
 
 module.exports = router;

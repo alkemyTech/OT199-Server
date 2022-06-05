@@ -2,31 +2,55 @@ const { Testimonials } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 
-class TestimonialController {
+class TestimonialsController {
+    static async getTestimonials(req, res) {
+        let testimonials = null;
+        try {
+            testimonials = await Testimonials.findAll();
+        } catch (error) {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+            });
+        }
+        return res.status(httpStatus.OK).json({ testimonials });
+    }
 
-  static async deleteTestimonial(req, res) {
+    static async getOneTestimonial(req, res) {
+        const { id } = req.params;
+        let oneTestimonial = {};
+        try {
+            oneTestimonial = await Testimonials.findByPk(id)
+        } catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+            });
+        }
+        return res.status(httpStatus.OK).json({ oneTestimonial });
+    }
 
-    let testimonialDeleted = {};
-    const { id } = req.params;
+    static async deleteTestimonial(req, res) {
 
-    try {
-      testimonialDeleted = await Testimonials.destroy({ where: { id }});
-    } catch (error) {
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      let testimonialDeleted = {};
+      const { id } = req.params;
+  
+      try {
+        testimonialDeleted = await Testimonials.destroy({ where: { id }});
+      } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        });
+      };
+  
+      if (!testimonialDeleted) {
+        return res.status(httpStatus.NOT_FOUND).json({
+          msg: 'Testimonial does not exist'
+        });
+      };
+  
+      res.status(httpStatus.OK).json({
+        msg: 'Testimonial was deleted successfully',
       });
     };
+}
 
-    if (!testimonialDeleted) {
-      return res.status(httpStatus.NOT_FOUND).json({
-        msg: 'Testimonial does not exist'
-      });
-    };
-
-    res.status(httpStatus.OK).json({
-      msg: 'Testimonial was deleted successfully',
-    });
-  };
-} 
-
-module.exports = TestimonialController;
+module.exports = TestimonialsController;
