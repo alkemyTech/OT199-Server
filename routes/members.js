@@ -1,8 +1,16 @@
 const express = require('express');
 const MemberController = require('../controllers/memberController');
-const CheckRoleId = require('../middlewares/checkRole');
+const CheckRole = require('../middlewares/checkRole');
 const router = express.Router();
 
-router.delete('/:id',CheckRoleId.isAdmin, MemberController.deleteMember);
+/**
+ * GET member details 
+ * @param {number} id - The id of member
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string, {"name": string, "image": string} }
+ */
+router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
+
+router.delete('/:id',CheckRole.isAdmin, MemberController.deleteMember);
 
 module.exports = router;
