@@ -51,6 +51,29 @@ class TestimonialsController {
         msg: 'Testimonial was deleted successfully',
       });
     };
+
+    static async updateTestimonial(req, res){
+      let { id } = req.params
+
+      try {
+        let response = await Testimonials.update({...req.body}, { where : { id }})
+        if (response.includes(1)) {
+          let getNewTestimonial = await Testimonials.findByPk(id)
+          return res.status(httpStatus.OK).json({
+            msg: 'Successful update',
+            data : getNewTestimonial
+          })
+        }
+
+        res.status(httpStatus.NOT_FOUND).json({
+          msg: 'A record with the set parameter was not found'
+        })
+      } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          msg : httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        })
+      }
+    }
 }
 
 module.exports = TestimonialsController;
