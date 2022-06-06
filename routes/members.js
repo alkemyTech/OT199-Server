@@ -3,8 +3,6 @@ const MemberController = require('../controllers/memberController');
 const CheckRole = require('../middlewares/checkRole');
 const router = express.Router();
 
-router.delete('/:id', MemberController.deleteMember);
-
 /**
  * GET member details 
  * @param {number} id - The id of member
@@ -14,5 +12,6 @@ router.delete('/:id', MemberController.deleteMember);
 router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
 router.get('/',CheckRole.isAdmin, MemberController.getAllMembers);
 
+router.delete('/:id',CheckRole.isAdmin, MemberController.deleteMember);
 
 module.exports = router;
