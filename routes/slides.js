@@ -1,5 +1,5 @@
 const express = require('express');
-const Slides = require('../controllers/slidesController.js');
+const Slides = require('../controllers/slideController.js');
 const CheckRoleId = require('../middlewares/checkRole');
 const router = express.Router();
 
