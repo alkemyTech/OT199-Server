@@ -1,4 +1,6 @@
-const { Member } = require('../models');
+const {
+  Member
+} = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 
@@ -7,10 +9,16 @@ class MemberController {
   static async deleteMember(req, res) {
 
     let memberDeleted = {};
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
 
     try {
-      memberDeleted = await Member.destroy({ where: { id } });
+      memberDeleted = await Member.destroy({
+        where: {
+          id
+        }
+      });
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -56,6 +64,36 @@ class MemberController {
     }
     res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
+  static async getMember(req, res) {
+    const {
+      id
+    } = req.params;
+    let member = {};
+
+    try {
+      member = await Member.findOne({
+        where: {
+          id
+        },
+        attributes: ['name', 'image']
+      });
+    } catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR,
+        error
+      });
+    };
+
+    if (!member) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'member was not found'
+      });
+    };
+
+    res.status(httpStatus.OK).json({
+      member
+    });
+  };
 }
 
 module.exports = MemberController;
