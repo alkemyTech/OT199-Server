@@ -26,134 +26,225 @@ module.exports = router;
         "description": "CRUD of Categories, only available for Admin"
     }
 }
+
  * @swagger
- * {
- * "components": {
- *  "schema": {
- *    "Catergory": {
- *       "type": "object",
- *       "required": "name", 
- *       "properties": {
- *         "id": {
- *          "type": "integer" 
- *         },
- *         "name": {
- *          "type": "string" 
- *         },
- *         "description": {
- *           "type": "string"
- *         },          
- *         "image": {
- *           "type": "string" 
- *         },
- *     }
- *    }
- *   }
- *  }
- * }
  * 
- * @swagger 
  *{
     "paths": {
-        "/": {
+        "/categories/": {
             "get": {
                 "summary": "Return all categories",
-                "tags": [Categories],
-                "produces": "application/json",
+                "tags": [
+                    "Categories"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
                 "parameters": [
                     {
-                        "name": "token",
+                        "name": "bearerAuth",
                         "in": "header",
                         "description": "token necessary to decode User Role",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Return an array of all Categories names",
-                        "content": {
-                            "application/json": {
-                                "type": "array",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
+                        "example": [
+                            {
+                                "name": "DEMO 1"
+                            },
+                            {
+                                "name": "DEMO 2"
+                            },
+                            {
+                                "name": "DEMO 3"
+                            }
+                        ]
+                    }
+                },
+                "500": {
+                    "description": "Internal server error",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "items": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             }
                         }
                     },
-                    "500": {
-                        "description": "Internal server error",
-                        "content": {
-                            "message": "Something went wrong, the server was unable to complete your request"
+                    "example": {
+                        "message": {
+                            "msg": "Something went wrong, the server was unable to complete your request"
+                        }
+                    }
+                },
+                "401": {
+                    "description": "Unauthorized",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "items": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "message": "Access denied, you do not have authorization to enter"
+                    "example": {
+                        "message": "Access denied, you do not have authorization to enter"
+                    }
+                },
+                "400": {
+                    "description": "Bad request",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "items": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     },
-                    "400": {
-                        "description": "Bad request",
-                        "content": {
-                            "message": "Access denied, token expire or incorrect"
-                        }
+                    "example": {
+                        "message": "Access denied, token expire or incorrect"
                     }
                 }
             }
         },
-        "/create": {
+        "/categories/create": {
             "post": {
                 "summary": "Create a category",
-                "tags": [Categories],
+                "tags": [
+                    "Categories"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
                 "parameters": [
                     {
                         "name": "token",
                         "in": "header",
-                        "description": "token necessary to decode User Role",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "path",
-                        "description": "Title of the category",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "token necessary to decode User Role"
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "required": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "required": false
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "required": false
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Creation has been successful",
+                        "description": "OK",
                         "content": {
-                            "properties": {
-                                "type": "string"
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
                             }
+                        },
+                        "example": {
+                            "message": "Creation has been successful"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, token expire or incorrect"
                         }
                     }
@@ -162,17 +253,18 @@ module.exports = router;
         },
         "/{id}": {
             "get": {
-                "summary": "Return all categories",
-                "tags": [Categories],            
+                "summary": "Return a category by Id",
+                "tags": [
+                    "Categories"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
                 "parameters": [
                     {
                         "name": "token",
                         "in": "header",
-                        "description": "token necessary to decode User Role",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "description": "token necessary to decode User Role"
                     },
                     {
                         "name": "id",
@@ -186,35 +278,75 @@ module.exports = router;
                 ],
                 "responses": {
                     "200": {
-                        "description": "Return an array of all Categories names",
+                        "description": "Return a Category name",
                         "content": {
                             "application/json": {
-                                "type": "string",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        }
                                     }
                                 }
                             }
-                        }
+                        },
+                        "example": "name: Demo 1"
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
                             "application/json": {
-                                "message": "Something went wrong, the server was unable to complete your request"
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
                             }
+                        },
+                        "example": {
+                            "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, token expire or incorrect"
                         }
                     }
@@ -222,16 +354,17 @@ module.exports = router;
             },
             "put": {
                 "summary": "Update a category",
-                "tags": [Categories],
+                "tags": [
+                    "Categories"
+                ],
+                "security": {
+                    "bearerAuth": []
+                },
                 "parameters": [
                     {
                         "name": "token",
                         "in": "header",
-                        "description": "token necessary to decode User Role",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "description": "token necessary to decode User Role"
                     },
                     {
                         "name": "id",
@@ -247,35 +380,100 @@ module.exports = router;
                     "200": {
                         "description": "Update a Category parameter",
                         "content": {
-                            "type": "string",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                        },
+                        "example": {
+                            "message": "Successful registry update"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, token expire or incorrect"
                         }
                     },
                     "404": {
                         "description": "Not found",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "A record with the set parameter was not found"
                         }
                     }
@@ -283,7 +481,12 @@ module.exports = router;
             },
             "delete": {
                 "summary": "Return all categories",
-                "tags": [Categories],
+                "tags": [
+                    "Categories"
+                ],
+                "security": {
+                    " bearerAuth": []
+                },
                 "parameters": [
                     {
                         "name": "token",
@@ -306,43 +509,140 @@ module.exports = router;
                 ],
                 "responses": {
                     "200": {
-                        "description": "Return an array of all Categories names",
+                        "description": "Delete a Category",
                         "content": {
-                            "type": "array",
-                            "properties": {
-                                "name": {
-                                    "type": "string"
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                        },
+                        "example": {
+                            "message": "successful removal"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "Access denied, token expire or incorrect"
                         }
                     },
                     "404": {
                         "description": "Not found",
                         "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "items": {
+                                        "properties": {
+                                            "message": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "example": {
                             "message": "A record with the set parameter was not found"
                         }
                     }
                 }
             }
-        }
+        }        
     }
 }
 */
+
+/**
+ * @swagger
+ * "components": {
+            "schema": {
+                "Catergory": {
+                    "type": "object",
+                    "required": "name",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "image": {
+                            "type": "string"
+                        }
+                    },
+                    "example": {
+                        "id": 1,
+                        "name": "Demo 1",
+                        "description": "Demostration Category 1"
+                    }
+                }
+            }
+        }
+    }
+ */

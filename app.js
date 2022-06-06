@@ -5,26 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
-const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: "Somos Mas API",
-      version: '1.1.1'
-    },
-    servers: [
-      {
-        url: "http://localhost:3000"
-      }
-    ]
-  },
-  basePath: "/",
-  apis: ["routes/*.js"],
-};
-
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const swaggerDocs = require('./documentation/swaggerConfig');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
