@@ -5,13 +5,19 @@ const httpResponses = require('../constants/httpResponses');
 class SlideController { 
   static async update(req,res){
 
-    let slide = undefined;
+    const allowedParameters = ['imageUrl','text','organizationId','order'];
     const { id } = req.params;
-    console.log(req.body);
-    const { imageUrl, text, order, organizationId } = req.body;
+    const query = {};
+      
+    Object.keys(req.body).map(key => {
+      if(key && allowedParameters.includes(key)){
+          query[key] = req.body[key];
+      }
+    });
 
+    let slide = undefined;
     try {
-      slide = await Slide.findByPk(id);
+      slide = await Slide.update(query,{where:{id}});
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
             msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -21,19 +27,6 @@ class SlideController {
     if (!slide) {
         return res.status(httpStatus.NOT_FOUND).json({
             msg: 'Slide does not exist'
-        });
-    };
-
-    slide.imageUrl = imageUrl || slide.imageUrl;
-    slide.text = text || slide.text;
-    slide.order = order || slide.order;
-    slide.organizationId = organizationId || slide.organizationId;
-
-    try {
-        await slide.save();
-    } catch (error) {
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-            msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
         });
     };
 
