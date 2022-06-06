@@ -5,7 +5,7 @@ const httpResponses = require("../constants/httpResponses");
 class ContactController {
   static async getAllContacts(req, res) {   
     try {
-      const getAllContact = await Contact.findAll();
+      const getAllContact = await Contact.findAll({ attributes: ['name', 'phone', 'email', 'message', 'createdAt'] });
       res.status(httpStatus.OK).json(getAllContact);
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
