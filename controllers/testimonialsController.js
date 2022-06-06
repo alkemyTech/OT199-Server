@@ -65,7 +65,7 @@ class TestimonialsController {
   
       } catch (error) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-          msg: error
+          msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
         });
       }
     }
