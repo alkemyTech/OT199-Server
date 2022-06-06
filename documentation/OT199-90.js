@@ -1,4 +1,17 @@
-{
+/**
+ * @swagger
+ * {
+    "tags": {
+        "name": "Categories",
+        "description": "CRUD of Categories, only available for Admin"
+    }
+    }
+ * 
+ */
+
+/** 
+ * @swagger
+ * {
     "paths": {
         "/categories/": {
             "get": {
@@ -35,18 +48,7 @@
                                     }
                                 }
                             }
-                        },
-                        "example": [
-                            {
-                                "name": "DEMO 1"
-                            },
-                            {
-                                "name": "DEMO 2"
-                            },
-                            {
-                                "name": "DEMO 3"
-                            }
-                        ]
+                        }
                     }
                 },
                 "500": {
@@ -620,3 +622,4 @@
         }
     }
 }
+*/ 

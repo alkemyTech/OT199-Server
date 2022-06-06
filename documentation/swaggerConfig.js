@@ -14,10 +14,10 @@ const swaggerOptions = {
         ]
     },
     basePath: "/",
-    apis: ["routes/*.js"],
+    apis: ["documentation/*.js"],
     securityDefinitions: {
         bearerAuth: {
-            type: 'apiKey',
+            type: 'token',
             name: 'Authorization',
             scheme: 'bearer',
             in: 'header',
