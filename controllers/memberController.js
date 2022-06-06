@@ -66,6 +66,24 @@ class MemberController {
       member
     });
   };
+
+  static async getAllMembers (req,res) {
+    let members = [];
+
+    try {
+    members = await Member.findAll({
+      attributes: ['name', 'description']
+    })
+    }
+    catch(error){
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+    });
+    };
+    res.status(httpStatus.OK).json({
+      members
+    })
+  };
 }
 
 module.exports = MemberController;

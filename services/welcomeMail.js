@@ -5,14 +5,13 @@ const sendgrid = require('../utils/sendgrid');
 
 class WelcomeMailService {
 
-    static async sendMail(data, addressTo, addressFrom) {
+    static async sendMail(data, addressTo, addressFrom, subject) {
 
         // ruta template
-        const str = read(join(__dirname, '../views/welcomeEmail.ejs'), 'utf8');
+        const str = read(join(__dirname, '../views/templateEmail.ejs'), 'utf8');
 
         // body para el mail
         const body = ejs.compile(str)(data);
-        const subject = `Welcome to ${data.ongName}`;
 
         // envía mail
         await sendgrid(addressTo, addressFrom, subject, body);
