@@ -3,8 +3,28 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
-require('dotenv').config()
+const cors = require('cors');
+require('dotenv').config();
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: "Somos Mas API",
+      version: '1.1.1'
+    },
+    servers: [
+      {
+        url: "http://localhost:3000"
+      }
+    ]
+  },
+  basePath: "/",
+  apis: ["routes/*.js"],
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -28,6 +48,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
@@ -36,6 +57,7 @@ app.use('/categories', categoriesRouter);
 app.use('/activities', activitiesRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 
 // catch 404 and forward to error handler
