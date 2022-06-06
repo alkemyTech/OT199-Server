@@ -46,7 +46,7 @@ class UserController {
 
         // Encrypt password
         const salt = bcryptjs.genSaltSync(10);
-        bcryptjs.hashSync(user.password, salt);
+        user.password = bcryptjs.hashSync(user.password, salt);
 
         //Access_token
         const token = generateToken.tokenSign(user);
