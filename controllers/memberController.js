@@ -14,11 +14,7 @@ class MemberController {
     } = req.params;
 
     try {
-      memberDeleted = await Member.destroy({
-        where: {
-          id
-        }
-      });
+      memberDeleted = await Member.destroy({ where: { id } });
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -36,6 +32,34 @@ class MemberController {
     });
   };
 
+  static async createMember(req, res) {
+    const {
+      name,
+      email,
+      facebookUrl = null,
+      instagramUrl = null,
+      linkedinUrl = null,
+      image = null,
+      description = null
+    } = req.body;
+
+    const contact = Member.build({
+      name,
+      email,
+      facebookUrl,
+      instagramUrl,
+      linkedinUrl,
+      image,
+      description
+    })
+
+    try {
+      await contact.save()
+    } catch (error) {
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
+    }
+    res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
+  }
   static async getMember(req, res) {
     const {
       id
@@ -65,6 +89,24 @@ class MemberController {
     res.status(httpStatus.OK).json({
       member
     });
+  };
+
+  static async getAllMembers (req,res) {
+    let members = [];
+
+    try {
+    members = await Member.findAll({
+      attributes: ['name', 'description']
+    })
+    }
+    catch(error){
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+    });
+    };
+    res.status(httpStatus.OK).json({
+      members
+    })
   };
 }
 
