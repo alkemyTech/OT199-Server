@@ -53,14 +53,13 @@ class TestimonialsController {
     };
 
     static async createTestimonial(req,res){
-      const {name, content} = req.body;
+      const {name=null, image=null, content=null} = req.body;
       let newTestimonial = undefined;
       
       try{
       newTestimonial = await Testimonials.create({name, content});
       res.status(httpStatus.CREATED).send({
-        msg: "Testimonial created",
-        newTestimonial
+        msg: 'Testimonial created succesfully'
       });
   
       } catch (error) {
