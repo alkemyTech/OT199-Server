@@ -1,17 +1,93 @@
 /**
- * @swagger
- * {
+@swagger
+{
     "tags": {
         "name": "Categories",
         "description": "CRUD of Categories, only available for Admin"
     }
-    }
- * 
- */
+}
 
-/** 
- * @swagger
- * {
+*/
+
+/**
+@swagger
+ {
+    "components": {
+        "schema": {
+            "Category": {
+                "type": "object",
+                "required": "name",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": 1,
+                    "name": "Demo 1",
+                    "description": "Demostration Category 1"
+                }
+            },
+            "Error400": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }, 
+                "example": {
+                    "message": "Access denied, token expire or incorrect"
+                }
+            },
+            "Error401": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }, 
+                "example": {
+                    "message": "Access denied, you do not have authorization to enter"
+                }
+            },
+            "Error404": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }, 
+                "example": {
+                    "message": "Not found"
+                }
+            },
+            "Error500": {
+                "type": "object",
+                "properties": { 
+                    "message": {
+                        "type": "string"
+                    }
+                }, 
+                "example": {
+                    "message": "Something went wrong, the server was unable to complete your request"
+                }
+            }
+        }
+    }
+}
+*/
+
+/**@swagger
+{
     "paths": {
         "/categories/": {
             "get": {
@@ -56,20 +132,9 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "items": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
+                                "$ref": "#/components/schema/Error500"
                                 }
                             }
-                        }
-                    },
-                    "example": {
-                        "message": {
-                            "msg": "Something went wrong, the server was unable to complete your request"
                         }
                     }
                 },
@@ -77,20 +142,11 @@
                     "description": "Unauthorized",
                     "content": {
                         "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "items": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
+                             "schema": {
+                                "$ref": "#/components/schema/Error401"
                                 }
                             }
                         }
-                    },
-                    "example": {
-                        "message": "Access denied, you do not have authorization to enter"
                     }
                 },
                 "400": {
@@ -98,19 +154,11 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "items": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
+                               "schema": {
+                                "$ref": "#/components/schema/Error400"
                                 }
                             }
                         }
-                    },
-                    "example": {
-                        "message": "Access denied, token expire or incorrect"
                     }
                 }
             }
@@ -170,69 +218,36 @@
                                     }
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Creation has been successful"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error500"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error401"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error400"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, token expire or incorrect"
                         }
                     }
                 }
@@ -284,60 +299,33 @@
                         "description": "Internal server error",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error500"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error401"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error400"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, token expire or incorrect"
                         }
                     }
-                }
+                },
             },
             "put": {
                 "summary": "Update a category",
@@ -359,7 +347,7 @@
                         "description": "Id of the category",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "number"
                         }
                     }
                 ],
@@ -379,89 +367,46 @@
                                     }
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Successful registry update"
-                        }
+                        }                        
                     },
                     "500": {
                         "description": "Internal server error",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                "$ref": "#/components/schema/Error500"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error401"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
                         "description": "Bad request",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error400"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, token expire or incorrect"
                         }
                     },
                     "404": {
                         "description": "Not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error404"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "A record with the set parameter was not found"
                         }
                     }
                 }
@@ -478,11 +423,7 @@
                     {
                         "name": "token",
                         "in": "header",
-                        "description": "token necessary to decode User Role",
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
+                        "description": "token necessary to decode User Role"
                     },
                     {
                         "name": "id",
@@ -519,40 +460,20 @@
                         "description": "Internal server error",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error500"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Something went wrong, the server was unable to complete your request"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error401"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, you do not have authorization to enter"
                         }
                     },
                     "400": {
@@ -560,66 +481,24 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                "$ref": "#/components/schema/Error400"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "Access denied, token expire or incorrect"
                         }
                     },
                     "404": {
                         "description": "Not found",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "message": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    }
+                                 "schema": {
+                                "$ref": "#/components/schema/Error404"
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "A record with the set parameter was not found"
-                        }
-                    }
-                }
-            }
-        },
-        "components": {
-            "schema": {
-                "Catergory": {
-                    "type": "object",
-                    "required": "name",
-                    "properties": {
-                        "id": {
-                            "type": "integer"
-                        },
-                        "name": {
-                            "type": "string"
-                        },
-                        "description": {
-                            "type": "string"
-                        },
-                        "image": {
-                            "type": "string"
                         }
                     }
                 }
             }
         }
     }
-}
-*/ 
+}        
+*/
