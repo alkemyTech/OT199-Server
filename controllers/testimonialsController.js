@@ -59,8 +59,7 @@ class TestimonialsController {
       try{
       newTestimonial = await Testimonials.create({name, content});
       res.status(httpStatus.CREATED).send({
-        msg: "Testimonial created",
-        newTestimonial
+        msg: 'Testimonial created succesfully'
       });
   
       } catch (error) {
