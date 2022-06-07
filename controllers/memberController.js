@@ -14,15 +14,11 @@ class MemberController {
     } = req.params;
 
     try {
-<<<<<<< HEAD
-      memberDeleted = await Member.destroy({ where: { id } });
-=======
       memberDeleted = await Member.destroy({
         where: {
           id
         }
       });
->>>>>>> development
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -40,7 +36,6 @@ class MemberController {
     });
   };
 
-<<<<<<< HEAD
   static async createMember(req, res) {
     const {
       name,
@@ -69,7 +64,6 @@ class MemberController {
     }
     res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
-=======
   static async getMember(req, res) {
     const {
       id
@@ -118,7 +112,6 @@ class MemberController {
       members
     })
   };
->>>>>>> development
 }
 
 module.exports = MemberController;
