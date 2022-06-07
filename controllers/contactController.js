@@ -3,12 +3,13 @@ const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 
 class ContactController {
-  static async storeContact(req, res) {
+
+  static async createContact(req, res) {
     const {
       name,
       email,
-      phone = null,
-      message = null
+      phone = '',
+      message = ''
     } = req.body;
 
     const contact = Contact.build({
@@ -27,9 +28,7 @@ class ContactController {
     }
     res.status(httpStatus.CREATED).json({ msg: 'Contact has been saved' })
   }
-}
 
-class ContactController {
   static async getAllContacts(req, res) {
     let getAllContact = [];
     try {
