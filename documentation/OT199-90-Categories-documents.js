@@ -89,7 +89,7 @@
 /**@swagger
 {
     "paths": {
-        "/categories/": {
+        "/categories": {
             "get": {
                 "summary": "Return all categories",
                 "tags": [
@@ -125,9 +125,8 @@
                                 }
                             }
                         }
-                    }
-                },
-                "500": {
+                    },
+                    "500": {
                     "description": "Internal server error",
                     "content": {
                         "application/json": {
@@ -136,9 +135,8 @@
                                 }
                             }
                         }
-                    }
-                },
-                "401": {
+                    },
+                    "401": {
                     "description": "Unauthorized",
                     "content": {
                         "application/json": {
@@ -147,9 +145,8 @@
                                 }
                             }
                         }
-                    }
-                },
-                "400": {
+                    },
+                    "400": {
                     "description": "Bad request",
                     "content": {
                         "application/json": {
@@ -292,8 +289,7 @@
                                     }
                                 }
                             }
-                        },
-                        "example": "name: Demo 1"
+                        }                        
                     },
                     "500": {
                         "description": "Internal server error",
@@ -325,7 +321,7 @@
                             }
                         }
                     }
-                },
+                }
             },
             "put": {
                 "summary": "Update a category",
@@ -451,9 +447,6 @@
                                     }
                                 }
                             }
-                        },
-                        "example": {
-                            "message": "successful removal"
                         }
                     },
                     "500": {
