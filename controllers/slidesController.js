@@ -1,21 +1,16 @@
 const { Slide } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
+const QueryHelper = require('../helpers/queryHelper');
 
 class SlideController { 
   static async update(req,res){
 
     const allowedParameters = ['imageUrl','text','organizationId','order'];
     const { id } = req.params;
-    const query = {};
-      
-    Object.keys(req.body).map(key => {
-      if(key && allowedParameters.includes(key)){
-          query[key] = req.body[key];
-      }
-    });
+    const query = QueryHelper.filterBody(allowedParameters, req.body);
 
-    let slide = undefined;
+    let slide;
     try {
       slide = await Slide.update(query,{where:{id}});
     } catch (error) {
