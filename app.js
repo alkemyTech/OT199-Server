@@ -14,11 +14,7 @@ const categoriesRouter = require('./routes/categories');
 const activitiesRouter = require('./routes/activities');
 const newsRouter = require('./routes/news');
 const membersRouter = require('./routes/members');
-<<<<<<< HEAD
-const contactRouter = require('./routes/contacts');
-=======
 const slideRouter = require('./routes/slide');
->>>>>>> development
 const testimonialsRouter = require('./routes/testimonials');
 const slidesRouter = require('./routes/slides');
 const backofficeController = require('./routes/backoffice');
@@ -45,11 +41,8 @@ app.use('/categories', categoriesRouter);
 app.use('/activities', activitiesRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
-<<<<<<< HEAD
 app.use('/contacts', contactRouter);
-=======
 app.use('/slide', slideRouter)
->>>>>>> development
 app.use('/testimonials', testimonialsRouter);
 app.use('/slides', slidesRouter);
 app.use('/contacts', contactRouter);
