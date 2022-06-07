@@ -62,7 +62,6 @@ class MemberController {
     }
     res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
-
   static async getMember(req, res) {
     const {
       id
@@ -111,7 +110,6 @@ class MemberController {
       members
     })
   };
-
 }
 
 module.exports = MemberController;
