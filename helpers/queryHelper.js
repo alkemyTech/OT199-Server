@@ -1,6 +1,8 @@
+const express = require('express');
+
 class QueryHelper {
   static filterBody(allowedParameters, body){
-    let query;
+    let query = {};
 
     Object.keys(body).map(key => {
       if(key && allowedParameters.includes(key)){
