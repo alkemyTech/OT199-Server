@@ -14,7 +14,11 @@ class MemberController {
     } = req.params;
 
     try {
-      memberDeleted = await Member.destroy({ where: { id } });
+      memberDeleted = await Member.destroy({
+        where: {
+          id
+        }
+      });
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
