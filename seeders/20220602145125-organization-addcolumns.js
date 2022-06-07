@@ -6,10 +6,16 @@ module.exports = {
       'Organizations',
       [{
         id: 1,
+        name: "Somos Mas",
+        image: "https://i.ibb.co/dgchjd3/LOGO-SOMOS-MAS.png",
+        email: "somosfundacionmas@gmail.com",
+        welcomeText: "Bienvenidos a Somos Más",
+        phone: 1160112988,
+        createdAt: new Date(),
+        updatedAt: new Date(),
         facebookUrl: 'Somos_Más',
         instagramUrl: 'SomosMás',
         linkedinUrl: '',
-        updatedAt: new Date(),
       }, ], { updateOnDuplicate: ['facebookUrl', 'instagramUrl', 'linkedinUrl'] }
     );
   },

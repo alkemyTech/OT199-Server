@@ -60,7 +60,7 @@ class UserController {
         };
 
         // envia mail
-        await sendmailController.sendMail(email);
+        await sendmailController.sendWelcomeMail(email);
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
