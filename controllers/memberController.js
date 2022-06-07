@@ -14,15 +14,11 @@ class MemberController {
     } = req.params;
 
     try {
-<<<<<<< HEAD
-      memberDeleted = await Member.destroy({ where: { id } });
-=======
       memberDeleted = await Member.destroy({
         where: {
           id
         }
       });
->>>>>>> development
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
@@ -40,7 +36,6 @@ class MemberController {
     });
   };
 
-<<<<<<< HEAD
   static async createMember(req, res) {
     const {
       name,
@@ -52,7 +47,7 @@ class MemberController {
       description = null
     } = req.body;
 
-    const contact = Member.build({
+    const member = Member.build({
       name,
       email,
       facebookUrl,
@@ -63,13 +58,12 @@ class MemberController {
     })
 
     try {
-      await contact.save()
+      await member.save()
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
     }
     res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
-=======
   static async getMember(req, res) {
     const {
       id
@@ -101,24 +95,23 @@ class MemberController {
     });
   };
 
-  static async getAllMembers (req,res) {
+  static async getAllMembers(req, res) {
     let members = [];
 
     try {
-    members = await Member.findAll({
-      attributes: ['name', 'description']
-    })
+      members = await Member.findAll({
+        attributes: ['name', 'description']
+      })
     }
-    catch(error){
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-      msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
-    });
+    catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      });
     };
     res.status(httpStatus.OK).json({
       members
     })
   };
->>>>>>> development
 }
 
 module.exports = MemberController;
