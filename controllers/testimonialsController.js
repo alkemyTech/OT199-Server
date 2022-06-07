@@ -53,7 +53,7 @@ class TestimonialsController {
     };
 
     static async createTestimonial(req,res){
-      const {name, content} = req.body;
+      const {name=null, image=null, content=null} = req.body;
       let newTestimonial = undefined;
       
       try{
