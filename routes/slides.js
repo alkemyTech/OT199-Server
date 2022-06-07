@@ -1,6 +1,8 @@
 const express = require('express');
 const SlidesController = require('../controllers/slideController.js');
 const CheckRoleId = require('../middlewares/checkRole');
+const { check, oneOf } = require('express-validator');
+const Validator = require('../helpers/validator');
 const router = express.Router();
 
 /**
@@ -11,5 +13,16 @@ const router = express.Router();
 router.get('/', CheckRoleId.isAdmin, SlidesController.getAll);
 
 router.delete('/:id', CheckRoleId.isAdmin, SlidesController.delete);
+
+router.put('/:id', [
+  oneOf([
+    check('imageUrl').notEmpty(),
+    check('text').notEmpty(),
+    check('order').notEmpty(),
+    check('organizationId').notEmpty(),
+  ],('Image, text ,order or organizationId is required')),
+  Validator.validateFields,
+  CheckRoleId.isAdmin
+], SlidesController.update);
 
 module.exports = router;
