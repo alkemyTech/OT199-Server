@@ -20,6 +20,8 @@ router.post('/', [
  * @returns {"msg": string, {"name": string, "image": string} }
  */
 router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
+router.get('/', CheckRole.isAdmin, MemberController.getAllMembers);
 
+router.delete('/:id', CheckRole.isAdmin, MemberController.deleteMember);
 
 module.exports = router;

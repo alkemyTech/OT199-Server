@@ -11,4 +11,8 @@ router.post('/', [
   Validator.validateFields
 ], CheckRole.isUserLoggedIn, ContactController.storeContact);
 
+router.get('/', CheckRole.isAdmin, ContactController.getAllContacts)
+
+
+
 module.exports = router;
