@@ -62,7 +62,7 @@ class SlideController {
         });
     };
 
-    if (!slide[0]) {
+    if (!slide) {
         return res.status(httpStatus.NOT_FOUND).json({
             msg: 'Slide does not exist'
         });
