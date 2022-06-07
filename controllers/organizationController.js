@@ -15,7 +15,7 @@ class OrganizationController {
         where: {
           name: wherename
         },
-        attributes: ['name', 'image', 'phone', 'address'],
+        attributes: ['name', 'image', 'phone', 'address', 'facebookUrl', 'instagramUrl', 'linkedinUrl'],
         include: {
           model: Slide,
           attributes: ['text', 'imageUrl', 'order'],

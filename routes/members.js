@@ -12,7 +12,10 @@ router.post('/', [
     check('email', 'Must have a valid email').notEmpty().isEmail(),
     Validator.validateFields
 ], CheckRole.isUserLoggedIn, MemberController.createMember)
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 /**
  * GET member details 
  * @param {number} id - The id of member
