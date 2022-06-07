@@ -1,4 +1,4 @@
-const { Organization } = require('../models');
+const { Organization, Slide } = require('../models');
 const orgConstant = require('../constants/organizationConstant');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
@@ -16,6 +16,11 @@ class OrganizationController {
           name: wherename
         },
         attributes: ['name', 'image', 'phone', 'address'],
+        include: {
+          model: Slide,
+          attributes: ['text', 'imageUrl', 'order'],
+        },
+        order: [[Slide, 'order', 'ASC']]
       });
     } catch (error) {
       res
