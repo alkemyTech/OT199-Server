@@ -1,4 +1,5 @@
 const swaggerJsDoc = require('swagger-jsdoc');
+const path = require('path');
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -11,18 +12,22 @@ const swaggerOptions = {
             {
                 url: "http://localhost:3000"
             }
-        ]
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                }
+            }
+        }
     },
     basePath: "/",
     apis: ["documentation/*.js"],
-    securityDefinitions: {
-        bearerAuth: {
-            type: 'token',
-            name: 'Authorization',
-            scheme: 'bearer',
-            in: 'header',
-        },
-    },
+    security: [{
+        jwt: []
+    }]
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
