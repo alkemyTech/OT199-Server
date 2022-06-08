@@ -5,7 +5,6 @@ const router = express.Router();
 const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
 
-
 router.delete('/:id', MemberController.deleteMember);
 router.post('/', [
     check('name', 'Must have a full name').notEmpty().isString(),
