@@ -44,7 +44,11 @@ app.use('/categories', categoriesRouter);
 app.use('/activities', activitiesRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
+<<<<<<< HEAD
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+=======
+app.use('/contacts', contactRouter);
+>>>>>>> development
 app.use('/slide', slideRouter)
 app.use('/testimonials', testimonialsRouter);
 app.use('/slides', slidesRouter);

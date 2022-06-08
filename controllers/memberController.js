@@ -1,6 +1,4 @@
-const {
-  Member
-} = require('../models');
+const { Member } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 

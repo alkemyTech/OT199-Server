@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const BackofficeController = require('../controllers/backofficeController');
+const CheckRoleId = require('../middlewares/checkRole');
 
 /**
  * GET contact list
@@ -8,6 +9,6 @@ const BackofficeController = require('../controllers/backofficeController');
  * @returns { "msg": string } message error
  * @returns { [{"name": STRING, "phone": INTEGER, "email": STRING, "message": STRING, "createdAt": DATE }] }
  */
-router.get('/contacts', BackofficeController.getContacts);
+router.get('/contacts', CheckRoleId.isAdmin, BackofficeController.getContacts);
 
 module.exports = router;
