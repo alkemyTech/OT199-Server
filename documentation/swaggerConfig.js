@@ -1,5 +1,5 @@
 const swaggerJsDoc = require('swagger-jsdoc');
-const path = require('path');
+require('dotenv');
 
 const swaggerOptions = {
     swaggerDefinition: {
@@ -10,7 +10,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: "http://localhost:3000"
+                url: process.env.SWAGGER_PORT
             }
         ],
         components: {
