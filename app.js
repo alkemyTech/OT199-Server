@@ -41,6 +41,7 @@ app.use('/categories', categoriesRouter);
 app.use('/activities', activitiesRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
+app.use('/contacts', contactRouter);
 app.use('/slide', slideRouter)
 app.use('/testimonials', testimonialsRouter);
 app.use('/slides', slidesRouter);
