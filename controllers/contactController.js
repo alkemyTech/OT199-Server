@@ -7,26 +7,27 @@ class ContactController {
   static async createContact(req, res) {
     const {
       name,
+      phone = null,
       email,
-      phone = '',
-      message = ''
+      message = null
     } = req.body;
 
     const contact = Contact.build({
       name,
-      email,
       phone,
+      email,
       message
     });
 
     try {
       await contact.save()
     } catch (error) {
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+      console.log(error)
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       })
     }
-    res.status(httpStatus.CREATED).json({ msg: 'Contact has been saved' })
+    return res.status(httpStatus.CREATED).json({ msg: 'Contact has been saved' })
   }
 
   static async getAllContacts(req, res) {

@@ -10,7 +10,7 @@ router.post('/', [
     check('name', 'Field must be complete with your fullname').notEmpty().isString(),
     check('email', 'Must have a valid email').notEmpty().isEmail(),
     Validator.validateFields
-], AuthUser, ContactController.createContact);
+], ContactController.createContact);
 
 router.get('/', CheckRole.isAdmin, ContactController.getAllContacts)
 
