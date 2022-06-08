@@ -46,7 +46,7 @@ class UserController {
 
         // Encrypt password
         const salt = bcryptjs.genSaltSync(10);
-        bcryptjs.hashSync(user.password, salt);
+        user.password = bcryptjs.hashSync(user.password, salt);
 
         //Access_token
         const token = generateToken.tokenSign(user);
@@ -60,7 +60,7 @@ class UserController {
         };
 
         // envia mail
-        await sendmailController.sendMail(email);
+        await sendmailController.sendWelcomeMail(email);
 
         res.status(httpStatus.OK).json({
             msg: 'Registration has been successful',
@@ -152,6 +152,26 @@ class UserController {
                     msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
                 });
         };
+    }
+    static async getProfile(req, res) {
+      const { authorization } = req.headers;
+      if (!authorization) return res.status(httpStatus.UNAUTHORIZED).json({ msg: "UNAUTHORIZED" });
+  
+      try {
+        const token = authorization.split(" ").pop();
+        const tokenData = await generateToken.verifyToken(token);
+        if (tokenData === null)
+          return res
+            .status(httpStatus.NOT_ACCEPTABLE)
+            .json({ msg: "NOT_ACCEPTABLE" });
+        const { id } = tokenData;
+        const userProfile = await User.findByPk(+id);
+        res.status(httpStatus.OK).json(userProfile);
+      } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        });
+      }
     }
 };
 
