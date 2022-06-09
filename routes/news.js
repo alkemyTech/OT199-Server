@@ -6,7 +6,7 @@ const NewsController = require('../controllers/newsController');
 const CheckRole = require('../middlewares/checkRole');
 
 // GET news
-router.get('/', NewsController.getAllNews);
+router.get('/', CheckRole.isAdmin, NewsController.getAllNews);
 
 // GET news details 
 router.get('/:id',CheckRole.isAdmin, NewsController.getDetail);
