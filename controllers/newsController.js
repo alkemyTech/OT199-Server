@@ -1,6 +1,7 @@
 const { News } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
+const PagesHelper = require('../helpers/pagesHelper');
 
 class NewsController {
 
@@ -143,17 +144,38 @@ class NewsController {
 
     static async getAllNews(req, res) {
 
-        let news = [];
+        let result = {};
+        let { page = 1 } = req.query;
+        page = parseInt(page);
+
+        const limit = 10;
+        const offset = (page - 1) * limit;
 
         try {
-            news = await News.findAll();
+            result = await News.findAndCountAll({
+                limit,
+                offset,
+            });
         } catch (error) {
             return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
                 msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
             });
         };
 
+        const totalPages = PagesHelper.getTotalPages(result.count, limit);
+
+        if (page > totalPages) {
+            return res.status(httpStatus.BAD_REQUEST).json({
+                msg: `Page ${ page } does not exists`
+            });
+        };
+
+        const news = result.rows;
+        const { previousPageUrl, nextPageUrl } = PagesHelper.getPagesUrl('news', page, totalPages);
+
         res.status(httpStatus.OK).json({
+            previousPageUrl,
+            nextPageUrl,
             news
         });
     };
