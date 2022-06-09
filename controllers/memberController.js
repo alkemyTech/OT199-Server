@@ -110,6 +110,32 @@ class MemberController {
       members
     })
   };
+
+  static async updateMembers(req, res) {
+
+    const memberId = req.params.id;
+
+    try {
+      let updMember = await Member.update({ ...req.body, where: { id: memberId } });
+      if (!updMember) {
+        res.status(httpStatus.NOT_FOUND).json({
+          msg: 'Member was not found'
+        })
+      }
+      else {
+        res.status(httpStatus.OK).json({
+          msg: 'Member was updated'
+        })
+      }
+    } catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      });
+    };
+  }
+
+
 }
+
 
 module.exports = MemberController;
