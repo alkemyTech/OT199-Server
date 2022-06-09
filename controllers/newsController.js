@@ -140,5 +140,22 @@ class NewsController {
             news
         });
     };
+
+    static async getAllNews(req, res) {
+
+        let news = [];
+
+        try {
+            news = await News.findAll();
+        } catch (error) {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+            });
+        };
+
+        res.status(httpStatus.OK).json({
+            news
+        });
+    };
 }
 module.exports = NewsController;
