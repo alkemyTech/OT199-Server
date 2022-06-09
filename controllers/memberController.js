@@ -101,24 +101,21 @@ class MemberController {
 
   static async getAllMembers(req, res) {
     const {
-      page
+      page = 1
     } = req.query;
+    const limit = PaginationConstant.getRowsPerPage();
+    const offset = (page - 1) * limit;
 
-    let rowsPerPage = 0;
-    let offset = 0;
+    let members = {
+      rows: [],
+      count: 0
+    };
 
-    const filterpage = (!page || page == 0) ? 0 : (page - 1);
-    rowsPerPage = PaginationConstant.getRowsPerPage();
-    offset = filterpage * rowsPerPage;
-
-    console.log(req.query);
-
-    let members = [];
     try {
-      members = await Member.findAll({
+      members = await Member.findAndCountAll({
         attributes: ['name', 'description'],
         offset,
-        limit: rowsPerPage
+        limit
       })
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
@@ -126,15 +123,19 @@ class MemberController {
       });
     };
     let result = {
-      data: members
+      data: members.rows
     }
-    if (page > 0) {
-      const nextquery = `page=${Number(page)+1}`;
-      result.next = urlUtils(req, nextquery);
-    }
-    if (page > 1) {
-      const prevquery = `page=${Number(page)-1}`;
-      result.prev = urlUtils(req, prevquery);
+    if (members.rows.length > 0) {
+      const allPages = ((limit > 0) ? Math.ceil(members.count / limit) : 0);
+      
+      if (page < allPages) {
+        const nextquery = `page=${Number(page)+1}`;
+        result.next = urlUtils(req, nextquery);
+      }
+      if (page > 1) {
+        const prevquery = `page=${Number(page)-1}`;
+        result.prev = urlUtils(req, prevquery);
+      }
     }
     return res.status(httpStatus.OK).json(result);
   };
