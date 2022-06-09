@@ -1,6 +1,7 @@
 const { Categories } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
+const { pagination } = require('../helpers/pagination')
 
 /**
  * @class
@@ -17,17 +18,27 @@ class CategorieController {
    */
   static async getAllCategories(req, res) {
     let categories = [];
+    let pageQuery = +req.query.page;
+    let offset = req.query.page ? (pageQuery - 1) * 10 : 0;
 
     try {
-      categories = await Categories.findAll({ attributes: ['name'] });
+      categories = await Categories.findAll({ attributes: ['id','name'], limit : 10, offset : offset});
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
 
+    let navPages = pagination(categories, pageQuery, "categories", offset)
+    if (categories.length < 1) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        msg: `Page ${ pageQuery } does not exists`
+    });
+    }
     res.status(httpStatus.OK).json({
-      categories
+      categories,
+      ...navPages
+
     });
   };
   /**
