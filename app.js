@@ -3,8 +3,10 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cors = require('cors')
-require('dotenv').config()
+const cors = require('cors');
+require('dotenv').config();
+const swaggerUI = require('swagger-ui-express');
+const swaggerDocs = require('./documentation/swaggerConfig');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,9 +16,10 @@ const categoriesRouter = require('./routes/categories');
 const activitiesRouter = require('./routes/activities');
 const newsRouter = require('./routes/news');
 const membersRouter = require('./routes/members');
+const slideRouter = require('./routes/slide');
 const testimonialsRouter = require('./routes/testimonials');
 const slidesRouter = require('./routes/slides');
-
+const backofficeController = require('./routes/backoffice');
 const contactRouter = require('./routes/contacts');
 
 const app = express();
@@ -32,6 +35,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
@@ -40,10 +44,13 @@ app.use('/categories', categoriesRouter);
 app.use('/activities', activitiesRouter);
 app.use('/news', newsRouter);
 app.use('/members', membersRouter);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/contacts', contactRouter);
+app.use('/slide', slideRouter)
 app.use('/testimonials', testimonialsRouter);
 app.use('/slides', slidesRouter);
 app.use('/contacts', contactRouter);
-
+app.use('/backoffice', backofficeController);
 
 
 // catch 404 and forward to error handler
