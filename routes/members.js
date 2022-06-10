@@ -2,10 +2,11 @@ const express = require('express');
 const MemberController = require('../controllers/memberController');
 const CheckRole = require('../middlewares/checkRole');
 const router = express.Router();
-const {
+const { 
     check
 } = require('express-validator');
 const Validator = require('../helpers/validator');
+// const CheckRole = require('../middlewares/checkRole');
 
 router.delete('/:id', MemberController.deleteMember);
 router.post('/', [
