@@ -1,6 +1,4 @@
-const {
-  Member
-} = require('../models');
+const { Member } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
@@ -63,9 +61,7 @@ class MemberController {
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
     }
-    res.status(httpStatus.CREATED).json({
-      msg: 'Member has been created'
-    })
+    res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
   static async getMember(req, res) {
     const {
