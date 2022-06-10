@@ -1,10 +1,9 @@
 const {
   Member
 } = require('../models');
-const PaginationConstant = require('../constants/pagination');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
-const urlUtils = require('../utils/url');
+const PagesHelper = require('../helpers/pagesHelper');
 
 class MemberController {
 
@@ -100,44 +99,37 @@ class MemberController {
   };
 
   static async getAllMembers(req, res) {
-    const {
+    let result = {};
+    let {
       page = 1
     } = req.query;
-    const limit = PaginationConstant.getRowsPerPage();
-    const offset = (page - 1) * limit;
+    page = parseInt(page);
 
-    let members = {
-      rows: [],
-      count: 0
-    };
+    const pagesHelper = new PagesHelper(req, page);
+    const offset = (page - 1) * pagesHelper.getLimit();
 
     try {
-      members = await Member.findAndCountAll({
+      result = await Member.findAndCountAll({
         attributes: ['name', 'description'],
+        limit: pagesHelper.getLimit(),
         offset,
-        limit
-      })
+      });
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
-    let result = {
-      data: members.rows
-    }
-    if (members.rows.length > 0) {
-      const allPages = ((limit > 0) ? Math.ceil(members.count / limit) : 0);
-      
-      if (page < allPages) {
-        const nextquery = `page=${Number(page)+1}`;
-        result.next = urlUtils(req, nextquery);
-      }
-      if (page > 1) {
-        const prevquery = `page=${Number(page)-1}`;
-        result.prev = urlUtils(req, prevquery);
-      }
-    }
-    return res.status(httpStatus.OK).json(result);
+    if (!pagesHelper.isValidPage(result.count)) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+        msg: `Page ${ page } does not exists`
+      });
+    };
+
+    const response = pagesHelper.getResponse(result);
+
+    res.status(httpStatus.OK).json({
+      ...response
+    });
   };
 }
 
