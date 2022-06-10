@@ -24,7 +24,7 @@ router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
  * @property {number} page - The page in query
  * @returns {number} status - Http Status Code
  * @returns {"msg": string}
- * @returns { "data": [{"name": string, "description": string}], "prev": string, "next": string}
+ * @returns { "previousPageUrl": string, "nextPageUrl": string, "data": [{"name": string, "description": string}]}
  */
 router.get('/', CheckRole.isAdmin, MemberController.getAllMembers);
 
