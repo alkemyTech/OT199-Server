@@ -1,38 +1,42 @@
-require('dotenv').config();
+const url = require('url');
 
 class PagesHelper {
 
-  constructor(result, limit) {
-    this.result = result;
-    this.limit = limit;
+  constructor(req, page, limit) {
+    this.url = url.format({
+      protocol: req.protocol,
+      host: req.get('host'),
+      pathname: req.baseUrl
+    });
+    this.page = page;
+    this.limit = limit || 10;
   };
 
-  getTotalPages() {
-    return Math.ceil(this.result.count / this.limit);
+  getLimit() {
+    return this.limit;
   }
 
-  isValidPage(page) {
-    return page <= this.getTotalPages();
+  isValidPage(count) {
+    return this.page <= Math.ceil(count / this.limit);
   }
 
-  getResponse(hostname, route, page) {
-    
-    const url = `${ hostname }/${ route }/?page=`;
-    const totalPages = this.getTotalPages();
+  getResponse({ count, rows }) {
+    const totalPages = Math.ceil(count / this.limit);
     let nextPageUrl, previousPageUrl;
+    const urlQuery = '?page=';
 
-    if (page >= 1 && page < totalPages) {
-      nextPageUrl = url + (page + 1);
+    if (this.page >= 1 && this.page < totalPages) {
+      nextPageUrl = this.url + urlQuery + (this.page + 1);
     };
 
-    if (page <= totalPages && page > 1) {
-      previousPageUrl = url + (page - 1);
+    if (this.page <= totalPages && this.page > 1) {
+      previousPageUrl = this.url + urlQuery + (this.page - 1);
     };
 
     return {
       previousPageUrl,
       nextPageUrl,
-      data: this.result.rows,
+      data: rows
     };
   }
 };
