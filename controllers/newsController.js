@@ -163,6 +163,12 @@ class NewsController {
             });
         };
 
+        if (result.count === 0) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                msg: 'News not founds'
+            });
+        };
+
         const pagesHelper = new PagesHelper(result, limit, page);
 
         if (!pagesHelper.isValidPage(page)) {
