@@ -33,7 +33,7 @@ router.post("/",CheckRoleId.isAdmin,
     check('text', 'Text is required').not().isEmpty().isString(),
     check('organizationId', 'OrganizationId is required').not().isEmpty().isNumeric(),
     Validator.validateFields],
-  Slides.createSlide
+  SlidesController.createSlide
 );
 
 module.exports = router;
