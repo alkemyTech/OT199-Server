@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-const express = require("express");
-const router = express.Router();
-const Slides = require("../controllers/slidesController.js");
-const CheckRoleId = require("../middlewares/checkRole");
-const Validator = require("../helpers/validator");
-const { check } = require('express-validator');
-
-router.post("/",CheckRoleId.isAdmin,
-  [
-    check('imageUrl', 'ImageUrl is required').not().isEmpty().isString(),
-    check('text', 'Text is required').not().isEmpty().isString(),
-    check('organizationId', 'OrganizationId is required').not().isEmpty().isNumeric(),
-    Validator.validateFields],
-  Slides.createSlide
-);
-
-module.exports = router;
-=======
 const express = require('express');
 const SlidesController = require('../controllers/slideController.js');
 const CheckRoleId = require('../middlewares/checkRole');
@@ -31,6 +12,8 @@ const router = express.Router();
  */
 router.get('/', CheckRoleId.isAdmin, SlidesController.getAll);
 
+router.get('/:id',CheckRoleId.isAdmin, SlidesController.getDetail);
+
 router.delete('/:id', CheckRoleId.isAdmin, SlidesController.delete);
 
 router.put('/:id', [
@@ -44,5 +27,13 @@ router.put('/:id', [
   CheckRoleId.isAdmin
 ], SlidesController.update);
 
+router.post("/",CheckRoleId.isAdmin,
+  [
+    check('imageUrl', 'ImageUrl is required').not().isEmpty().isString(),
+    check('text', 'Text is required').not().isEmpty().isString(),
+    check('organizationId', 'OrganizationId is required').not().isEmpty().isNumeric(),
+    Validator.validateFields],
+  Slides.createSlide
+);
+
 module.exports = router;
->>>>>>> d5e83398c29bbe5706dfe92991f4074f6dfe88a5
