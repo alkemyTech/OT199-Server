@@ -12,6 +12,8 @@ const router = express.Router();
  */
 router.get('/', CheckRoleId.isAdmin, SlidesController.getAll);
 
+router.get('/:id',CheckRoleId.isAdmin, SlidesController.getDetail);
+
 router.delete('/:id', CheckRoleId.isAdmin, SlidesController.delete);
 
 router.put('/:id', [
