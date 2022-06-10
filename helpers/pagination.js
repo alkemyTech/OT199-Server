@@ -2,7 +2,7 @@ require('dotenv').config()
 
 class paginationHelper {
 
-    static pagination(array, page, route, offset) {
+    static pagination(array, page, route) {
         let totalPage = Math.ceil(array.length) - 1;
         const url = `${process.env.HOST}/${route}/page?=`;
         let navPage = {}
@@ -16,10 +16,6 @@ class paginationHelper {
 
         if (page <= totalPage && page > 1) {
             navPage.previousPage = url + (page - 1)
-        }
-
-        if (offset === 0) {
-            navPage.nextPage = url + 2
         }
         return navPage
     }

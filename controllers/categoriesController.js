@@ -19,22 +19,26 @@ class CategorieController {
   static async getAllCategories(req, res) {
     let categories = [];
     let pageQuery = +req.query.page;
+    let limit = req.query.page ? 10 : req.query.page
     let offset = req.query.page ? (pageQuery - 1) * 10 : 0;
 
     try {
-      categories = await Categories.findAll({ attributes: ['id','name'], limit : 10, offset : offset});
+      categories = await Categories.findAll({ attributes: ['id', 'name'], limit, offset });
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
 
-    let navPages = pagination(categories, pageQuery, "categories", offset)
-    if (categories.length < 1) {
+    if (!categories.length) {
       return res.status(httpStatus.BAD_REQUEST).json({
-        msg: `Page ${ pageQuery } does not exists`
-    });
+        msg: `Page ${pageQuery} does not exists`
+      });
     }
+
+    let navPages = pagination(categories, pageQuery, "categories")
+
+
     res.status(httpStatus.OK).json({
       categories,
       ...navPages
