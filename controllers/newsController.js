@@ -2,6 +2,7 @@ const { News } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
+require('dotenv').config();
 
 class NewsController {
 
@@ -162,21 +163,18 @@ class NewsController {
             });
         };
 
-        const totalPages = PagesHelper.getTotalPages(result.count, limit);
+        const pagesHelper = new PagesHelper(result, limit, page);
 
-        if (page > totalPages) {
+        if (!pagesHelper.isValidPage(page)) {
             return res.status(httpStatus.BAD_REQUEST).json({
                 msg: `Page ${ page } does not exists`
             });
         };
 
-        const news = result.rows;
-        const { previousPageUrl, nextPageUrl } = PagesHelper.getPagesUrl('news', page, totalPages);
+        const response = pagesHelper.getResponse(process.env.HOST, 'news', page);
 
         res.status(httpStatus.OK).json({
-            previousPageUrl,
-            nextPageUrl,
-            news
+            ...response
         });
     };
 }

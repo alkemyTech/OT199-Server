@@ -2,29 +2,39 @@ require('dotenv').config();
 
 class PagesHelper {
 
-  static getTotalPages(totalRows, limit) {
-    return Math.ceil(totalRows / limit);
+  constructor(result, limit) {
+    this.result = result;
+    this.limit = limit;
+  };
+
+  getTotalPages() {
+    return Math.ceil(this.result.count / this.limit);
   }
 
-  static getPagesUrl(route, page, totalPage) {
+  isValidPage(page) {
+    return page <= this.getTotalPages();
+  }
+
+  getResponse(hostname, route, page) {
     
-    const url = `${ process.env.HOST }/${ route }/page?=`;
+    const url = `${ hostname }/${ route }/?page=`;
+    const totalPages = this.getTotalPages();
     let nextPageUrl, previousPageUrl;
 
-    if (page >= 1 && page < totalPage) {
+    if (page >= 1 && page < totalPages) {
       nextPageUrl = url + (page + 1);
     };
 
-    if (page <= totalPage && page > 1) {
+    if (page <= totalPages && page > 1) {
       previousPageUrl = url + (page - 1);
     };
 
     return {
+      previousPageUrl,
       nextPageUrl,
-      previousPageUrl
+      data: this.result.rows,
     };
   }
-
 };
 
 module.exports = PagesHelper;
