@@ -145,7 +145,25 @@ class NewsController {
     static async getAllNews(req, res) {
 
         let result = {};
-        let { page = 1 } = req.query;
+        let { page } = req.query;
+
+        if (!page) {
+            try {
+                result = await News.findAll({ 
+                    attributes: ['name', 'image', 'content', 'categoryId', 'type']
+                });
+            } catch (error) {
+                console.log(error);
+                return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
+            };
+
+            return res.status(httpStatus.OK).json({
+                news: result
+            });
+        };
+
         page = parseInt(page);
         
         const pagesHelper = new PagesHelper(req, page);
@@ -153,6 +171,7 @@ class NewsController {
 
         try {
             result = await News.findAndCountAll({
+                attributes: ['name', 'image', 'content', 'categoryId', 'type'],
                 limit: pagesHelper.getLimit(),
                 offset,
             });
