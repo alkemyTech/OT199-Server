@@ -115,23 +115,28 @@ class MemberController {
 
     const memberId = req.params.id;
 
+    const updMember = req.body
+
     try {
-      let updMember = await Member.update({ ...req.body, where: { id: memberId } });
-      if (!updMember) {
-        res.status(httpStatus.NOT_FOUND).json({
+      const findedOne = await Member.findOne({ where: { id: memberId } })
+        .then(Member.update(updMember, { where: { id: memberId } }));
+      if (!findedOne) {
+        return res.status(httpStatus.NOT_FOUND).json({
           msg: 'Member was not found'
         })
       }
       else {
-        res.status(httpStatus.OK).json({
+        return res.status(httpStatus.OK).json({
           msg: 'Member was updated'
         })
       }
     } catch (error) {
+
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
-    };
+    }
+
   }
 
 
