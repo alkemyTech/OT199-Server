@@ -58,12 +58,6 @@
  *     tags: [Categories]
  *     security:
  *      - bearerAuth: []
- *     parameters:
- *      - in: Authorization
- *        name: token
- *        schema:
- *          type: string         
- *        description: Token
  *     responses:
  *       200:
  *        description: OK
@@ -113,14 +107,7 @@
  *        schema:
  *          type: number
  *        required: true
- *        description: The category id
- *      - in: header
- *        name: token
- *        schema:
- *          type: string
- *        required: true
- *        description: Token
- * 
+ *        description: The category id 
  *     responses:
  *       200:
  *         description: The category was deleted
@@ -171,13 +158,6 @@
  *     tags: [Categories]
  *     security:
  *      - bearerAuth: []
- *     parameters:
- *      - in: header
- *        name: token
- *        schema:
- *          type: string
- *        required: true
- *        description: Token
  *     requestBody:
  *       required: true
  *       content:
@@ -226,12 +206,6 @@
  *    security:
  *      - bearerAuth: []
  *    parameters:
- *      - in: header
- *        name: token
- *        schema:
- *          type: string
- *        required: true
- *        description: Token
  *      - in: path
  *        name: id
  *        schema:
@@ -294,12 +268,6 @@
  *     security:
  *      - bearerAuth: []
  *     parameters:
- *      - in: header
- *        name: token
- *        schema:
- *          type: string
- *        required: true
- *        description: Token
  *      - in: path
  *        name: id
  *        schema:

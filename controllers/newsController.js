@@ -1,6 +1,7 @@
 const { News } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
+const PagesHelper = require('../helpers/pagesHelper');
 
 class NewsController {
 
@@ -138,6 +139,64 @@ class NewsController {
         res.status(httpStatus.OK).json({
             msg: 'Updated successfully',
             news
+        });
+    };
+
+    static async getAllNews(req, res) {
+
+        let result = {};
+        let { page } = req.query;
+
+        if (!page) {
+            try {
+                result = await News.findAll({ 
+                    attributes: ['name', 'image', 'content', 'categoryId', 'type']
+                });
+            } catch (error) {
+                console.log(error);
+                return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                    msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+                });
+            };
+
+            return res.status(httpStatus.OK).json({
+                news: result
+            });
+        };
+
+        page = parseInt(page);
+        
+        const pagesHelper = new PagesHelper(req, page);
+        const offset = (page - 1) * pagesHelper.getLimit();
+
+        try {
+            result = await News.findAndCountAll({
+                attributes: ['name', 'image', 'content', 'categoryId', 'type'],
+                limit: pagesHelper.getLimit(),
+                offset,
+            });
+        } catch (error) {
+            return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+                msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+            });
+        };
+
+        if (result.count === 0) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                msg: 'News not founds'
+            });
+        };
+
+        if (!pagesHelper.isValidPage(result.count)) {
+            return res.status(httpStatus.BAD_REQUEST).json({
+                msg: `Page ${ page } does not exists`
+            });
+        };
+
+        const response = pagesHelper.getResponse(result);
+
+        res.status(httpStatus.OK).json({
+            ...response
         });
     };
 }
