@@ -17,6 +17,7 @@ router.get('/:id',CheckRoleId.isAdmin, SlidesController.getDetail);
 router.delete('/:id', CheckRoleId.isAdmin, SlidesController.delete);
 
 router.put('/:id', [
+  CheckRoleId.isAdmin,
   oneOf([
     check('imageUrl').notEmpty(),
     check('text').notEmpty(),
@@ -24,7 +25,6 @@ router.put('/:id', [
     check('organizationId').notEmpty(),
   ],('Image, text ,order or organizationId is required')),
   Validator.validateFields,
-  CheckRoleId.isAdmin
 ], SlidesController.update);
 
 module.exports = router;

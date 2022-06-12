@@ -1,6 +1,7 @@
 const { Member } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
+const QueryHelper = require('../helpers/queryHelper');
 
 class MemberController {
 
@@ -113,29 +114,35 @@ class MemberController {
 
   static async updateMembers(req, res) {
 
-    const memberId = req.params.id;
+    const { id } = req.params;
 
-    const updMember = req.body
+    const allowedParameters = [
+      "name",
+      "facebookUrl",
+      "instagramUrl",
+      "linkedinUrl",
+      "image",
+      "description"];
+
+    const query = QueryHelper.filterBody(allowedParameters, req.body);
+
+    let updMember;
 
     try {
-      const findedOne = await Member.findOne({ where: { id: memberId } })
-        .then(Member.update(updMember, { where: { id: memberId } }));
-      if (!findedOne) {
-        return res.status(httpStatus.NOT_FOUND).json({
-          msg: 'Member was not found'
-        })
-      }
-      else {
-        return res.status(httpStatus.OK).json({
-          msg: 'Member was updated'
-        })
-      }
+      updMember = await Member.update(query, { where: { id } });
     } catch (error) {
-
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     }
+    if (!updMember[0]) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'Member was not found'
+      })
+    }
+    return res.status(httpStatus.OK).json({
+      msg: 'Member was updated successfully'
+    })
 
   }
 
