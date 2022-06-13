@@ -11,19 +11,19 @@ class CommentsController{
     try {
      comment = await Comment.update(body,{where:{id}});
     } catch (error) {
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-            msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
-        });
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      });
     };
 
     if (!comment[0]) {
-        return res.status(httpStatus.NOT_FOUND).json({
-            msg: 'Comment does not exist'
-        });
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'Comment does not exist'
+      });
     };
 
     res.status(httpStatus.OK).json({
-        msg: 'Comment was updated successfully',
+      msg: 'Comment was updated successfully',
     });
   }
 }
