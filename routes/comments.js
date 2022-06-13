@@ -5,7 +5,7 @@ const Validator = require('../helpers/validator');
 const { check } = require('express-validator');
 
 router.put('/:id',[
-  check('body').notEmpty,
+  check('body', 'Body is required').notEmpty(),
   Validator.validateFields,
 ], CommentsController.update);
 
