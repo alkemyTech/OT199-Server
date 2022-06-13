@@ -9,7 +9,7 @@ class CommentsController{
 
     let comment;
     try {
-     comment = await Comment.update(body,{where:{id}});
+      comment = await Comment.update({body},{where:{id}});
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
