@@ -1,4 +1,4 @@
-const { News } = require('../models');
+const { News, Comment } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
@@ -141,6 +141,23 @@ class NewsController {
             news
         });
     };
+
+    static async getCommentsByNews(req,res) {
+        const id = req.params.id;
+        try {
+
+            const getAll = await Comment.findAll({
+
+                where: { newsId:id }
+            });
+            res.status(httpStatus.OK).json(getAll);
+
+        }
+        catch (error) {
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
+        }
+
+    }; 
 
     static async getAllNews(req, res) {
 
