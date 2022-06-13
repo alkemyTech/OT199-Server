@@ -37,4 +37,7 @@ router.put('/:id', CheckRole.isAdmin, [
     ], NewsController.updateNews);
 /* elimina una news. */
 router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
+
+router.get('/:id/comments', NewsController.getCommentsByNews);
+
 module.exports = router;
