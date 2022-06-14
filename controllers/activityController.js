@@ -3,7 +3,6 @@ const httpStatus = require("../helpers/httpStatus");
 const { Activity } = require("../models");
 
 class ActivityController {
-
     static async getActivities(req, res) {
         try {
             const getAllAct = await Activity.findAll({
