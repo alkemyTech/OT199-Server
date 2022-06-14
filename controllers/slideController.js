@@ -105,7 +105,7 @@ class SlideController {
 
       const urlLocation = await Uploader.imgUploadAWS(data,text)
       
-      if (order === " ") {
+      if (!order) {
         const lastOrder = await Slide.findOne({
           order: [["order", "DESC"]],
           attributes: ["order"],
