@@ -1,6 +1,4 @@
-const {
-  Member
-} = require('../models');
+const { Member } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
@@ -63,7 +61,9 @@ class MemberController {
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
     }
-    res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
+    res.status(httpStatus.CREATED).json({
+      msg: 'Member has been created'
+    })
   }
   static async getMember(req, res) {
     const {
@@ -97,7 +97,7 @@ class MemberController {
   };
 
   static async getAllMembers(req, res) {
-    let result = {};
+    let result = [];
     let {
       page
     } = req.query;
@@ -106,6 +106,7 @@ class MemberController {
     let pagesHelper;
     
     if (page) {
+      result = {};
       const numPage = parseInt(page);
       pagesHelper = new PagesHelper(req, numPage, 2);
       offset = (numPage - 1) * pagesHelper.getLimit();
