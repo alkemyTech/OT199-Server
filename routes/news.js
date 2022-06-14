@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const Validator = require('../helpers/validator');
 const NewsController = require('../controllers/newsController');
 const CheckRole = require('../middlewares/checkRole');
+
+// GET news
+router.get('/', [
+    query('page', 'Page must be a positive number').optional().isInt({ min: 1 }),
+    Validator.validateFields
+], NewsController.getAllNews);
 
 // GET news details 
 router.get('/:id',CheckRole.isAdmin, NewsController.getDetail);
@@ -37,4 +43,7 @@ router.put('/:id', CheckRole.isAdmin, [
     ], NewsController.updateNews);
 /* elimina una news. */
 router.delete('/:id',CheckRole.isAdmin,NewsController.deleteNews);
+
+router.get('/:id/comments', NewsController.getCommentsByNews);
+
 module.exports = router;
