@@ -33,10 +33,11 @@ class DecodeImage {
     }
       const nameFile = `${Date.now().toString()}.${extensionType}`
       const buffer = Buffer.from(data,'base64');
+      const pathImage=path.join(__dirname,'..','public','img',nameFile);
 
       try{
-        fs.writeFileSync(path.join(__dirname,'..','public','img',nameFile),buffer)
-        return nameFile
+        fs.writeFileSync(pathImage,buffer)
+        return pathImage
 
       }catch(e){
         return null
