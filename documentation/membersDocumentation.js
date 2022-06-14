@@ -2,28 +2,40 @@
  * @swagger
  * components:
  *   schemas:
- *     Activities:
+ *     Members:
  *       type: object
  *       required:
  *         - name
  *       properties:
  *         id:
  *           type: string
- *           description: The auto-generated id of the Activity
+ *           description: The auto-generated id of the Member
  *         name:
  *           type: string
- *           description: Activity Name
- *         content:
+ *           description: name Member
+ *         facebookUrl:
  *           type: string
- *           description: Activity Content
+ *           description: facebook url 
+ *         instagramUrl:
+ *           type: string
+ *           description: instagram url 
+ *         linkedinUrl:
+ *           type: string
+ *           description: linkedin url 
  *         image:
  *           type: string
- *           description: image url
+ *           description: image url 
+ *         description:
+ *           type: string
+ *           description:  member description  
  *       example:
  *         id: 1
- *         name: Support group
- *         content: Something about that
- *         image: some-url
+ *         name: name Member
+ *         facebookUrl: url
+ *         instagramUrl: url
+ *         linkedirUrl: url
+ *         image: url
+ *         description: member is new
  *     Errors:
  *       type: object
  *       required:
@@ -45,17 +57,17 @@
 /**
  * @swagger
  * tags:
- *   name: Activities
- *   description: CRUD Routes of Activities, only available for Admin
+ *   name: Members
+ *   description: CRUD Routes of Members, only available for Admin
  */
-
 /**
  * @swagger
- * /activities/all:
+ * /members:
  *   get:
- *     summary: Returns the list of all activities
- *     tags: [Activities]
+ *     summary: Returns the list of all Members
+ *     tags: [Members]
  *     security:
+ *      - bearerAuth: []
  *     responses:
  *       200:
  *        description: OK
@@ -64,78 +76,7 @@
  *            schema:
  *              type: array
  *              items:
- *                $ref: '#/components/schemas/Activities'
- *       500:
- *         description: Internal Server Error
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- */
-
-/**
- * @swagger
- * /activities/{name}:
- *   get:
- *     summary: Obtain the activities by Name
- *     tags: [Activities]
- *     security:
- *      - bearerAuth: []
- *     parameters:
- *      - in: path
- *        name: name
- *        schema:
- *          type: string
- *        required: true
- *        description: The activity name
- *     responses:
- *       200:
- *         description: ok
- *         content:
- *           application/json:
- *             schema:
- *              type: object
- *       401:
- *         description: Unauthorized
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- *       500:
- *         description: Internal Server Error
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- */
-
-/**
- * @swagger
- * /activities:
- *   post:
- *     summary: Create a new activity
- *     tags: [Activities]
- *     security:
- *      - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Activities'
- *     responses:
- *       200:
- *         description: The Activity was successfully created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Activities'
+ *                $ref: '#/components/schemas/Members'
  *       400:
  *         description: Bad Request
  *         content:
@@ -144,14 +85,6 @@
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
- *       401:
- *         description: Unauthorized
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
  *       500:
  *         description: Internal Server Error
  *         content:
@@ -164,10 +97,10 @@
 
 /**
  * @swagger
- * /activities/{id}:
- *  put:
- *    summary: Update the activity by the id
- *    tags: [Activities]
+ * /members/{id}:
+ *  get:
+ *    summary: Search the member by the id
+ *    tags: [Members]
  *    security:
  *      - bearerAuth: []
  *    parameters:
@@ -176,22 +109,16 @@
  *        schema:
  *          type: number
  *        required: true
- *        description: The activity id
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Activities'
+ *        description: The member id
  *    responses:
  *      200:
- *        description: The activity was updated
+ *        description: ok
  *        content:
  *          application/json:
  *            schema:
  *              type: object
  *      404:
- *        description: The activity was not found
+ *        description: The member was not found
  *        content:
  *          application/json:
  *            schema:
@@ -226,53 +153,112 @@
 
 /**
  * @swagger
- * /activities/{name}:
- *   delete:
- *     summary: Remove the activity by Name
- *     tags: [Activities]
- *     security:
+ * /members/{id}:
+ *  delete:
+ *    summary: Delete the member by the id
+ *    tags: [Members]
+ *    security:
  *      - bearerAuth: []
- *     parameters:
+ *    parameters:
  *      - in: path
- *        name: name
+ *        name: id
  *        schema:
- *          type: string
+ *          type: number
  *        required: true
- *        description: The activity id
- * 
- *     responses:
- *       200:
- *         description: The activity was deleted
- *       404:
- *         description: The activity was not found
- *         content:
+ *        description: The member id
+ *    responses:
+ *      200:
+ *        description: The member was deleted
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *      404:
+ *        description: The member was not found
+ *        content:
  *          application/json:
  *            schema:
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
- *       400:
- *         description: Bad Request
- *         content:
+ *      400:
+ *        description: Bad Request
+ *        content:
  *          application/json:
  *            schema:
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
- *       401:
- *         description: Unauthorized
- *         content:
+ *      401:
+ *        description: Unauthorized
+ *        content:
  *          application/json:
  *            schema:
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
- *       500:
- *         description: Internal Server Error
- *         content:
+ *      500:
+ *        description: Internal Server Error
+ *        content:
  *          application/json:
  *            schema:
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
  */
+
+/**
+ * @swagger
+ * /members:
+ *  post:
+ *    summary: Create the new member 
+ *    tags: [Members]
+ *    security:
+ *      - bearerAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Members'
+ *    responses:
+ *      200:
+ *        description: The member was created
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *      404:
+ *        description: The member was not found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *      400:
+ *        description: Bad Request
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *      401:
+ *        description: Unauthorized
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *      500:
+ *        description: Internal Server Error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ */
+
