@@ -1,4 +1,6 @@
-const { Member } = require('../models');
+const {
+  Member
+} = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
@@ -97,17 +99,23 @@ class MemberController {
   static async getAllMembers(req, res) {
     let result = {};
     let {
-      page = 1
+      page
     } = req.query;
-    page = parseInt(page);
-
-    const pagesHelper = new PagesHelper(req, page);
-    const offset = (page - 1) * pagesHelper.getLimit();
+    let offset;
+    let limit;
+    let pagesHelper;
+    
+    if (page) {
+      const numPage = parseInt(page);
+      pagesHelper = new PagesHelper(req, numPage, 2);
+      offset = (numPage - 1) * pagesHelper.getLimit();
+      limit = pagesHelper.getLimit();
+    }
 
     try {
       result = await Member.findAndCountAll({
         attributes: ['name', 'description'],
-        limit: pagesHelper.getLimit(),
+        limit,
         offset,
       });
     } catch (error) {
@@ -115,17 +123,20 @@ class MemberController {
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
       });
     };
-    if (!pagesHelper.isValidPage(result.count)) {
-      return res.status(httpStatus.BAD_REQUEST).json({
-        msg: `Page ${ page } does not exists`
+
+    if (page) {
+      if (!pagesHelper.isValidPage(result.count)) {
+        return res.status(httpStatus.BAD_REQUEST).json({
+          msg: `Page ${ page } does not exists`
+        });
+      };
+      const response = pagesHelper.getResponse(result);
+      return res.status(httpStatus.OK).json({
+        ...response
       });
-    };
-
-    const response = pagesHelper.getResponse(result);
-
-    res.status(httpStatus.OK).json({
-      ...response
-    });
+    } else {
+      return res.status(httpStatus.OK).json(result.rows);
+    }
   };
 }
 
