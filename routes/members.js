@@ -4,6 +4,7 @@ const CheckRole = require('../middlewares/checkRole');
 const router = express.Router();
 const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
+const AuthUser = require('../middlewares/authUser');
 
 router.post('/', [
     CheckRole.isAdmin,
@@ -27,6 +28,8 @@ router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
  * @returns { "previousPageUrl": string, "nextPageUrl": string, "data": [{"name": string, "description": string}]}
  */
 router.get('/', CheckRole.isAdmin, MemberController.getAllMembers);
+
+router.put('/:id', AuthUser, MemberController.updateMembers);
 
 router.delete('/:id', CheckRole.isAdmin, MemberController.deleteMember);
 

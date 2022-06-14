@@ -2,6 +2,7 @@ const { Member } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
 const PagesHelper = require('../helpers/pagesHelper');
+const QueryHelper = require('../helpers/queryHelper');
 
 class MemberController {
 
@@ -137,6 +138,43 @@ class MemberController {
       return res.status(httpStatus.OK).json(result.rows);
     }
   };
+
+  static async updateMembers(req, res) {
+
+    const { id } = req.params;
+
+    const allowedParameters = [
+      "name",
+      "facebookUrl",
+      "instagramUrl",
+      "linkedinUrl",
+      "image",
+      "description"];
+
+    const query = QueryHelper.filterBody(allowedParameters, req.body);
+
+    let updMember;
+
+    try {
+      updMember = await Member.update(query, { where: { id } });
+    } catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      });
+    }
+    if (!updMember[0]) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'Member was not found'
+      })
+    }
+    return res.status(httpStatus.OK).json({
+      msg: 'Member was updated successfully'
+    })
+
+  }
+
+
 }
+
 
 module.exports = MemberController;

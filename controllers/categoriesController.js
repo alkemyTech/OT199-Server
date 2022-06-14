@@ -1,7 +1,7 @@
 const { Categories } = require('../models');
 const httpStatus = require('../helpers/httpStatus');
 const httpResponses = require('../constants/httpResponses');
-
+const PagesHelper = require('../helpers/pagesHelper');
 /**
  * @class
  * This class contain the methods used in the Categories router
@@ -16,18 +16,55 @@ class CategorieController {
    * @returns {object} - Json object ref:'/constants/httpResponses'
    */
   static async getAllCategories(req, res) {
-    let categories = [];
+    let categories = {}
+    let { page } = req.query;
+
+    if (!page) {
+      try {
+        categories = await Categories.findAll({ attributes: ['id', 'name']});
+      } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+          msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        });
+      };
+
+      return res.status(httpStatus.OK).json({
+        categories,
+      });
+    }
+    
+    page = parseInt(page);
+    const pagesHelper = new PagesHelper(req, page);
+    const offset = (page - 1) * pagesHelper.getLimit();
 
     try {
-      categories = await Categories.findAll({ attributes: ['name'] });
+      categories = await Categories.findAndCountAll({ 
+        attributes: ['id', 'name'],
+        limit: pagesHelper.getLimit(),
+        offset,
+      });
     } catch (error) {
-      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+        });
+    };
+
+    if (categories.count === 0) {
+      return res.status(httpStatus.NOT_FOUND).json({
+          msg: 'Categories not founds'
       });
     };
 
+    if (!pagesHelper.isValidPage(categories.count)) {
+      return res.status(httpStatus.BAD_REQUEST).json({
+          msg: `Page ${ page } does not exists`
+      });
+    };
+
+    const response = pagesHelper.getResponse(categories);
+
     res.status(httpStatus.OK).json({
-      categories
+        ...response
     });
   };
   /**
