@@ -55,6 +55,7 @@ class CheckRoleId {
   }
 
   static async isOwnerComment(req, res, next){
+    const commentId = req.params.id;
     const user = await getDataBearer(req.headers.authorization);
     let ownerComment;
 
@@ -67,7 +68,7 @@ class CheckRoleId {
     }
 
     try{
-      ownerComment = await Comment.findOne({where:{userId: user.id}});
+      ownerComment = await Comment.findByPk(commentId);
     } catch (error) {
       return res
         .status(httpStatus.INTERNAL_SERVER_ERROR)
@@ -75,7 +76,15 @@ class CheckRoleId {
           msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
         });
     }
-  
+
+    if(!ownerComment){
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({
+          msg: "Comment does not exist"
+        });
+    }
+
     if(ownerComment.userId === user.id || user.role === 1){
       next();
     } else {
