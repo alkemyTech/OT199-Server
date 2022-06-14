@@ -38,7 +38,7 @@ class CategorieController {
     const offset = (page - 1) * pagesHelper.getLimit();
 
     try {
-      categories = await Categories.findAll({ 
+      categories = await Categories.findAndCountAll({ 
         attributes: ['id', 'name'],
         limit: pagesHelper.getLimit(),
         offset,
@@ -49,13 +49,13 @@ class CategorieController {
         });
     };
 
-    if (categories.length === 0) {
+    if (categories.count === 0) {
       return res.status(httpStatus.NOT_FOUND).json({
           msg: 'Categories not founds'
       });
     };
 
-    if (!pagesHelper.isValidPage(categories.length)) {
+    if (!pagesHelper.isValidPage(categories.count)) {
       return res.status(httpStatus.BAD_REQUEST).json({
           msg: `Page ${ page } does not exists`
       });
