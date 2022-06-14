@@ -27,4 +27,13 @@ router.put('/:id', [
   Validator.validateFields,
 ], SlidesController.update);
 
+router.post("/",CheckRoleId.isAdmin,
+  [
+    check('imageUrl', 'ImageUrl is required').not().isEmpty().isString(),
+    check('text', 'Text is required').not().isEmpty().isString(),
+    check('organizationId', 'OrganizationId is required').not().isEmpty().isNumeric(),
+    Validator.validateFields],
+  SlidesController.createSlide
+);
+
 module.exports = router;
