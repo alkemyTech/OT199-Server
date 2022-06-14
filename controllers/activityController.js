@@ -2,8 +2,19 @@ const httpResponses = require("../constants/httpResponses");
 const httpStatus = require("../helpers/httpStatus");
 const { Activity } = require("../models");
 
+/**
+ * @class
+ * This class contain the methods used in the Activities router
+ */
 class ActivityController {
-
+    /**
+   * Method to list all the get categories all 
+   * @async
+   * @returns {number} - Http Satus Code = 200
+   * @returns {array} - Array of Json Objects with the categories names
+   * @returns {number} - Http Status Code = 500
+   * @returns {object} - Json object ref:'/constants/httpResponses'
+   */
     static async getActivities(req, res) {
         try {
             const getAllAct = await Activity.findAll({
