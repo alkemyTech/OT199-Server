@@ -2,32 +2,28 @@
  * @swagger
  * components:
  *   schemas:
- *     Slides:
+ *     Testimonials:
  *       type: object
  *       required:
  *         - name
  *       properties:
  *         id:
  *           type: string
- *           description: The auto-generated id of the Slides
- *         imageUrl:
+ *           description: The auto-generated id of the Testimonials
+ *         name:
+ *           type: string
+ *           description: testimonial name
+ *         image:
  *           type: string
  *           description: image url
- *         text:
+ *         content:
  *           type: string
- *           description: Slides description
- *         order:
- *           type: number
- *           description: Slides order
- *         organizationId:
- *           type: number
- *           description: organization id association
+ *           description: testimonial content
  *       example:
  *         id: 1
+ *         text: testimonial name
  *         image: some-url
- *         text: Support group
- *         order: 1
- *         organizationId: 1
+ *         order: description
  *     Errors:
  *       type: object
  *       required:
@@ -49,18 +45,17 @@
 /**
  * @swagger
  * tags:
- *   name: Slides
- *   description: CRUD Routes of Slides, only available for Admin
+ *   name: Testimonials
+ *   description: CRUD Routes of Testimonials, only available for Admin
  */
 
 /**
  * @swagger
- * /slides/:
+ * /testimonials/all:
  *   get:
- *     summary: Obtain the slides
- *     tags: [Slides]
+ *     summary: Obtain the testimonials
+ *     tags: [Testimonials]
  *     security:
- *      - bearerAuth: []
  *     responses:
  *       200:
  *         description: ok
@@ -76,14 +71,6 @@
  *              type: object
  *              items:
  *                $ref: '#/components/schemas/Errors'
- *       401:
- *         description: Unauthorized
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
  *       500:
  *         description: Internal Server Error
  *         content:
@@ -96,10 +83,10 @@
 
 /**
  * @swagger
- * /slides/{id}:
+ * /testimonials/{id}:
  *   get:
- *     summary: Obtain one slides by id
- *     tags: [Slides]
+ *     summary: Obtain one testimonials by id
+ *     tags: [Testimonials]
  *     security:
  *      - bearerAuth: []
  *     parameters:
@@ -108,14 +95,14 @@
  *        schema:
  *          type: string
  *        required: true
- *        description: The slides id
+ *        description: The testimonials id
  *     responses:
  *       200:
- *         description: The Slides was successfully
+ *         description: The Testimonials was successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Slides'
+ *               $ref: '#/components/schemas/Testimonials'
  *       400:
  *         description: Bad Request
  *         content:
@@ -144,57 +131,10 @@
 
 /**
  * @swagger
- * /slides:
- *   post:
- *     summary: Create a new slides
- *     tags: [Slides]
- *     security:
- *      - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Slides'
- *     responses:
- *       200:
- *         description: The Slides was successfully created
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Slides'
- *       400:
- *         description: Bad Request
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- *       401:
- *         description: Unauthorized
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- *       500:
- *         description: Internal Server Error
- *         content:
- *          application/json:
- *            schema:
- *              type: object
- *              items:
- *                $ref: '#/components/schemas/Errors'
- */
-
-/**
- * @swagger
- * /slides/{id}:
+ * /testimonials/{id}:
  *  put:
- *    summary: Update the slides by the id
- *    tags: [Slides]
+ *    summary: Update the testimonials by the id
+ *    tags: [Testimonials]
  *    security:
  *      - bearerAuth: []
  *    parameters:
@@ -203,22 +143,22 @@
  *        schema:
  *          type: number
  *        required: true
- *        description: The slides id
+ *        description: The testimonials id
  *    requestBody:
  *      required: true
  *      content:
  *        application/json:
  *          schema:
- *            $ref: '#/components/schemas/Slides'
+ *            $ref: '#/components/schemas/Testimonials'
  *    responses:
  *      200:
- *        description: The slides was updated
+ *        description: The testimonials was updated
  *        content:
  *          application/json:
  *            schema:
  *              type: object
  *      404:
- *        description: The slides was not found
+ *        description: The testimonials was not found
  *        content:
  *          application/json:
  *            schema:
@@ -244,6 +184,106 @@
  *      500:
  *        description: Internal Server Error
  *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ */
+
+/**
+ * @swagger
+ * /testimonials:
+ *   post:
+ *     summary: Create a new testimonials
+ *     tags: [Testimonials]
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Testimonials'
+ *     responses:
+ *       200:
+ *         description: The Testimonials was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Testimonials'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ */
+
+/**
+ * @swagger
+ * /testimonials/{id}:
+ *   delete:
+ *     summary: Remove the activity by id
+ *     tags: [Testimonials]
+ *     security:
+ *      - bearerAuth: []
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The activity id
+ * 
+ *     responses:
+ *       200:
+ *         description: The activity was deleted
+ *       404:
+ *         description: The activity was not found
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              items:
+ *                $ref: '#/components/schemas/Errors'
+ *       500:
+ *         description: Internal Server Error
+ *         content:
  *          application/json:
  *            schema:
  *              type: object
