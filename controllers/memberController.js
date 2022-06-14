@@ -61,9 +61,7 @@ class MemberController {
     } catch (error) {
       res.status(httpStatus.INTERNAL_SERVER_ERROR).json(httpResponses.RESPONSE_INTERNAL_SERVER_ERROR)
     }
-    res.status(httpStatus.CREATED).json({
-      msg: 'Member has been created'
-    })
+    res.status(httpStatus.CREATED).json({ msg: 'Member has been created' })
   }
   static async getMember(req, res) {
     const {
@@ -104,11 +102,11 @@ class MemberController {
     let offset;
     let limit;
     let pagesHelper;
-    
+
     if (page) {
       result = {};
       const numPage = parseInt(page);
-      pagesHelper = new PagesHelper(req, numPage, 2);
+      pagesHelper = new PagesHelper(req, numPage);
       offset = (numPage - 1) * pagesHelper.getLimit();
       limit = pagesHelper.getLimit();
     }
