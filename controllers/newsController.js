@@ -7,20 +7,20 @@ class NewsController {
 
     static async deleteNews(req, res) {
         try {
-          const { id } = req.params;
-          const findNew = await News.findByPk(+id);
-          if(findNew === null){
-            res.status(httpStatus.NOT_FOUND).json({ msg: `NOT FOUND NEWS` });       
-          }else{
-            const deleteNew = await News.destroy({ where: { id: +id } });   
-            res.status(httpStatus.OK).json({ msg: `the New was deleted` });
-          }
+            const { id } = req.params;
+            const findNew = await News.findByPk(+id);
+            if (findNew === null) {
+                res.status(httpStatus.NOT_FOUND).json({ msg: `NOT FOUND NEWS` });
+            } else {
+                const deleteNew = await News.destroy({ where: { id: +id } });
+                res.status(httpStatus.OK).json({ msg: `the New was deleted` });
+            }
         } catch (error) {
             res
-            .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
-      }
+    }
     static async createNews(req, res) {
 
         let news = {};
@@ -142,13 +142,13 @@ class NewsController {
         });
     };
 
-    static async getCommentsByNews(req,res) {
+    static async getCommentsByNews(req, res) {
         const id = req.params.id;
         try {
 
             const getAll = await Comment.findAll({
 
-                where: { newsId:id }
+                where: { newsId: id }
             });
             res.status(httpStatus.OK).json(getAll);
 
@@ -157,7 +157,7 @@ class NewsController {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
         }
 
-    }; 
+    };
 
     static async getAllNews(req, res) {
 
@@ -166,7 +166,7 @@ class NewsController {
 
         if (!page) {
             try {
-                result = await News.findAll({ 
+                result = await News.findAll({
                     attributes: ['name', 'image', 'content', 'categoryId', 'type']
                 });
             } catch (error) {
@@ -182,7 +182,7 @@ class NewsController {
         };
 
         page = parseInt(page);
-        
+
         const pagesHelper = new PagesHelper(req, page);
         const offset = (page - 1) * pagesHelper.getLimit();
 
@@ -206,7 +206,7 @@ class NewsController {
 
         if (!pagesHelper.isValidPage(result.count)) {
             return res.status(httpStatus.BAD_REQUEST).json({
-                msg: `Page ${ page } does not exists`
+                msg: `Page ${page} does not exists`
             });
         };
 
