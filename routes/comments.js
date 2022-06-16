@@ -17,4 +17,12 @@ router.put('/:id',[
   Validator.validateFields,
 ], CommentsController.update);
 
+/**
+ * GET member details 
+ * @property {number} id - The id of comment
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ */
+router.delete('/:id', checkRole.isOwnerComment, CommentsController.delete);
+
 module.exports = router;
