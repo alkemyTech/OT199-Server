@@ -4,9 +4,10 @@ const CheckRole = require('../middlewares/checkRole');
 const router = express.Router();
 const { check } = require('express-validator');
 const Validator = require('../helpers/validator');
+const AuthUser = require('../middlewares/authUser');
 
-router.delete('/:id', MemberController.deleteMember);
 router.post('/', [
+    CheckRole.isAdmin,
     check('name', 'Must have a full name').notEmpty().isString(),
     check('email', 'Must have a valid email').notEmpty().isEmail(),
     Validator.validateFields
@@ -18,7 +19,17 @@ router.post('/', [
  * @returns {"msg": string, {"name": string, "image": string} }
  */
 router.get('/:id', CheckRole.isAdmin, MemberController.getMember);
+
+/**
+ * GET member details 
+ * @property {number} page - The page in query
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ * @returns { "previousPageUrl": string, "nextPageUrl": string, "data": [{"name": string, "description": string}]}
+ */
 router.get('/', CheckRole.isAdmin, MemberController.getAllMembers);
+
+router.put('/:id', AuthUser, MemberController.updateMembers);
 
 router.delete('/:id', CheckRole.isAdmin, MemberController.deleteMember);
 

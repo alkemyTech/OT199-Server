@@ -16,11 +16,11 @@ const categoriesRouter = require('./routes/categories');
 const activitiesRouter = require('./routes/activities');
 const newsRouter = require('./routes/news');
 const membersRouter = require('./routes/members');
-const slideRouter = require('./routes/slide');
 const testimonialsRouter = require('./routes/testimonials');
 const slidesRouter = require('./routes/slides');
 const backofficeController = require('./routes/backoffice');
 const contactRouter = require('./routes/contacts');
+const commentsRouter = require('./routes/comments');
 
 const app = express();
 app.use(cors())
@@ -30,7 +30,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
-app.use(express.json());
+app.use(express.json({limit:'50mb'}));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -46,12 +46,11 @@ app.use('/news', newsRouter);
 app.use('/members', membersRouter);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/contacts', contactRouter);
-app.use('/slide', slideRouter)
 app.use('/testimonials', testimonialsRouter);
 app.use('/slides', slidesRouter);
 app.use('/contacts', contactRouter);
 app.use('/backoffice', backofficeController);
-
+app.use('/comments', commentsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

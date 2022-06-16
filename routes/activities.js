@@ -13,6 +13,7 @@ router.get('/:name', CheckRoleId.isAdmin, [
 ], ActivityController.getOneActivity);
 
 router.post('/', [
+    CheckRoleId.isAdmin,
     check('name')
         .notEmpty()
         .withMessage('The name field must not be empty'),
