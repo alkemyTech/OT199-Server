@@ -53,6 +53,18 @@ class CommentsController {
       msg: 'Comment was updated successfully',
     });
   }
+
+  static async getAll(req, res) {
+    try {
+        const comments = await Comment.findAll({
+            attributes: ['body', 'createdAt'],
+            order: [['createdAt', 'ASC']],
+        });
+        res.status(httpStatus.OK).json(comments);
+    } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
+    }
+}
 };
 
 module.exports = CommentsController;
