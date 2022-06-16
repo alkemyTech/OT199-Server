@@ -18,11 +18,19 @@ router.put('/:id',[
 ], CommentsController.update);
 
 /**
+ * GET comments
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ * @returns { "createdAt": string, "body": string }
+ */
+ router.get('/', checkRole.isAdmin, CommentsController.getAll);
+
+/**
  * GET member details 
  * @property {number} id - The id of comment
  * @returns {number} status - Http Status Code
  * @returns {"msg": string}
  */
-router.delete('/:id', checkRole.isOwnerComment, CommentsController.delete);
+ router.delete('/:id', checkRole.isOwnerComment, CommentsController.delete);
 
-module.exports = router;
+ module.exports = router;
