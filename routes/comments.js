@@ -17,4 +17,12 @@ router.put('/:id',[
   Validator.validateFields,
 ], CommentsController.update);
 
+/**
+ * GET comments
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ * @returns { "createdAt": string, "body": string }
+ */
+ router.get('/', checkRole.isAdmin, CommentsController.getAll);
+
 module.exports = router;
