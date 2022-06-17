@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 
 class DecodeImage {
-  static async getImageDecoded(imgBase64){
+  static async getImageDecoded(imgBase64,text){
     let type;
     let extensionType;
     let data;
@@ -31,13 +31,16 @@ class DecodeImage {
         }
       }
     }
-      const nameFile = `${Date.now().toString()}.${extensionType}`
+      const regEx= new RegExp(' ','g');
+      const textWithoutSpace = text.replace(regEx, '');
+      const nameFile=`img-${textWithoutSpace}${Date.now().toString()}`;
+      const nameFileWhiteExtension = `${nameFile}.${extensionType}`;
       const buffer = Buffer.from(data,'base64');
-      const pathImage=path.join(__dirname,'..','public','img',nameFile);
+      const pathImage=path.join(__dirname,'..','public','img',nameFileWhiteExtension);
 
       try{
         fs.writeFileSync(pathImage,buffer)
-        return pathImage
+        return {pathImage,nameFile}
 
       }catch(e){
         return null
