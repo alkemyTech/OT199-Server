@@ -107,14 +107,14 @@ class SlideController {
 
       if (!order) {
         const lastOrder = await Slide.findOne({
-          order: [["id", "DESC"]],
-          attributes: ["id"],
+          order: [["order", "DESC"]],
+          attributes: ["order"],
         });
-        const { id } = lastOrder;
+        const { order } = lastOrder;
         slide = Slide.build({
           ...req.body,
           imageUrl: urlLocation,
-          order: id+1,
+          order: order+1,
         });
 
         await slide.save();
