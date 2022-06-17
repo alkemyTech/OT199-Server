@@ -25,4 +25,12 @@ router.put('/:id',[
  */
  router.get('/', checkRole.isAdmin, CommentsController.getAll);
 
-module.exports = router;
+/**
+ * GET member details 
+ * @property {number} id - The id of comment
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ */
+ router.delete('/:id', checkRole.isOwnerComment, CommentsController.delete);
+
+ module.exports = router;
