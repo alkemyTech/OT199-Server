@@ -1,3 +1,5 @@
+const { User } = require("../models");
+const sinon = require("sinon");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../app");
@@ -5,11 +7,31 @@ const app = require("../app");
 chai.use(chaiHttp);
 const should = chai.should();
 
-const token406 =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NDBhJzhuZAoJBjJa3wTmmPHGRCo0hLF_lhy9mrheobY";
-
 describe("Auth", () => {
+  process.env.JWT_SECRET = "hola";
+  const token406 =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NDBhJzhuZAoJBjJa3wTmmPHGRCo0hLF_lhy9mrheobY";
+  const tokenOk =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
+
   describe("/GET me", () => {
+    it("it should GET an object", (done) => {
+      sinon
+        .stub(User, "findByPk")
+        .withArgs(1)
+        .callsFake(function foo() {
+          return "bar";
+        });
+      chai
+        .request(app)
+        .get("/auth/me")
+        .set({ Authorization: `Bearer ${tokenOk}` })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+
     it("it should GET an error:NOT_ACCEPTABLE", (done) => {
       chai
         .request(app)
@@ -20,6 +42,7 @@ describe("Auth", () => {
           done();
         });
     });
+
     it("it should GET an error:UNAUTHORIZED", (done) => {
       chai
         .request(app)
@@ -46,4 +69,4 @@ describe("Auth", () => {
 //     Validator.validateFields
 // ], UserController.logIn)
 
-// router.get('/me',UserController.getProfile)
+// router.get('/me',UserController.findByPk)
