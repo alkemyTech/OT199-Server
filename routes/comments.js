@@ -6,8 +6,8 @@ const { check } = require('express-validator');
 const checkRole = require('../middlewares/checkRole');
 
 router.post('/create',[
-  check('news_id', 'news_id is required').notEmpty(),
-  check('user_id', 'user_id is required').notEmpty(),
+  check('newsId', 'news_id is required').notEmpty(),
+  check('userId', 'user_id is required').notEmpty(),
   check('body', 'body is required').notEmpty(),
   Validator.validateFields], CommentsController.createComments);
 
