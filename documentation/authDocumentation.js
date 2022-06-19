@@ -60,7 +60,7 @@
  *            content:
  *              msg: string
  *          example:
- *            msg: The request sent to the server is invalid
+ *            msg: User or Password Incorrect
  *    NotFound:
  *      description: Not Found
  *      content:
@@ -87,7 +87,7 @@
  * @swagger
  * tags:
  *    name: User
- *    description: CRUD routes of Users/Auth 
+ *    description: Login, Register and Profile routes of Auth.  
  *    
  */
 
@@ -105,7 +105,7 @@
  *            $ref: '#/components/schemas/User'
  *    responses:
  *      200:
- *        description: News created successfully
+ *        description: Registration has been successful
  *        content:
  *          application/json:
  *            schema:
@@ -113,7 +113,7 @@
  *              content: 
  *                msg: string
  *              example:
- *                msg: News created successfully
+ *                msg: Registration has been successful
  *      500:
  *        $ref: '#/components/responses/InternalServerError'
  * 
@@ -133,15 +133,13 @@
  *            $ref: '#/components/schemas/User'
  *    responses:
  *      200:
- *        description: News created successfully
+ *        description: Login successfully
  *        content:
  *          application/json:
  *            schema:
  *              type: object
  *              content: 
- *                msg: string
- *              example:
- *                msg: News created successfully
+ *                msg: Token generated
  *      400:
  *        $ref: '#/components/responses/BadRequest'
  *      500:
@@ -158,15 +156,12 @@
  *     - bearerAuth: []
  *   responses: 
  *      200:
- *        description: News created successfully
+ *        description: Profile
  *        content:
  *          application/json:
  *            schema:
  *              type: object
- *              content: 
- *                msg: string
- *              example:
- *                msg: News created successfully
+ *              $ref: '#/components/schemas/User'
  *      406: 
  *        description: server cannot produce a response matching the list of acceptable
  *        content:
@@ -181,7 +176,4 @@
  *        $ref: '#/components/responses/Unauthorized'
  *      500:
  *        $ref: '#/components/responses/InternalServerError'
- * 
- * 
- *    
  */
