@@ -96,41 +96,53 @@ class SlideController {
     let slide;
 
     try {
-      const data = await DecodeImage.getImageDecoded(imageUrl);
+      const data = await DecodeImage.getImageDecoded(imageUrl, text);
       if (data === null) {
         return res.status(httpStatus.NOT_MODIFIED).json({
           msg: "Not Modified",
         });
       }
+      const { pathImage, nameFile } = data;
+      const urlLocation = await Uploader.imgUploadAWS(pathImage, nameFile);
 
-      const urlLocation = await Uploader.imgUploadAWS(data,text)
-      
       if (!order) {
         const lastOrder = await Slide.findOne({
           order: [["order", "DESC"]],
           attributes: ["order"],
         });
         const { order } = lastOrder;
-        slide = Slide.build({...req.body,imageUrl:urlLocation,order:order+1});
-  
+        slide = Slide.build({
+          ...req.body,
+          imageUrl: urlLocation,
+          order: order+1,
+        });
+
         await slide.save();
-        
       }
 
-      if(typeof(order) === "number"){
-        slide = Slide.build({...req.body,imageUrl:urlLocation});
-  
+      if (typeof order === "number") {
+        const findOrder = await Slide.findOne({
+          where: {
+            order: order,
+          },
+          attributes: ["id", "order"],
+        });
+        if (findOrder !== null) {
+          return res.status(httpStatus.NOT_MODIFIED).json({
+            msg: "Not Modified, The order exist ",
+          });
+        }
+
+        slide = Slide.build({ ...req.body, imageUrl: urlLocation });
         await slide.save();
       }
-      
-      
     } catch (error) {
       return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
         msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR,
       });
     }
 
-    res.status(httpStatus.OK).json({
+    return res.status(httpStatus.OK).json({
       msg: "Slide has been successful",
     });
   }
