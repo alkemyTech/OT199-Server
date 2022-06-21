@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "private": true,
   "scripts": {
-    "test" : "mocha",
+    "test": "mocha",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
@@ -27,6 +27,7 @@
     "morgan": "~1.9.1",
     "mysql2": "^2.2.3",
     "sequelize": "^6.3.5",
+    "sinon": "^14.0.0",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0"
   },
