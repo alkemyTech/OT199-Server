@@ -1,3 +1,4 @@
+const httpStatus = require('../helpers/httpStatus');
 const {
   User
 } = require("../models");
@@ -12,34 +13,35 @@ const expect = chai.expect;
 
 describe("Auth", () => {
   process.env.JWT_SECRET = "hola";
-  const token406 =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NDBhJzhuZAoJBjJa3wTmmPHGRCo0hLF_lhy9mrheobY";
-  const tokenOk =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
+  const tokenNOT_ACCEPTABLE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NDBhJzhuZAoJBjJa3wTmmPHGRCo0hLF_lhy9mrheobY";
+  const tokenUser1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
+  const tokenINTERNAL_SERVER_ERROR = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
+  const tokenUser5 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6IlVzZXI1IiwiaWF0IjoxNTE2MjM5MDIyfQ._WsLJVzLDZyFKyupzdomaiU8YVwr8gQnDlDvfvBxqMU";
 
   describe("/GET me", () => {
-    it("it should GET an object", (done) => {
+    // reemplaza acceso a DB por PK con 2 argumentos posibles
+    // con id = 1 y con id = 10
+    sinon
+      .stub(User, "findByPk")
+      .withArgs(1)
+      .callsFake(() => {
+        return {
+          id: 1,
+          name: "user1"
+        };
+      });
 
-      sinon
-        .stub(User, "findByPk")
-        .withArgs(1)
-        .callsFake(function foo() {
-          return {
-            id: 10,
-            name: "user10"
-          };
-        });
-        
+    it("it should GET an object for id=1", (done) => {
       chai
         .request(app)
         .get("/auth/me")
         .set({
-          Authorization: `Bearer ${tokenOk}`
+          Authorization: `Bearer ${tokenUser1}`
         })
         .end((err, res) => {
-          res.should.have.status(200);
-          expect(res.body).to.have.property('id').to.be.equal(10);
-          expect(res.body).to.have.property('name').to.be.equal('user10');
+          res.should.have.status(httpStatus.OK);
+          expect(res.body).to.have.property('id').to.be.equal(1);
+          expect(res.body).to.have.property('name').to.be.equal('user1');
           done();
         });
     });
@@ -49,10 +51,10 @@ describe("Auth", () => {
         .request(app)
         .get("/auth/me")
         .set({
-          Authorization: `Bearer ${token406}`
+          Authorization: `Bearer ${tokenNOT_ACCEPTABLE}`
         })
         .end((err, res) => {
-          res.should.have.status(406);
+          res.should.have.status(httpStatus.NOT_ACCEPTABLE);
           done();
         });
     });
@@ -62,10 +64,24 @@ describe("Auth", () => {
         .request(app)
         .get("/auth/me")
         .end((err, res) => {
-          res.should.have.status(401);
+          res.should.have.status(httpStatus.UNAUTHORIZED);
           done();
         });
     });
+
+    it("it should GET an error:NOT_FOUND", (done) => {
+      chai
+        .request(app)
+        .get("/auth/me")
+        .set({
+          Authorization: `Bearer ${tokenUser5}`
+        })
+        .end((err, res) => {
+          res.should.have.status(httpStatus.NOT_FOUND);
+          done();
+        });
+    });
+
   });
 });
 
