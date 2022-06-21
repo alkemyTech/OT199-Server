@@ -15,12 +15,17 @@ describe("Auth", () => {
   process.env.JWT_SECRET = "hola";
   const tokenNOT_ACCEPTABLE = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.NDBhJzhuZAoJBjJa3wTmmPHGRCo0hLF_lhy9mrheobY";
   const tokenUser1 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
-  const tokenINTERNAL_SERVER_ERROR = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.iyV9O460Luh6OOicwWu97s06YLTW2oY83ePicx5EdaY";
   const tokenUser5 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwibmFtZSI6IlVzZXI1IiwiaWF0IjoxNTE2MjM5MDIyfQ._WsLJVzLDZyFKyupzdomaiU8YVwr8gQnDlDvfvBxqMU";
+  const bodyOk = {
+    firstName: "firstname1",
+    lastName: "lastname1",
+    email: "email1@mail.com",
+    password: "Password1",
+  };
 
   describe("/GET me", () => {
-    // reemplaza acceso a DB por PK con 2 argumentos posibles
-    // con id = 1 y con id = 10
+    // reemplaza acceso a DB por PK con 1 argumento posible
+    // con id = 1
     sinon
       .stub(User, "findByPk")
       .withArgs(1)
@@ -81,22 +86,34 @@ describe("Auth", () => {
           done();
         });
     });
+  });
 
+  describe("/POST register", () => {
+    // reemplaza acceso a DB para crear registro 
+    sinon
+      .stub(User, "build")
+      .callsFake(() => {
+        return {};
+      });
+    sinon
+      .stub(User.prototype, "save")
+      .callsFake(() => {
+        return {
+          id: 1,
+          name: "user1"
+        };
+      });
+
+    it("it should Register an object", (done) => {
+      chai
+        .request(app)
+        .post("/auth/register")
+        .send(bodyOk)
+        .end((err, res) => {
+          res.should.have.status(httpStatus.OK);
+          expect(res.body).to.have.property('firstName').to.be.equal(firstname1);
+          done();
+        });
+    });
   });
 });
-
-// router.post('/register', [
-//     check('firstName', 'First name is required').not().isEmpty(),
-//     check('lastName', 'Last name is required').not().isEmpty(),
-//     check('email', 'Email is not valid').isEmail(),
-//     check('password', 'Password must contain at least 8 characters, inlcuding uppercase, lowercase and numbers').isStrongPassword({ minSymbols: 0 }),
-//     Validator.validateFields
-// ], UserController.register);
-
-// router.post('/login', [
-//     check('email', 'Email is not valid').not().isEmpty().isEmail(),
-//     check('password', 'Password is not valid').not().isEmpty().isString(),
-//     Validator.validateFields
-// ], UserController.logIn)
-
-// router.get('/me',UserController.findByPk)
