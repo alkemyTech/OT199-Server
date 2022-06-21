@@ -154,11 +154,6 @@ describe('News testing', () => {
     
       await NewsController.getAllNews(req, res);
       
-      // expect(stubFindAll.calledOnce).to.be.true;
-      // expect(stubPagesHelperGetLimit.calledOnce).to.be.true;
-      // expect(stubFindAndCountAll.calledOnce).to.be.true;
-      // expect(stubPagesHelperIsValidPage.calledOnce).to.be.true;
-      // expect(stubPagesHelperGetResponse.calledOnce).to.be.true;
       expect(res.status.args[0][0]).to.equal(200);
       expect(res.json.args[0][0].data).to.equal(allNewsTest);
       expect(res.json.args[0][0].nextPageUrl).to.be.string;
