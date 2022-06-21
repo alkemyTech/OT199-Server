@@ -1,11 +1,14 @@
-const { User } = require("../models");
+const {
+  User
+} = require("../models");
 const sinon = require("sinon");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const app = require("../app");
 
 chai.use(chaiHttp);
-const should = chai.should();
+chai.should();
+const expect = chai.expect;
 
 describe("Auth", () => {
   process.env.JWT_SECRET = "hola";
@@ -16,18 +19,27 @@ describe("Auth", () => {
 
   describe("/GET me", () => {
     it("it should GET an object", (done) => {
+
       sinon
         .stub(User, "findByPk")
         .withArgs(1)
         .callsFake(function foo() {
-          return "bar";
+          return {
+            id: 10,
+            name: "user10"
+          };
         });
+        
       chai
         .request(app)
         .get("/auth/me")
-        .set({ Authorization: `Bearer ${tokenOk}` })
+        .set({
+          Authorization: `Bearer ${tokenOk}`
+        })
         .end((err, res) => {
           res.should.have.status(200);
+          expect(res.body).to.have.property('id').to.be.equal(10);
+          expect(res.body).to.have.property('name').to.be.equal('user10');
           done();
         });
     });
@@ -36,7 +48,9 @@ describe("Auth", () => {
       chai
         .request(app)
         .get("/auth/me")
-        .set({ Authorization: `Bearer ${token406}` })
+        .set({
+          Authorization: `Bearer ${token406}`
+        })
         .end((err, res) => {
           res.should.have.status(406);
           done();
