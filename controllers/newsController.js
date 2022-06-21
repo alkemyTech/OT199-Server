@@ -79,7 +79,7 @@ class NewsController {
 
         res
             .status(httpStatus.OK)
-            .send({
+            .json({
                 msg: 'New found succesfully',
                 detail
             });
