@@ -6,8 +6,8 @@ const { check } = require('express-validator');
 const checkRole = require('../middlewares/checkRole');
 
 router.post('/create',[
-  check('news_id', 'news_id is required').notEmpty(),
-  check('user_id', 'user_id is required').notEmpty(),
+  check('newsId', 'news_id is required').notEmpty(),
+  check('userId', 'user_id is required').notEmpty(),
   check('body', 'body is required').notEmpty(),
   Validator.validateFields], CommentsController.createComments);
 
@@ -17,4 +17,20 @@ router.put('/:id',[
   Validator.validateFields,
 ], CommentsController.update);
 
-module.exports = router;
+/**
+ * GET comments
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ * @returns { "createdAt": string, "body": string }
+ */
+ router.get('/', checkRole.isAdmin, CommentsController.getAll);
+
+/**
+ * GET member details 
+ * @property {number} id - The id of comment
+ * @returns {number} status - Http Status Code
+ * @returns {"msg": string}
+ */
+ router.delete('/:id', checkRole.isOwnerComment, CommentsController.delete);
+
+ module.exports = router;

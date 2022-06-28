@@ -53,6 +53,47 @@ class CommentsController {
       msg: 'Comment was updated successfully',
     });
   }
+
+  static async getAll(req, res) {
+    try {
+        const comments = await Comment.findAll({
+            attributes: ['body', 'createdAt'],
+            order: [['createdAt', 'ASC']],
+        });
+        res.status(httpStatus.OK).json(comments);
+    } catch (error) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR });
+    }
+  }
+
+  static async delete(req, res) {
+    let comment = {};
+    const {
+      id
+    } = req.params;
+
+    try {
+      comment = await Comment.destroy({
+        where: {
+          id
+        }
+      });
+    } catch (error) {
+      return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        msg: httpResponses.RESPONSE_INTERNAL_SERVER_ERROR
+      });
+    };
+
+    if (!comment) {
+      return res.status(httpStatus.NOT_FOUND).json({
+        msg: 'Comment does not exist'
+      });
+    };
+
+    return res.status(httpStatus.OK).json({
+      msg: 'Comment was deleted successfully',
+    });
+  }
 };
 
 module.exports = CommentsController;
